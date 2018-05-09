@@ -45,7 +45,6 @@ public class SwitchAttack extends CommandGroup {
 	public static final String R_DESCRIPTION = "Go to switch hot side from right position and score";
 
 	public SwitchAttack(FieldSide whichSideOfTheNearSwitchIsOurColor, StartPosition robotStartingPosition) {
-
 		// LEFT SIDE MOVE:
 		if (robotStartingPosition == StartPosition.LEFT && whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT) {
 			addSequential(new DriveStraightLockedGears(L_INITIAL_MOVE, false));
@@ -62,29 +61,24 @@ public class SwitchAttack extends CommandGroup {
 			addSequential(new ScoreStartingCubeOnSwitch());
 		}
 
-
 		/* ====================================== */
 		// CENTER MOVE:
 		else if (robotStartingPosition == StartPosition.CENTER
 				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT) {
-
 			addSequential(new DriveStraightLockedGears(C_INITAL_MOVE, false));
 			addSequential(new Pivot(-90));
 			addSequential(new DriveStraightLockedGears(C_L_DISTANCE_IN_THE_MIDDLE, false));
 			addSequential(new Pivot(90));
 			addSequential(new DriveStraightLockedGears(C__L_FINAL_MOVE, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
-
 		} else if (robotStartingPosition == StartPosition.CENTER
 				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.RIGHT) {
-
 			addSequential(new DriveStraightLockedGears(C_INITAL_MOVE, false));
 			addSequential(new Pivot(90));
 			addSequential(new DriveStraightLockedGears(C_R_DISTANCE_IN_THE_MIDDLE, false));
 			addSequential(new Pivot(-90));
 			addSequential(new DriveStraightLockedGears(C__R_FINAL_MOVE, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
-
 		}
 
 		/* ====================================== */
@@ -103,7 +97,6 @@ public class SwitchAttack extends CommandGroup {
 			addSequential(new DriveStraightLockedGears(R_FINAL_MOVE - AUTO_MOVE_SWITCH_SCORE_STANDOFF_INCHES, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
 		}
-
 
 		/* ====================================== */
 		// NO GAME DATA:

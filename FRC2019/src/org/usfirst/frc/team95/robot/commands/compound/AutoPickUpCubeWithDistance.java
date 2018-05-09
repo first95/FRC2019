@@ -2,7 +2,9 @@ package org.usfirst.frc.team95.robot.commands.compound;
 
 import org.usfirst.frc.team95.robot.commands.Pause;
 import org.usfirst.frc.team95.robot.commands.collector.AutoCloseMawOnCube;
+import org.usfirst.frc.team95.robot.commands.collector.CloseMaw;
 import org.usfirst.frc.team95.robot.commands.collector.OpenMaw;
+import org.usfirst.frc.team95.robot.commands.collector.RunChains;
 import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle;
 import org.usfirst.frc.team95.robot.commands.collector.TimedIngestCube;
 import org.usfirst.frc.team95.robot.commands.drivebase.DriveAtThrottle;
@@ -11,16 +13,18 @@ import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle.WristAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoPickUpCubeWithDrive extends CommandGroup {
-	private static final double FORWARD_THROTTLE = 0.15;
+public class AutoPickUpCubeWithDistance extends CommandGroup {
 
-	public AutoPickUpCubeWithDrive() {
+	public AutoPickUpCubeWithDistance(double distanceToDrive) {
 		addSequential(new SetWristAngle(WristAngle.DOWN));
-		addParallel(new DriveAtThrottle(FORWARD_THROTTLE));
-		addSequential(new OpenMaw());
-		//addSequential(new Pause(0.25));
-		addSequential(new AutoCloseMawOnCube()); // This one waits until the cube is detected
-		addParallel(new DriveAtThrottle(0)); // This only exists to cancel the last DriveAtThrottle.  It will remain active until another move takes over the drivebase.
+		addParallel(new OpenMaw());
+		addSequential(new Pause(0.25));
+		addSequential(new DriveStraightAtSpeedLockedGears(distanceToDrive, false, 0.5));
+		addParallel(new RunChains(-1.0));
+		addSequential(new Pause(1.0));
+		addSequential(new CloseMaw());
+		addParallel(new RunChains(-1.0));
+		addSequential(new Pause(1.0));
 		addSequential(new SetWristAngle(WristAngle.MID_UP));
 		addSequential(new TimedIngestCube());
 	}

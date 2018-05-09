@@ -50,14 +50,16 @@ public class SwitchAttackWithStageTwo extends CommandGroup {
 	public SwitchAttackWithStageTwo(FieldSide whichSideOfTheNearSwitchIsOurColor, StartPosition robotStartingPosition) {
 
 		// LEFT SIDE MOVE:
-		if (robotStartingPosition == StartPosition.LEFT && whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT) {
+		if (robotStartingPosition == StartPosition.LEFT
+				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT)
+		{
 			addSequential(new DriveStraightLockedGears(L_INITIAL_MOVE, false));
 			addSequential(new Pivot(90));
 			addSequential(new DriveStraightLockedGears(L_FINAL_MOVE - AUTO_MOVE_SWITCH_SCORE_STANDOFF_INCHES, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
 
 			// Stage Two
-
+			
 			addSequential(new DriveStraightLockedGears(-DISTANCE_TILL_CENTER, false));
 			addSequential(new Pivot(90));
 			addSequential(new DriveStraightLockedGears(DISTANCE_TILL_SECOND_CUBE, false));
@@ -69,8 +71,10 @@ public class SwitchAttackWithStageTwo extends CommandGroup {
 			addSequential(new Pivot(90));
 			addSequential(new DriveStraightLockedGears(DISTANCE_TILL_CENTER, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
-		} else if (robotStartingPosition == StartPosition.LEFT
-				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.RIGHT) {
+		}
+		else if (robotStartingPosition == StartPosition.LEFT
+				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.RIGHT)
+		{
 			addSequential(new DriveStraightLockedGears(ONE_FOOT, false));
 			addSequential(new Pivot(90));
 			addSequential(new DriveStraightLockedGears(L_TO_R_MOVE, false));
@@ -96,8 +100,8 @@ public class SwitchAttackWithStageTwo extends CommandGroup {
 		/* ====================================== */
 		// CENTER MOVE:
 		else if (robotStartingPosition == StartPosition.CENTER
-				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT) {
-
+				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT)
+		{
 			addSequential(new DriveStraightLockedGears(C_INITAL_MOVE, false));
 			addSequential(new Pivot(-90));
 			addSequential(new DriveStraightLockedGears(C_L_DISTANCE_IN_THE_MIDDLE, false));
@@ -119,9 +123,10 @@ public class SwitchAttackWithStageTwo extends CommandGroup {
 			addSequential(new DriveStraightLockedGears(DISTANCE_TILL_CENTER, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
 
-		} else if (robotStartingPosition == StartPosition.CENTER
-				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.RIGHT) {
-
+		}
+		else if (robotStartingPosition == StartPosition.CENTER
+				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.RIGHT)
+		{
 			addSequential(new DriveStraightLockedGears(C_INITAL_MOVE, false));
 			addSequential(new Pivot(90));
 			addSequential(new DriveStraightLockedGears(C_R_DISTANCE_IN_THE_MIDDLE, false));
@@ -142,15 +147,25 @@ public class SwitchAttackWithStageTwo extends CommandGroup {
 			addSequential(new Pivot(-90));
 			addSequential(new DriveStraightLockedGears(DISTANCE_TILL_CENTER, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
-
 		}
 
 		/* ====================================== */
 		// RIGHT SIDE MOVE:
-		else if (robotStartingPosition == StartPosition.RIGHT && whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT) {
-
-		} else if (robotStartingPosition == StartPosition.RIGHT
-				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.RIGHT) {
+		else if (robotStartingPosition == StartPosition.RIGHT
+				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.LEFT)
+		{
+			addSequential(new DriveStraightLockedGears(R_TO_L_INITIAL_MOVE, false));
+			addSequential(new Pivot(-90));
+			addSequential(new DriveStraightLockedGears(R_TO_L_MOVE, false));
+			addSequential(new Pivot(90));
+			addSequential(new DriveStraightLockedGears(R_TO_SWITCH_MOVE, false));
+			addSequential(new ScoreStartingCubeOnSwitch());
+			
+			// NO STAGE 2 YET
+		}
+		else if (robotStartingPosition == StartPosition.RIGHT
+				&& whichSideOfTheNearSwitchIsOurColor == FieldSide.RIGHT)
+		{
 			addSequential(new DriveStraightLockedGears(R_INITAL_MOVE, false));
 			addSequential(new Pivot(-90));
 			addSequential(new DriveStraightLockedGears(R_FINAL_MOVE - AUTO_MOVE_SWITCH_SCORE_STANDOFF_INCHES, false));
@@ -169,12 +184,12 @@ public class SwitchAttackWithStageTwo extends CommandGroup {
 			addSequential(new Pivot(-90));
 			addSequential(new DriveStraightLockedGears(DISTANCE_TILL_CENTER, false));
 			addSequential(new ScoreStartingCubeOnSwitch());
-
 		}
 
 		/* ====================================== */
 		// NO GAME DATA:
-		else {
+		else
+		{
 			System.out.println("NO GAME DATA FOUND");
 			addSequential(new AnyForward());
 		}
