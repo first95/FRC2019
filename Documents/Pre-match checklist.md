@@ -1,9 +1,9 @@
 # Pre-match checklist
 
-# Early (do in pit if possible)
+## Early (do in pit if possible)
 - [ ] Install correct-color bumpers
 
-# Function check
+## Function check
 - [ ] Drive forward and backward
 - [ ] Raise and lower elevator through its full range
 - [ ] Lift wrist into all 4 positions
@@ -11,10 +11,10 @@
 - [ ] Run chain in and out
 - [ ] Automatically acquire a cube
 
-# Final prep
+## Final prep
 - [ ] Charge air tanks
 - [ ] Install fresh battery
 
-# Final checks
+## Final checks
 - [ ] Battery is strapped in
 - [ ] Auto move is selected
