@@ -11,10 +11,14 @@ Write a check mark or "P" for every test that passes.  Write an "F" for any test
 Here we exercise every feature of the robot that can be used during teleoperated mode.  If any of these fail, go back and fix the software, then restart the test from the start.
 
 ### Drivebase 
+
 - [ ] Drive forward and backward
-- [ ] Manually shift gears
+- [ ] Manually shift gears and confirm you can hear shifting. (A loud click)
+- [ ] Drive fast and confirm the robot upshifts automatically. (You should hear a loud click)
+- [ ] Let the robot slow down and confirm the robot downshifts automatically. (You should hear a loud click)
 
 ### Elevator
+
 - [ ] Raise and lower elevator through its full range
 - [ ] Visit each height preset
 - [ ] Hold down a preset button.  Confirm the elevator holds at that position.
@@ -22,6 +26,7 @@ Here we exercise every feature of the robot that can be used during teleoperated
 - [ ] Run the climber winch
 
 ### Wrist and maw
+
 - [ ] Lift wrist into all 4 positions
 - [ ] Open and close maw
 - [ ] Run chain in and out
