@@ -54,8 +54,7 @@ public class Constants
 		public static final int RIGHT_ELEV_DRIVER = 23;
 		
 		// Collector
-		public static final int LEFT_CHAIN_DRIVER  = 14;
-		public static final int RIGHT_CHAIN_DRIVER = 24;
+		public static final int INTAKE_DRIVER = 7;
 
 		// Climber
 		public static final int LEFT_CLIMBER_DRIVER = 25;

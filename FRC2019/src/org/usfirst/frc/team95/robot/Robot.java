@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
-import org.usfirst.frc.team95.robot.subsystems.Climber;
+//import org.usfirst.frc.team95.robot.subsystems.Climber;
 import org.usfirst.frc.team95.robot.subsystems.Collector;
-import org.usfirst.frc.team95.robot.subsystems.Elevator;
+//import org.usfirst.frc.team95.robot.subsystems.Elevator;
 import org.usfirst.frc.team95.robot.subsystems.DriveBase;
 
 /**
@@ -46,8 +46,8 @@ public class Robot extends IterativeRobot {
 	// Components of the robot
 	public static DriveBase drivebase;
 	public static Collector collector;
-	public static Climber climber;
-	public static Elevator elevator;
+//	public static Climber climber;
+//	public static Elevator elevator;
 	public static Compressor compressor;
 	public static OI oi;
 
@@ -61,21 +61,21 @@ public class Robot extends IterativeRobot {
 		// Initialize all subsystems
 		drivebase = new DriveBase();
 		collector = new Collector();
-		elevator = new Elevator();
-		climber = new Climber();
+//		elevator = new Elevator();
+//		climber = new Climber();
 		compressor = new Compressor();
 		oi = new OI();
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivebase);
-		SmartDashboard.putData(elevator);
+//		SmartDashboard.putData(elevator);
 		SmartDashboard.putData(collector);
 
 		// Disable brakes on talons to make it
 		// easier to push
 		drivebase.brake(false);
-		elevator.brake(false);
-		climber.brake(false);
+//		elevator.brake(false);
+//		climber.brake(false);
 		
 	}
 
@@ -122,8 +122,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 		drivebase.brake(false);
-		elevator.brake(false);
-		climber.brake(false);
+//		elevator.brake(false);
+//		climber.brake(false);
 	}
 
 	public void disabledPeriodic() {	
@@ -132,7 +132,7 @@ public class Robot extends IterativeRobot {
 	
 	public void commonPeriodic() {
 		Scheduler.getInstance().run(); // Runs all active commands
-		elevator.checkAndApplyHomingSwitch();
+//		elevator.checkAndApplyHomingSwitch();
         drivebase.pullPidConstantsFromSmartDash();
         oi.visit();
         drivebase.visit();
@@ -150,8 +150,8 @@ public class Robot extends IterativeRobot {
 		Robot.oi.setShiftLockValue(0);
 		
 		drivebase.brake(true);
-		elevator.brake(true);
-		climber.brake(true);
+//		elevator.brake(true);
+//		climber.brake(true);
 
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
@@ -191,10 +191,10 @@ public class Robot extends IterativeRobot {
 	
 	private void debugLog() {
 		drivebase.log();
-		elevator.log();
+//		elevator.log();
 		collector.log();
 		oi.log();
-		climber.log();
+//		climber.log();
 	}
 
 	public Robot.StartPosition getRobotStartSide() {
