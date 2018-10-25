@@ -31,14 +31,6 @@ public class Constants
 		// Indices for solenoids
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
 		public static final int COLLECTOR_SOLENOID_NUM  = 1;
-		public static final int WRIST_STAGE_ONE = 3; // The longer piston
-		public static final int WRIST_STAGE_TWO = 2; // The shorter piston
-		
-		// Indices for sensors
-		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
-		public static final int LEFT_COLLECTOR_PHOTOSENSOR_DIO_NUM = 3;
-		public static final int MIDDLE_COLLECTOR_PHOTOSENSOR_DIO_NUM = 1;
-		public static final int RIGHT_COLLECTOR_PHOTOSENSOR_DIO_NUM = 2;
 
 		// Indices for Talons
 		// Drive base
@@ -48,10 +40,6 @@ public class Constants
 		public static final int RIGHT_LEAD = 20;
 		public static final int RIGHT_F1 = 21;
 		public static final int RIGHT_F2 = 22;
-		
-		// Elevator
-		public static final int LEFT_ELEV_DRIVER = 13;
-		public static final int RIGHT_ELEV_DRIVER = 23;
 		
 		// Collector
 		public static final int INTAKE_DRIVER = 7;
