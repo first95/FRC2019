@@ -12,7 +12,7 @@ public class OpenMaw extends Command{
 	
 	@Override
 	protected void initialize() {
-		Robot.collector.setMawOpen(true);
+		Robot.collector.setUpDown(true);
 		super.initialize();
 	}
 	

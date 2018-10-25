@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team95.robot.Robot.StartPosition;
 import org.usfirst.frc.team95.robot.commands.Nothing;
-import org.usfirst.frc.team95.robot.commands.compound.AutoPickUpCubeManualDrive;
-import org.usfirst.frc.team95.robot.commands.compound.AutoPickUpCubeWithDrive;
+//import org.usfirst.frc.team95.robot.commands.compound.AutoPickUpCubeManualDrive;
+//import org.usfirst.frc.team95.robot.commands.compound.AutoPickUpCubeWithDrive;
 import org.usfirst.frc.team95.robot.commands.compound.DriveStraightLockedGears;
 //import org.usfirst.frc.team95.robot.commands.compound.ScaleAttack;
 //import org.usfirst.frc.team95.robot.commands.compound.ScaleAttackWithStageTwo;
@@ -85,7 +85,7 @@ public class OI {
 		JoystickButton autograbButton = new JoystickButton(weaponsController, MAW_AUTOGRAB_BUTTON);
 
 		// Connect the buttons to commands
-		autograbButton.whileHeld(new AutoPickUpCubeManualDrive());
+//		autograbButton.whileHeld(new AutoPickUpCubeManualDrive());
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
