@@ -1,0 +1,1 @@
+Copy all jar files into C:\Users\<your name>\wpilib\user\lib
