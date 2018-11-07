@@ -1,0 +1,164 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Climb P" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="662" y="108"/>
+	</widget>
+	<widget field="Climb I" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="663" y="132"/>
+	</widget>
+	<widget field="Climb D" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="659" y="155"/>
+	</widget>
+	<widget field="Climber mode" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="656" y="51"/>
+	</widget>
+	<widget field="Score cube on scale" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="212"/>
+	</widget>
+	<widget field="Scale L to R final move" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="9" y="106"/>
+	</widget>
+	<widget field="Scale L to R null zone" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="8" y="71"/>
+	</widget>
+	<widget field="Scale L to R across move" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="2" y="35"/>
+	</widget>
+	<widget field="Scale L to R initial move" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="8" y="3"/>
+	</widget>
+	<widget field="Pivot CW at 12 inps" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="15" y="256"/>
+	</widget>
+	<widget field="LR" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="232" y="138"/>
+	</widget>
+	<widget field="Pivot 90 degrees CCW at 12 inps" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="15" y="448"/>
+	</widget>
+	<widget field="Collector" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="442" y="87"/>
+		<height>20</height>
+	</widget>
+	<widget field="DriveBase" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="435" y="122"/>
+	</widget>
+	<widget field="Sweep turn, 2ft radius, 45 degrees CW" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="18" y="526"/>
+	</widget>
+	<widget field="LL" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="235" y="200"/>
+	</widget>
+	<widget field="Elevator" type="Subsystem" class="edu.wpi.first.smartdashboard.gui.elements.Subsystem">
+		<location x="445" y="58"/>
+	</widget>
+	<widget field="Starting position" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="229" y="10"/>
+	</widget>
+	<widget field="Sweep turn, 6ft radius, 90 degrees CCW" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="13" y="489"/>
+	</widget>
+	<widget field="Pivot 180 degrees CW" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="18" y="382"/>
+	</widget>
+	<widget field="RR" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="239" y="266"/>
+	</widget>
+	<widget field="Pivot CCW at 12 inps" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="15" y="286"/>
+	</widget>
+	<widget field="Drive forward 2 feet in 4 seconds" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="18" y="561"/>
+	</widget>
+	<widget field="Drive forward at 24 inps" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="13" y="346"/>
+	</widget>
+	<widget field="Drive backward 3 feet in 3 seconds" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="13" y="596"/>
+	</widget>
+	<widget field="Pivot 180 degrees CW at 12 inps" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="15" y="413"/>
+	</widget>
+	<widget field="Pivot 90 degrees CW" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="16" y="141"/>
+	</widget>
+	<widget field="Sweep turn, 6ft radius, 90 degrees CW" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="18" y="632"/>
+	</widget>
+	<widget field="Drive backward at 24 inps" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="17" y="315"/>
+	</widget>
+	<widget field="Pivot 90 degrees CCW" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="13" y="178"/>
+	</widget>
+	<widget field="RL" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="237" y="335"/>
+	</widget>
+	<widget field="Left target pos (in)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1295" y="382"/>
+	</widget>
+	<widget field="OutputVoltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="933" y="292"/>
+	</widget>
+	<widget field="Left DrivePod P" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="988" y="343"/>
+	</widget>
+	<widget field="Left DrivePod I" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1165" y="732"/>
+		<height>20</height>
+	</widget>
+	<widget field="Left DrivePod F" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1189" y="205"/>
+	</widget>
+	<widget field="Left DrivePod D" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1172" y="487"/>
+	</widget>
+	<widget field="Elevator Speed" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="561" y="524"/>
+	</widget>
+	<widget field="leftElevEncoder Value:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="489" y="655"/>
+	</widget>
+	<widget field="Right target velocity (inps)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="504" y="424"/>
+	</widget>
+	<widget field="IMU Yaw" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1408" y="208"/>
+	</widget>
+	<widget field="Elevator height in feet:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="733" y="389"/>
+	</widget>
+	<widget field="Elevator mode" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="435" y="159"/>
+	</widget>
+	<widget field="rightElevEncoder Value:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1167" y="278"/>
+	</widget>
+	<widget field="Right velocity (inps)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1130" y="417"/>
+	</widget>
+	<widget field="IMU Fused heading" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="527" y="470"/>
+	</widget>
+	<widget field="Left position (in)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1404" y="280"/>
+	</widget>
+	<widget field="Right target pos (in)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1124" y="549"/>
+	</widget>
+	<widget field="Right position (in)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="818" y="609"/>
+	</widget>
+	<widget field="Right DrivePod P" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1311" y="622"/>
+	</widget>
+	<widget field="Right DrivePod I" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="1216" y="667"/>
+	</widget>
+	<widget field="Right DrivePod F" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="264" y="680"/>
+	</widget>
+	<widget field="Right DrivePod D" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="599" y="596"/>
+	</widget>
+	<widget field="IMU Pitch" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox"
