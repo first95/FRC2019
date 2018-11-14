@@ -15,6 +15,7 @@ import org.usfirst.frc.team95.robot.commands.compound.ScaleAttackWithStageTwo;
 import org.usfirst.frc.team95.robot.commands.compound.SwitchAttack;
 import org.usfirst.frc.team95.robot.commands.compound.SwitchAttackWithStageTwo;
 import org.usfirst.frc.team95.robot.commands.drivebase.AnyForward;
+import org.usfirst.frc.team95.robot.commands.drivebase.Pivot;
 import org.usfirst.frc.team95.robot.oi.MutableSendableChooser;
 
 /**
@@ -89,7 +90,7 @@ public class OI {
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
-		// SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
+		SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
 		// SmartDashboard.putData("Pivot 90 degrees CCW", new Pivot(-90));
 	
 		// SmartDashboard.putData("Pivot 180 degrees CW", new Pivot(180));
