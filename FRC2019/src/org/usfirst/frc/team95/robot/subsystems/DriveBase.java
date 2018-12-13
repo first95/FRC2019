@@ -266,6 +266,21 @@ public class DriveBase extends Subsystem {
 		return rightPod.getQuadEncPos();
 	}
 	
+	public int getLeftEncoderTicks() {
+		
+		return leftPod.getEncoderTicksInchesConv();
+	}
+	
+	public int getRightEncoderTicks() {
+		
+		return rightPod.getEncoderTicksInchesConv();
+	}
+	
+	public double getWheelDiameter() {
+		
+		return RADIUS_OF_AVERAGED_WHEEL_CIRCLE;
+	}
+	
 	public double getRobotHeadingDegrees() {
 		return imu.getYawPitchRoll()[0];
 	}

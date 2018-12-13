@@ -260,6 +260,11 @@ public class DrivePod {
 		}
 	}
 	
+	public int getEncoderTicksInchesConv() {
+		
+		return (int)ENCODER_TICKS_PER_INCH;
+	}
+	
 	public double getTargetVelocityInchesPerSecond() {
 		if (getControlMode() == ControlMode.Velocity) {
 			double speedTicksPer100ms = ((TalonSrxWrapper) leader).getClosedLoopTarget(Constants.PID_IDX);
