@@ -1,7 +1,7 @@
-package org.usfirst.frc.team95.robot.commands.drivebase;
+package frc.robot.commands.drivebase;
 
-import org.usfirst.frc.team95.robot.Constants;
-import org.usfirst.frc.team95.robot.Robot;
+import frc.robot.Constants;
+import frc.robot.Robot;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;

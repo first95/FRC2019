@@ -1,13 +1,13 @@
-package org.usfirst.frc.team95.robot.commands.compound;
+package frc.robot.commands.compound;
 
-import org.usfirst.frc.team95.robot.commands.Nothing;
-import org.usfirst.frc.team95.robot.commands.Pause;
-import org.usfirst.frc.team95.robot.commands.collector.AutoCloseMawOnCube;
-import org.usfirst.frc.team95.robot.commands.collector.OpenMaw;
-import org.usfirst.frc.team95.robot.commands.collector.RunChains;
-import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle;
-import org.usfirst.frc.team95.robot.commands.collector.TimedIngestCube;
-import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle.WristAngle;
+import frc.robot.commands.Nothing;
+import frc.robot.commands.Pause;
+import frc.robot.commands.collector.AutoCloseMawOnCube;
+import frc.robot.commands.collector.OpenMaw;
+import frc.robot.commands.collector.RunChains;
+import frc.robot.commands.collector.SetWristAngle;
+import frc.robot.commands.collector.TimedIngestCube;
+import frc.robot.commands.collector.SetWristAngle.WristAngle;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**

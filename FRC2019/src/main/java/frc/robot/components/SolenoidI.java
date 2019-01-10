@@ -6,7 +6,7 @@
  * methods as the Solenoid object.
  * 
  */
-package org.usfirst.frc.team95.robot.components;
+package frc.robot.components;
 
 public interface SolenoidI {
 

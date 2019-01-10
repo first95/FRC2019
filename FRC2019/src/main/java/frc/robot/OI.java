@@ -1,22 +1,22 @@
-package org.usfirst.frc.team95.robot;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team95.robot.Robot.StartPosition;
-import org.usfirst.frc.team95.robot.commands.Nothing;
-import org.usfirst.frc.team95.robot.commands.compound.AutoPickUpCubeManualDrive;
-import org.usfirst.frc.team95.robot.commands.compound.AutoPickUpCubeWithDrive;
-import org.usfirst.frc.team95.robot.commands.compound.DriveStraightLockedGears;
-import org.usfirst.frc.team95.robot.commands.compound.ScaleAttack;
-import org.usfirst.frc.team95.robot.commands.compound.ScaleAttackWithStageTwo;
-import org.usfirst.frc.team95.robot.commands.compound.SwitchAttack;
-import org.usfirst.frc.team95.robot.commands.compound.SwitchAttackWithStageTwo;
-import org.usfirst.frc.team95.robot.commands.drivebase.AnyForward;
-import org.usfirst.frc.team95.robot.commands.drivebase.Pivot;
-import org.usfirst.frc.team95.robot.oi.MutableSendableChooser;
+import frc.robot.Robot.StartPosition;
+import frc.robot.commands.Nothing;
+import frc.robot.commands.compound.AutoPickUpCubeManualDrive;
+import frc.robot.commands.compound.AutoPickUpCubeWithDrive;
+import frc.robot.commands.compound.DriveStraightLockedGears;
+import frc.robot.commands.compound.ScaleAttack;
+import frc.robot.commands.compound.ScaleAttackWithStageTwo;
+import frc.robot.commands.compound.SwitchAttack;
+import frc.robot.commands.compound.SwitchAttackWithStageTwo;
+import frc.robot.commands.drivebase.AnyForward;
+import frc.robot.commands.drivebase.Pivot;
+import frc.robot.oi.MutableSendableChooser;
 
 /**
  * This class is the glue that binds the controls on the physical operator

@@ -7,7 +7,7 @@
  */
 
 
-package org.usfirst.frc.team95.robot.components;
+package frc.robot.components;
 
 public interface PowerDistributionPanelI {
 	  public double getVoltage();

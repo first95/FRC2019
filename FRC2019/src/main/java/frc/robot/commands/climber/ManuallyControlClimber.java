@@ -1,6 +1,6 @@
-package org.usfirst.frc.team95.robot.commands.climber;
+package frc.robot.commands.climber;
 
-import org.usfirst.frc.team95.robot.Robot;
+import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

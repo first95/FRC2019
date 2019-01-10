@@ -4,7 +4,7 @@
  * This class wraps the PowerDistributionPanel class, but also implements the PowerDistributionPanelI
  * interface. 
  */
-package org.usfirst.frc.team95.robot.components;
+package frc.robot.components;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 

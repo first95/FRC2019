@@ -1,8 +1,8 @@
 
-package org.usfirst.frc.team95.robot.components;
+package frc.robot.components;
 
-import org.usfirst.frc.team95.robot.Constants;
-import org.usfirst.frc.team95.robot.Robot;
+import frc.robot.Constants;
+import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;

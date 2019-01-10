@@ -1,4 +1,4 @@
-package org.usfirst.frc.team95.robot;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
-import org.usfirst.frc.team95.robot.subsystems.Climber;
-import org.usfirst.frc.team95.robot.subsystems.Collector;
-import org.usfirst.frc.team95.robot.subsystems.Elevator;
-import org.usfirst.frc.team95.robot.subsystems.DriveBase;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.DriveBase;
 
 /**
  * The VM is configured to automatically run this class, and to call the

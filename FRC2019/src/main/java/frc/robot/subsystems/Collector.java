@@ -1,11 +1,11 @@
-package org.usfirst.frc.team95.robot.subsystems;
+package frc.robot.subsystems;
 
-import org.usfirst.frc.team95.robot.Constants;
-import org.usfirst.frc.team95.robot.Robot;
-import org.usfirst.frc.team95.robot.commands.collector.ManuallyControlCollector;
-import org.usfirst.frc.team95.robot.components.AdjustedTalon;
-import org.usfirst.frc.team95.robot.components.SolenoidI;
-import org.usfirst.frc.team95.robot.components.SolenoidWrapper;
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.commands.collector.ManuallyControlCollector;
+import frc.robot.components.AdjustedTalon;
+import frc.robot.components.SolenoidI;
+import frc.robot.components.SolenoidWrapper;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;

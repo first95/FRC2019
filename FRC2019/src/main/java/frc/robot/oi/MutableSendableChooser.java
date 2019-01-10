@@ -4,7 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package org.usfirst.frc.team95.robot.oi;
+package frc.robot.oi;
 
 import java.util.LinkedHashMap;
 

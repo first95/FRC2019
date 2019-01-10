@@ -1,8 +1,8 @@
-package org.usfirst.frc.team95.robot.commands.compound;
+package frc.robot.commands.compound;
 
-import org.usfirst.frc.team95.robot.commands.drivebase.DriveStraight;
-import org.usfirst.frc.team95.robot.commands.drivebase.LockGear;
-import org.usfirst.frc.team95.robot.commands.drivebase.UnlockGear;
+import frc.robot.commands.drivebase.DriveStraight;
+import frc.robot.commands.drivebase.LockGear;
+import frc.robot.commands.drivebase.UnlockGear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

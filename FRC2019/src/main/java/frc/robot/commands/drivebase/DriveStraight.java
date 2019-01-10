@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.frc.team95.robot.commands.drivebase;
+package frc.robot.commands.drivebase;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import org.usfirst.frc.team95.robot.Robot;
+import frc.robot.Robot;
 
 /**
  * Drive the given distance straight (negative values go backwards). 

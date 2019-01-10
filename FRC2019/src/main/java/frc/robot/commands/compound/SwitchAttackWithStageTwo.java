@@ -1,12 +1,12 @@
-package org.usfirst.frc.team95.robot.commands.compound;
+package frc.robot.commands.compound;
 
-import org.usfirst.frc.team95.robot.FieldSide;
-import org.usfirst.frc.team95.robot.Robot.StartPosition;
-import org.usfirst.frc.team95.robot.commands.drivebase.AnyForward;
-import org.usfirst.frc.team95.robot.commands.drivebase.Pivot;
-import org.usfirst.frc.team95.robot.commands.drivebase.PivotAtSpeed;
-import org.usfirst.frc.team95.robot.commands.drivebase.SweepTurn;
-import org.usfirst.frc.team95.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
+import frc.robot.FieldSide;
+import frc.robot.Robot.StartPosition;
+import frc.robot.commands.drivebase.AnyForward;
+import frc.robot.commands.drivebase.Pivot;
+import frc.robot.commands.drivebase.PivotAtSpeed;
+import frc.robot.commands.drivebase.SweepTurn;
+import frc.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

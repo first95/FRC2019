@@ -16,7 +16,7 @@
  * Repeat with lower argument counts.
  */
 
-package org.usfirst.frc.team95.robot.components;
+package frc.robot.components;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
@@ -24,6 +24,7 @@ import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
@@ -34,6 +35,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -52,7 +54,7 @@ public class TalonSrxWrapper implements IMotorControllerEnhanced {
 		this.wrapped = wrapped;
 	}
 	
-	public int getClosedLoopTarget(int pidIdx) {
+	public double getClosedLoopTarget(int pidIdx) {
 		if(wrapped instanceof TalonSRX) {
 			if(((TalonSRX)wrapped).getControlMode() == ControlMode.Position ||
 					((TalonSRX)wrapped).getControlMode() == ControlMode.Velocity) {
@@ -331,5 +333,42 @@ public class TalonSrxWrapper implements IMotorControllerEnhanced {
 	public ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs) { return wrapped.configContinuousCurrentLimit(amps, timeoutMs); }
 
 	@Override
-	public void enableCurrentLimit(boolean enable) { wrapped.enableCurrentLimit(enable); } 
+	public void enableCurrentLimit(boolean enable) {
+		wrapped.enableCurrentLimit(enable);
+	}
+
+	@Override
+	public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1) {
+
+	}
+
+	@Override
+	public ErrorCode configSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs) {
+		return null;
+	}
+
+	@Override
+	public ErrorCode configClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) {
+		return null;
+	}
+
+	@Override
+	public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
+		return null;
+	}
+
+	@Override
+	public ErrorCode configAuxPIDPolarity(boolean invert, int timeoutMs) {
+		return null;
+	}
+
+	@Override
+	public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs) {
+		return null;
+	}
+
+	@Override
+	public SensorCollection getSensorCollection() {
+		return null;
+	} 
 }

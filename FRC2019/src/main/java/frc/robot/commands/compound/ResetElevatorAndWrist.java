@@ -1,11 +1,11 @@
-package org.usfirst.frc.team95.robot.commands.compound;
+package frc.robot.commands.compound;
 
-import org.usfirst.frc.team95.robot.commands.Pause;
-import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle;
-import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle.WristAngle;
-import org.usfirst.frc.team95.robot.commands.drivebase.DriveStraight;
-import org.usfirst.frc.team95.robot.commands.elevator.SetElevatorHeight;
-import org.usfirst.frc.team95.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
+import frc.robot.commands.Pause;
+import frc.robot.commands.collector.SetWristAngle;
+import frc.robot.commands.collector.SetWristAngle.WristAngle;
+import frc.robot.commands.drivebase.DriveStraight;
+import frc.robot.commands.elevator.SetElevatorHeight;
+import frc.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

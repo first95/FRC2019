@@ -1,4 +1,4 @@
-package org.usfirst.frc.team95.robot.commands.collector;
+package frc.robot.commands.collector;
 
 public class EjectCube extends RunChainsForDuration {
 	public static final double EJECT_THROTTLE = 1.0;

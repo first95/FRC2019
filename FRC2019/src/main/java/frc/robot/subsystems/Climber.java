@@ -1,10 +1,10 @@
-package org.usfirst.frc.team95.robot.subsystems;
+package frc.robot.subsystems;
 
-import org.usfirst.frc.team95.robot.Constants;
-import org.usfirst.frc.team95.robot.OI;
-import org.usfirst.frc.team95.robot.Robot;
-import org.usfirst.frc.team95.robot.commands.climber.ManuallyControlClimber;
-import org.usfirst.frc.team95.robot.components.AdjustedTalon;
+import frc.robot.Constants;
+import frc.robot.OI;
+import frc.robot.Robot;
+import frc.robot.commands.climber.ManuallyControlClimber;
+import frc.robot.components.AdjustedTalon;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;

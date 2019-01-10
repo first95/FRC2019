@@ -1,4 +1,4 @@
-package org.usfirst.frc.team95.robot.commands.collector;
+package frc.robot.commands.collector;
 
 public class TimedIngestCube extends RunChainsForDuration {
 	public static final double INGEST_THROTTLE = -1.0;

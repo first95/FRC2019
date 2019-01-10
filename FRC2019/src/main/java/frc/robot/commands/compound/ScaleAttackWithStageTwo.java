@@ -1,16 +1,16 @@
-package org.usfirst.frc.team95.robot.commands.compound;
+package frc.robot.commands.compound;
 
-import org.usfirst.frc.team95.robot.FieldSide;
-import org.usfirst.frc.team95.robot.Robot.StartPosition;
-import org.usfirst.frc.team95.robot.commands.collector.OpenMaw;
-import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle;
-import org.usfirst.frc.team95.robot.commands.collector.SetWristAngle.WristAngle;
-import org.usfirst.frc.team95.robot.commands.drivebase.AnyForward;
-import org.usfirst.frc.team95.robot.commands.drivebase.DriveStraight;
-import org.usfirst.frc.team95.robot.commands.drivebase.Pivot;
-import org.usfirst.frc.team95.robot.commands.drivebase.SweepTurn;
-import org.usfirst.frc.team95.robot.commands.elevator.SetElevatorHeight;
-import org.usfirst.frc.team95.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
+import frc.robot.FieldSide;
+import frc.robot.Robot.StartPosition;
+import frc.robot.commands.collector.OpenMaw;
+import frc.robot.commands.collector.SetWristAngle;
+import frc.robot.commands.collector.SetWristAngle.WristAngle;
+import frc.robot.commands.drivebase.AnyForward;
+import frc.robot.commands.drivebase.DriveStraight;
+import frc.robot.commands.drivebase.Pivot;
+import frc.robot.commands.drivebase.SweepTurn;
+import frc.robot.commands.elevator.SetElevatorHeight;
+import frc.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

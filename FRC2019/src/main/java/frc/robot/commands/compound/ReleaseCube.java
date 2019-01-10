@@ -1,8 +1,8 @@
-package org.usfirst.frc.team95.robot.commands.compound;
+package frc.robot.commands.compound;
 
-import org.usfirst.frc.team95.robot.commands.Pause;
-import org.usfirst.frc.team95.robot.commands.collector.CloseMaw;
-import org.usfirst.frc.team95.robot.commands.collector.OpenMaw;
+import frc.robot.commands.Pause;
+import frc.robot.commands.collector.CloseMaw;
+import frc.robot.commands.collector.OpenMaw;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

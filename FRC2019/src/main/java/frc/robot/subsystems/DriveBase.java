@@ -1,17 +1,17 @@
 
-package org.usfirst.frc.team95.robot.subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team95.robot.Constants;
-import org.usfirst.frc.team95.robot.Robot;
-import org.usfirst.frc.team95.robot.commands.drivebase.ManuallyControlDrivebase;
-import org.usfirst.frc.team95.robot.components.DrivePod;
-import org.usfirst.frc.team95.robot.components.PigeonWrapper;
-import org.usfirst.frc.team95.robot.components.SolenoidI;
-import org.usfirst.frc.team95.robot.components.SolenoidWrapper;
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.commands.drivebase.ManuallyControlDrivebase;
+import frc.robot.components.DrivePod;
+import frc.robot.components.PigeonWrapper;
+import frc.robot.components.SolenoidI;
+import frc.robot.components.SolenoidWrapper;
 
 /**
  * The DriveBase subsystem incorporates the sensors and actuators attached to

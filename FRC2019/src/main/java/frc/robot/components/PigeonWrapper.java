@@ -8,11 +8,11 @@
  * understand.
  * 
  */
-package org.usfirst.frc.team95.robot.components;
+package frc.robot.components;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import org.usfirst.frc.team95.robot.Constants;
+import frc.robot.Constants;
 
 public class PigeonWrapper {
 	private PigeonIMU wrapped;
