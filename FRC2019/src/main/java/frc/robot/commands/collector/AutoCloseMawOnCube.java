@@ -1,21 +1,16 @@
 package frc.robot.commands.collector;
 
-import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 
 /**
  * 
- * Open the maw, wait for a cube to trip optical rangefinders,
- * then close the maw.  Chains are run inward the whole time.
+ * Open the maw, wait for a cube to trip optical rangefinders, then close the
+ * maw. Chains are run inward the whole time.
  * 
- * This move does not:
- * - Approach the cube
- * - Position the wrist
- * - Position the elevator
- * - Move onto the cube
+ * This move does not: - Approach the cube - Position the wrist - Position the
+ * elevator - Move onto the cube
  * 
  * Other commands and/or teleoperated control must be responsible for that.
  *

@@ -1,17 +1,13 @@
 package frc.robot.commands.compound;
 
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.Pause;
-import frc.robot.commands.collector.AutoCloseMawOnCube;
 import frc.robot.commands.collector.CloseMaw;
 import frc.robot.commands.collector.OpenMaw;
 import frc.robot.commands.collector.RunChains;
 import frc.robot.commands.collector.SetWristAngle;
-import frc.robot.commands.collector.TimedIngestCube;
-import frc.robot.commands.drivebase.DriveAtThrottle;
-import frc.robot.commands.drivebase.DriveStraight;
 import frc.robot.commands.collector.SetWristAngle.WristAngle;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.collector.TimedIngestCube;
 
 public class AutoPickUpCubeWithDistance extends CommandGroup {
 

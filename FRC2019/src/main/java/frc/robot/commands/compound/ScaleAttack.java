@@ -1,16 +1,10 @@
 package frc.robot.commands.compound;
 
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.FieldSide;
 import frc.robot.Robot.StartPosition;
-import frc.robot.commands.Pause;
 import frc.robot.commands.drivebase.AnyForward;
-import frc.robot.commands.drivebase.DriveStraight;
-import frc.robot.commands.drivebase.LockGear;
 import frc.robot.commands.drivebase.Pivot;
-import frc.robot.commands.drivebase.SweepTurn;
-import frc.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ScaleAttack extends CommandGroup {
 

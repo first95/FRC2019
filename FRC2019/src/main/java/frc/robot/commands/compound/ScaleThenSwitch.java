@@ -1,22 +1,18 @@
 package frc.robot.commands.compound;
 
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.FieldSide;
 import frc.robot.Robot.StartPosition;
 import frc.robot.commands.drivebase.AnyForward;
-import frc.robot.commands.drivebase.DriveStraight;
 import frc.robot.commands.drivebase.Pivot;
-import frc.robot.commands.drivebase.SweepTurn;
-import frc.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ScaleThenSwitch extends CommandGroup
 {
 	// These strategies assumes we have a cube pre-loaded on the robot.
-	
-		//INDEPENDENT CONSTANTS:
-		private static final double ONE_FOOT = 12.0;
-		
+
+	// INDEPENDENT CONSTANTS:
+	private static final double ONE_FOOT = 12.0;
+
 		private static final double SCALE_TO_SWITCH_INITIAL_MOVE = 52.84;
 		private static final double SCALE_TO_SWITCH_NEW_CUBE = 80.59;
 		private static final double SCALE_TO_SWITCH_FINAL_MOVE = 8.49;

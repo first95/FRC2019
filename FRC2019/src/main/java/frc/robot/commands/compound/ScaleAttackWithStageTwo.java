@@ -1,27 +1,23 @@
 package frc.robot.commands.compound;
 
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.FieldSide;
 import frc.robot.Robot.StartPosition;
 import frc.robot.commands.collector.OpenMaw;
-import frc.robot.commands.collector.SetWristAngle;
-import frc.robot.commands.collector.SetWristAngle.WristAngle;
 import frc.robot.commands.drivebase.AnyForward;
 import frc.robot.commands.drivebase.DriveStraight;
 import frc.robot.commands.drivebase.Pivot;
-import frc.robot.commands.drivebase.SweepTurn;
 import frc.robot.commands.elevator.SetElevatorHeight;
 import frc.robot.commands.elevator.SetElevatorHeight.ElevatorHoldPoint;
-
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ScaleAttackWithStageTwo extends CommandGroup {
 
 	// These strategies assumes we have a cube pre-loaded on the robot.
-	
+
 	// GENERAL LOGIC:
 	private static final double RE_CENTER_DISTANCE = 2.0;
-	private static final double DISTANCE_TILL_CENTER = (299.65-196.00);
-	private static final double DISTANCE_TILL_SECOND_CUBE = ((264/2)-24);
+	private static final double DISTANCE_TILL_CENTER = (299.65 - 196.00);
+	private static final double DISTANCE_TILL_SECOND_CUBE = ((264 / 2) - 24);
 	private static final double DISTANCE_TO_GRAB_CUBE = 5.0;
 	private static final double ONE_FOOT = 12.0;
 	private static final double BACKUP_DISTENCE_MOVE = 4.0;
