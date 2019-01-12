@@ -225,6 +225,13 @@ public final class Main {
       VisionThread visionThread = new VisionThread(cameras.get(0),
               new GripPipelineLinesFromTarget(), pipeline -> {
                 //analysisOutputTable.getEntry("Hello").setString("World");
+                ArrayList<GripPipelineLinesFromTarget.Line> lines = pipeline.findLinesOutput();
+                Number[] angles = new Number[lines.size()];
+                int i = 0;
+                for (GripPipelineLinesFromTarget.Line line : lines) {
+                  angles[i++] = line.angle();
+                }
+                analysisOutputTable.getEntry("line angles").setNumberArray(angles);
                 analysisOutputTable.getEntry("num left sides").setNumber(pipeline.filterLines0Output().size());
                 analysisOutputTable.getEntry("num right sides").setNumber(pipeline.filterLines0Output().size());
       });

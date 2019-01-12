@@ -43,18 +43,21 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		// Step Find_Lines0:
 		Mat findLinesInput = hsvThresholdOutput;
 		findLines(findLinesInput, findLinesOutput);
+		System.out.println("Found " + findLinesOutput.size() + " lines.");
 
 		// Step Filter_Lines0:
 		ArrayList<Line> filterLines0Lines = findLinesOutput;
 		double filterLines0MinLength = 20.0;
 		double[] filterLines0Angle = {103.59712230215827, 126.66666666666664};
 		filterLines(filterLines0Lines, filterLines0MinLength, filterLines0Angle, filterLines0Output);
+		System.out.println("Found " + filterLines0Output.size() + " lines angled left.");
 
 		// Step Filter_Lines1:
 		ArrayList<Line> filterLines1Lines = findLinesOutput;
 		double filterLines1MinLength = 20.0;
 		double[] filterLines1Angle = {61.51079136690646, 96.36363636363635};
 		filterLines(filterLines1Lines, filterLines1MinLength, filterLines1Angle, filterLines1Output);
+		System.out.println("Found " + filterLines1Output.size() + " lines angled right.");
 
 	}
 
