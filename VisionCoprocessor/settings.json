@@ -71,7 +71,7 @@
 "max": "1",
 "step": "1",
 "default": "1",
-"value": "0"},
+"value": "1"},
 {
 "name": "power_line_frequency",
 "id": "9",
@@ -138,7 +138,7 @@
 "max": "20000",
 "step": "1",
 "default": "156",
-"value": "20"},
+"value": "10"},
 {
 "name": "exposure_absolute",
 "id": "16",
@@ -147,7 +147,7 @@
 "max": "100",
 "step": "1",
 "default": "46",
-"value": "19"},
+"value": "15"},
 {
 "name": "pan_absolute",
 "id": "17",

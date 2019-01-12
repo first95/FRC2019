@@ -224,8 +224,9 @@ public final class Main {
     if (cameras.size() >= 1) {
       VisionThread visionThread = new VisionThread(cameras.get(0),
               new GripPipelineLinesFromTarget(), pipeline -> {
-                analysisOutputTable.getEntry("Hello").setString("World");
-                // do something with pipeline results
+                //analysisOutputTable.getEntry("Hello").setString("World");
+                analysisOutputTable.getEntry("num left sides").setNumber(pipeline.filterLines0Output().size());
+                analysisOutputTable.getEntry("num right sides").setNumber(pipeline.filterLines0Output().size());
       });
       visionThread.start();
     }

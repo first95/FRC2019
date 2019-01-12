@@ -33,7 +33,7 @@
         },
         {
             "name": "white_balance_temperature_auto",
-            "value": false
+            "value": true
         },
         {
             "name": "power_line_frequency",
@@ -61,11 +61,11 @@
         },
         {
             "name": "raw_exposure_absolute",
-            "value": 20
+            "value": 10
         },
         {
             "name": "exposure_absolute",
-            "value": 19
+            "value": 15
         },
         {
             "name": "pan_absolute",
