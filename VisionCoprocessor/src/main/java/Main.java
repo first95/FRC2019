@@ -56,7 +56,7 @@ import org.opencv.core.Mat;
 public final class Main {
   private static String configFile = "/boot/frc.json";
 
-  @SuppressWarnings("MemberName")
+  // @SuppressWarnings("MemberName")
   public static class CameraConfig {
     public String name;
     public String path;
@@ -108,7 +108,7 @@ public final class Main {
   /**
    * Read configuration file.
    */
-  @SuppressWarnings("PMD.CyclomaticComplexity")
+  // @SuppressWarnings("PMD.CyclomaticComplexity")
   public static boolean readConfig() {
     // parse file
     JsonElement top;
@@ -223,7 +223,7 @@ public final class Main {
     if (cameras.size() >= 1) {
       VisionThread visionThread = new VisionThread(cameras.get(0),
               new GripPipelineLinesFromTarget(), pipeline -> {
-                
+
         // do something with pipeline results
       });
       visionThread.start();
