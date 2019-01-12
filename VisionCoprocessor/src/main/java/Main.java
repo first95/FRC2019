@@ -227,11 +227,14 @@ public final class Main {
                 //analysisOutputTable.getEntry("Hello").setString("World");
                 ArrayList<GripPipelineLinesFromTarget.Line> lines = pipeline.findLinesOutput();
                 Number[] angles = new Number[lines.size()];
+                Number[] lengths = new Number[lines.size()];
                 int i = 0;
                 for (GripPipelineLinesFromTarget.Line line : lines) {
+                  lengths[i] = line.length();
                   angles[i++] = line.angle();
                 }
                 analysisOutputTable.getEntry("line angles").setNumberArray(angles);
+                analysisOutputTable.getEntry("line lengths").setNumberArray(lengths);
                 analysisOutputTable.getEntry("num left sides").setNumber(pipeline.filterLines0Output().size());
                 analysisOutputTable.getEntry("num right sides").setNumber(pipeline.filterLines0Output().size());
       });
