@@ -222,15 +222,10 @@ public final class Main {
     // start image processing on camera 0 if present
     if (cameras.size() >= 1) {
       VisionThread visionThread = new VisionThread(cameras.get(0),
-              new MyPipeline(), pipeline -> {
+              new GripPipelineLinesFromTarget(), pipeline -> {
+                
         // do something with pipeline results
       });
-      /* something like this for GRIP:
-      VisionThread visionThread = new VisionThread(cameras.get(0),
-              new GripPipeline(), pipeline -> {
-        ...
-      });
-       */
       visionThread.start();
     }
 
