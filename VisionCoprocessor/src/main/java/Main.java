@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
@@ -212,7 +213,7 @@ public final class Main {
       System.out.println("Setting up NetworkTables client for team " + team);
       ntinst.startClientTeam(team);
     }
-
+    NetworkTable analysisOutputTable = ntinst.getTable("vision_metrics");
     // start cameras
     List<VideoSource> cameras = new ArrayList<>();
     for (CameraConfig cameraConfig : cameraConfigs) {
@@ -223,8 +224,8 @@ public final class Main {
     if (cameras.size() >= 1) {
       VisionThread visionThread = new VisionThread(cameras.get(0),
               new GripPipelineLinesFromTarget(), pipeline -> {
-
-        // do something with pipeline results
+                analysisOutputTable.getEntry("Hello").setString("World");
+                // do something with pipeline results
       });
       visionThread.start();
     }
