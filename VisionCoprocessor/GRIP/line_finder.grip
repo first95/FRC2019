@@ -2,8 +2,8 @@
   <sources>
     <grip:MultiImageFile>
       <property name="numImages" value="2"/>
-      <property name="path[0]" value="C:\Users\spami\git\first95\FRC2019\VisionCoprocessor\test_images\far.png"/>
-      <property name="path[1]" value="C:\Users\spami\git\first95\FRC2019\VisionCoprocessor\test_images\near.png"/>
+      <property name="path[0]" value="..\test_images\far.png"/>
+      <property name="path[1]" value="..\test_images\near.png"/>
       <property name="index" value="1"/>
     </grip:MultiImageFile>
   </sources>
