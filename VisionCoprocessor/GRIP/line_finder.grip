@@ -2,9 +2,9 @@
   <sources>
     <grip:MultiImageFile>
       <property name="numImages" value="2"/>
-      <property name="path[0]" value="..\test_images\far.png"/>
-      <property name="path[1]" value="..\test_images\near.png"/>
-      <property name="index" value="1"/>
+      <property name="path[0]" value="C:\Users\spami\git\first95\FRC2019\VisionCoprocessor\test_images\19 inches.png"/>
+      <property name="path[1]" value="C:\Users\spami\git\first95\FRC2019\VisionCoprocessor\test_images\29 inches.png"/>
+      <property name="index" value="0"/>
     </grip:MultiImageFile>
   </sources>
   <steps>
@@ -13,7 +13,7 @@
       <grip:Input step="0" socket="1">
         <value>
           <double>45.69817278554671</double>
-          <double>69.7574708016793</double>
+          <double>93.99989504410354</double>
         </value>
       </grip:Input>
       <grip:Input step="0" socket="2">
@@ -54,8 +54,8 @@
       </grip:Input>
       <grip:Input step="3" socket="2">
         <value>
-          <double>67.98561151079136</double>
-          <double>84.24242424242422</double>
+          <double>61.51079136690646</double>
+          <double>96.36363636363635</double>
         </value>
       </grip:Input>
       <grip:Output step="3" socket="0" previewed="true"/>
@@ -111,8 +111,20 @@
   </steps>
   <connections>
     <grip:Connection>
+      <grip:Output step="3" socket="0" previewed="true"/>
+      <grip:Input step="5" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Input step="4" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
       <grip:Output step="1" socket="0" previewed="false"/>
       <grip:Input step="2" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="true"/>
+      <grip:Input step="0" socket="0"/>
     </grip:Connection>
     <grip:Connection>
       <grip:Output step="0" socket="0" previewed="true"/>
@@ -121,18 +133,6 @@
     <grip:Connection>
       <grip:Output step="1" socket="0" previewed="false"/>
       <grip:Input step="3" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output step="3" socket="0" previewed="true"/>
-      <grip:Input step="5" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output source="0" socket="0" previewed="true"/>
-      <grip:Input step="0" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output step="2" socket="0" previewed="true"/>
-      <grip:Input step="4" socket="0"/>
     </grip:Connection>
   </connections>
   <settings>
@@ -148,7 +148,7 @@
     <language>Java</language>
     <className>GripPipelineLinesFromTarget</className>
     <implementWpilibPipeline>true</implementWpilibPipeline>
-    <saveDir>..\src\main\java</saveDir>
+    <saveDir>C:\Users\spami\git\first95\FRC2019\VisionCoprocessor\src\main\java</saveDir>
     <packageName></packageName>
     <moduleName>grip</moduleName>
   </codeGenerationSettings>
