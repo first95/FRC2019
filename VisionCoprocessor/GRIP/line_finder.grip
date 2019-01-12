@@ -195,7 +195,7 @@
     <language>Java</language>
     <className>GripPipelineLinesFromTarget</className>
     <implementWpilibPipeline>true</implementWpilibPipeline>
-    <saveDir>C:\Users\spami\git\first95\FRC2019\VisionCoprocessor\GRIP</saveDir>
+    <saveDir>..\src\main\java</saveDir>
     <packageName></packageName>
     <moduleName>grip</moduleName>
   </codeGenerationSettings>
