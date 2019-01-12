@@ -79,7 +79,7 @@
     </grip:Step>
     <grip:Step name="Find Lines">
       <grip:Input step="1" socket="0"/>
-      <grip:Output step="1" socket="0" previewed="true"/>
+      <grip:Output step="1" socket="0" previewed="false"/>
     </grip:Step>
     <grip:Step name="Filter Lines">
       <grip:Input step="2" socket="0"/>
@@ -166,7 +166,7 @@
       <grip:Input step="0" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output step="1" socket="0" previewed="true"/>
+      <grip:Output step="1" socket="0" previewed="false"/>
       <grip:Input step="2" socket="0"/>
     </grip:Connection>
     <grip:Connection>
@@ -174,7 +174,7 @@
       <grip:Input step="1" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output step="1" socket="0" previewed="true"/>
+      <grip:Output step="1" socket="0" previewed="false"/>
       <grip:Input step="3" socket="0"/>
     </grip:Connection>
     <grip:Connection>
@@ -194,7 +194,7 @@
   <codeGenerationSettings>
     <language>Java</language>
     <className>GripPipelineLinesFromTarget</className>
-    <implementWpilibPipeline>false</implementWpilibPipeline>
+    <implementWpilibPipeline>true</implementWpilibPipeline>
     <saveDir>C:\Users\spami\git\first95\FRC2019\VisionCoprocessor\GRIP</saveDir>
     <packageName></packageName>
     <moduleName>grip</moduleName>
