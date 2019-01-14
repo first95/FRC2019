@@ -2,9 +2,8 @@
 // import java.io.FileOutputStream;
 // import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -174,11 +173,16 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 	 */
 	private void filterLines(List<Line> inputs,double minLength,double[] angle,
 		List<Line> outputs) {
-		outputs = inputs.stream()
-				.filter(line -> line.lengthSquared() >= Math.pow(minLength,2))
-				.filter(line -> (line.angle() >= angle[0] && line.angle() <= angle[1])
-				|| (line.angle() + 180.0 >= angle[0] && line.angle() + 180.0 <= angle[1]))
-				.collect(Collectors.toList());
+		double minLenSquared = Math.pow(minLength,2);
+		outputs = new LinkedList<Line>();
+		for(Line line : inputs) {
+			if(line.lengthSquared() >= minLenSquared) {
+				if((line.angle() >= angle[0] && line.angle() <= angle[1])
+				|| (line.angle() + 180.0 >= angle[0] && line.angle() + 180.0 <= angle[1])) {
+					outputs.add(line);
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) {
