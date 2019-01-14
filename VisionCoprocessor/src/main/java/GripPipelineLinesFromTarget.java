@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -174,7 +175,6 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 				.collect(Collectors.toList());
 	}
 
-
 	public static void main(String[] args) {
 		// System.out.println("Hello world!");
 		// FileOutputStream fs;
@@ -188,10 +188,19 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		// 	e.printStackTrace();
 		// }
 
-		Mat img = Imgcodecs.imread("test_images/19 inches.png");
-		HighGui.imshow("Test", img);
-		HighGui.waitKey();
-	}
+		String[] filesToProcess = {
+			"test_images/19 inches.png",
+			"test_images/29 inches.png",
+		};
 
+		GripPipelineLinesFromTarget processor = new GripPipelineLinesFromTarget();
+		for (String file : filesToProcess) {
+			Mat img = Imgcodecs.imread(file);
+			processor.process(img);
+			Imgproc.line(img, new Point(0,0),  new Point(100,100), new Scalar(0, 0, 255), 5);
+			HighGui.imshow(file, img);
+		}
+		HighGui.waitKey(10);
+	}
 }
 
