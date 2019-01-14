@@ -176,7 +176,8 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		List<Line> outputs) {
 		outputs = inputs.stream()
 				.filter(line -> line.lengthSquared() >= Math.pow(minLength,2))
-				.filter(line -> (((line.angle() + 180.0)%360.0) >= angle[0] && ((line.angle() + 180.0)%360.0) <= angle[1]))
+				.filter(line -> (line.angle() >= angle[0] && line.angle() <= angle[1])
+				|| (line.angle() + 180.0 >= angle[0] && line.angle() + 180.0 <= angle[1]))
 				.collect(Collectors.toList());
 	}
 
@@ -203,11 +204,6 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		Scalar rightLineColor = new Scalar(0, 255, 0);
 		int lineWidth = 1;
 	
-		System.out.println("10%3=" + (10%3));
-		System.out.println("(-10)%3=" + ((-10)%3));
-		System.out.println("10.0%3=" + (10.0%3.0));
-		System.out.println("(-10.0)%3=" + ((-10.0)%3.0));
-
 		GripPipelineLinesFromTarget processor = new GripPipelineLinesFromTarget();
 		for (String file : filesToProcess) {
 			Mat img = Imgcodecs.imread(file);
