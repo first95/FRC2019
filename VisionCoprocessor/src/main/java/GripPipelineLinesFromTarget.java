@@ -134,6 +134,12 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		public double angle() {
 			return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
 		}
+		public Point startPoint() {
+			return new Point(x1, y1);
+		}
+		public Point endPoint() {
+			return new Point(x2, y2);
+		}
 	}
 	/**
 	 * Finds all line segments in an image.
@@ -193,11 +199,24 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 			"test_images/29 inches.png",
 		};
 
+		Scalar unfilteredLineColor = new Scalar(255, 0, 0);
+		Scalar leftLineColor = new Scalar(0, 255, 0);
+		Scalar rightLineColor = new Scalar(0, 255, 0);
+		int lineWidth = 1;
+	
 		GripPipelineLinesFromTarget processor = new GripPipelineLinesFromTarget();
 		for (String file : filesToProcess) {
 			Mat img = Imgcodecs.imread(file);
 			processor.process(img);
-			Imgproc.line(img, new Point(0,0),  new Point(100,100), new Scalar(0, 0, 255), 5);
+			for(GripPipelineLinesFromTarget.Line line : processor.findLinesOutput()) {
+				Imgproc.line(img, line.startPoint(), line.endPoint(), unfilteredLineColor, lineWidth);
+			}
+			for(GripPipelineLinesFromTarget.Line line : processor.filterLines0Output()) {
+				Imgproc.line(img, line.startPoint(), line.endPoint(), leftLineColor, lineWidth);
+			}
+			for(GripPipelineLinesFromTarget.Line line : processor.filterLines1Output()) {
+				Imgproc.line(img, line.startPoint(), line.endPoint(), rightLineColor, lineWidth);
+			}
 			HighGui.imshow(file, img);
 		}
 		HighGui.waitKey(10);
