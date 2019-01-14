@@ -1,10 +1,16 @@
+// import java.io.FileNotFoundException;
+// import java.io.FileOutputStream;
+// import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
+import org.opencv.highgui.HighGui;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.LineSegmentDetector;
 
@@ -170,7 +176,21 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 
 
 	public static void main(String[] args) {
-		System.out.println("Hello world!");
+		// System.out.println("Hello world!");
+		// FileOutputStream fs;
+		// try {
+		// 	fs = new FileOutputStream("temp.txt");
+		// 	fs.write("hello".getBytes());
+		// 	fs.close();	
+		// } catch (FileNotFoundException e) {
+		// 	e.printStackTrace();
+		// } catch (IOException e) {
+		// 	e.printStackTrace();
+		// }
+
+		Mat img = Imgcodecs.imread("test_images/19 inches.png");
+		HighGui.imshow("Test", img);
+		HighGui.waitKey();
 	}
 
 }
