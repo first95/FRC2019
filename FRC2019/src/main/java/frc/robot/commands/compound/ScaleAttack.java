@@ -1,0 +1,99 @@
+package frc.robot.commands.compound;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.FieldSide;
+import frc.robot.Robot.StartPosition;
+import frc.robot.commands.drivebase.AnyForward;
+import frc.robot.commands.drivebase.Pivot;
+
+public class ScaleAttack extends CommandGroup {
+
+	// These strategies assumes we have a cube pre-loaded on the robot.
+
+	// INDEPENDENT CONSTANTS:
+	private static final double ONE_FOOT = 12.0;
+
+	// IF LEFT LOGIC:
+	private static final double L_FORMAT_PATTERN = 0.0;
+	private static final double L_INITAL_MOVE = 304.31 + 10.0;
+	private static final double L_TO_R_INITIAL_MOVE = 205 + 18.0;
+	private static final double L_TO_R_ACROSS_MOVE = 90 + 100; // Adding 100 to hopefully work on full width field vs our practice field
+	private static final double L_TO_R_FINAL_MOVE = 12 + 6 + 6 + 4;
+	public static final String L_DESCRIPTION = "Go to switch hot side from left position and score";
+
+	// IF CENTER LOGIC:
+	private static final double C_FORMAT_PATTERN = 0.0;
+	private static final double C_L_INITIAL_MOVE = 12.0;
+	private static final double C_L_MIDDLE_MOVE = 140.0;
+	private static final double C_L_FINAL_MOVE = 302.31;
+	private static final double C_R_INITIAL_MOVE = 12.0;
+	private static final double C_R_MIDDLE_MOVE = 184.0;
+	private static final double C_R_FINAL_MOVE = 302.31;
+	public static final String C_DESCRIPTION = "Go to switch hot side from center position and score";
+
+	// IF RIGHT LOGIC:
+	private static final double R_FORMAT_PATTERN = 0.0;
+	private static final double R_INITAL_MOVE = 304.31 + 10.0;
+	private static final double R_TO_L_INITIAL_MOVE = 205 + 18.0;
+	private static final double R_TO_L_ACROSS_MOVE = 90 + 100; // Adding 100 to hopefully work on full width field vs our practice field
+	private static final double R_TO_L_FINAL_MOVE = 12 + 6 + 6  + 4;
+	public static final String R_DESCRIPTION = "Go to switch hot side from right position and score";
+
+	public ScaleAttack(FieldSide whichSideOfTheScaleIsOurColor, StartPosition robotStartingPosition) {
+		// LEFT SIDE MOVE:
+		if (robotStartingPosition == StartPosition.LEFT && whichSideOfTheScaleIsOurColor == FieldSide.LEFT) {
+			addSequential(new DriveStraightLockedGears(L_INITAL_MOVE - 30 - 12 + 18, true));
+			addSequential(new Pivot(65));
+			addSequential(new ScoreStartingCubeOnScale());
+		} else if (robotStartingPosition == StartPosition.LEFT && whichSideOfTheScaleIsOurColor == FieldSide.RIGHT) {
+			addSequential(new DriveStraightLockedGears(L_TO_R_INITIAL_MOVE, true));
+			addSequential(new Pivot(90));
+			addSequential(new DriveStraightLockedGears(L_TO_R_ACROSS_MOVE, true));
+			addSequential(new Pivot(-90));
+			addSequential(new DriveStraightLockedGears(L_TO_R_FINAL_MOVE, false));
+			addSequential(new ScoreStartingCubeOnScale());
+		}
+
+		/* ====================================== */
+		// CENTER MOVE:
+		else if (robotStartingPosition == StartPosition.CENTER && whichSideOfTheScaleIsOurColor == FieldSide.LEFT) {
+			addSequential(new DriveStraightLockedGears(C_L_INITIAL_MOVE, true));
+			addSequential(new Pivot(-90));
+			addSequential(new DriveStraightLockedGears(C_L_MIDDLE_MOVE, false));
+			addSequential(new Pivot(90));
+			addSequential(new DriveStraightLockedGears(C_L_FINAL_MOVE, true));
+			addSequential(new Pivot(45));
+			addSequential(new ScoreStartingCubeOnScale());
+		} else if (robotStartingPosition == StartPosition.CENTER && whichSideOfTheScaleIsOurColor == FieldSide.RIGHT) {
+			addSequential(new DriveStraightLockedGears(C_R_INITIAL_MOVE, true));
+			addSequential(new Pivot(90));
+			addSequential(new DriveStraightLockedGears(C_R_MIDDLE_MOVE, false));
+			addSequential(new Pivot(-90));
+			addSequential(new DriveStraightLockedGears(C_R_FINAL_MOVE, true));
+			addSequential(new Pivot(-45));
+			addSequential(new ScoreStartingCubeOnScale());
+		}
+
+		/* ====================================== */
+		// RIGHT SIDE MOVE:
+		else if (robotStartingPosition == StartPosition.RIGHT && whichSideOfTheScaleIsOurColor == FieldSide.LEFT) {
+			addSequential(new DriveStraightLockedGears(R_TO_L_INITIAL_MOVE, true));
+			addSequential(new Pivot(-90));
+			addSequential(new DriveStraightLockedGears(R_TO_L_ACROSS_MOVE, true));
+			addSequential(new Pivot(90));
+			addSequential(new DriveStraightLockedGears(R_TO_L_FINAL_MOVE, false));
+			addSequential(new ScoreStartingCubeOnScale());
+		} else if (robotStartingPosition == StartPosition.RIGHT && whichSideOfTheScaleIsOurColor == FieldSide.RIGHT) {
+			addSequential(new DriveStraightLockedGears(R_INITAL_MOVE - 30 - 12 + 18, true));
+			addSequential(new Pivot(-65));
+			addSequential(new ScoreStartingCubeOnScale());
+		}
+
+		/* ====================================== */
+		// NO GAME DATA:
+		else {
+			addSequential(new AnyForward());
+		}
+	}
+
+}
