@@ -28,8 +28,8 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 	//Outputs
 	private Mat hsvThresholdOutput = new Mat();
 	private ArrayList<Line> findLinesOutput = new ArrayList<Line>();
-	private ArrayList<Line> filterLines0Output = new ArrayList<Line>();
-	private ArrayList<Line> filterLines1Output = new ArrayList<Line>();
+	private LinkedList<Line> filterLines0Output = new LinkedList<Line>();
+	private LinkedList<Line> filterLines1Output = new LinkedList<Line>();
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -55,6 +55,7 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		ArrayList<Line> filterLines0Lines = findLinesOutput;
 		double filterLines0MinLength = 20.0;
 		double[] filterLines0Angle = {103.59712230215827, 126.66666666666664};
+		filterLines0Output = new LinkedList<>();
 		filterLines(filterLines0Lines, filterLines0MinLength, filterLines0Angle, filterLines0Output);
 		System.out.println("Found " + filterLines0Output.size() + " lines angled left.");
 
@@ -62,6 +63,7 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		ArrayList<Line> filterLines1Lines = findLinesOutput;
 		double filterLines1MinLength = 20.0;
 		double[] filterLines1Angle = {61.51079136690646, 96.36363636363635};
+		filterLines1Output = new LinkedList<>();
 		filterLines(filterLines1Lines, filterLines1MinLength, filterLines1Angle, filterLines1Output);
 		System.out.println("Found " + filterLines1Output.size() + " lines angled right.");
 
@@ -85,9 +87,9 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 
 	/**
 	 * This method is a generated getter for the output of a Filter_Lines.
-	 * @return ArrayList<Line> output from Filter_Lines.
+	 * @return LinkedList<Line> output from Filter_Lines.
 	 */
-	public ArrayList<Line> filterLines0Output() {
+	public LinkedList<Line> filterLines0Output() {
 		return filterLines0Output;
 	}
 
@@ -95,7 +97,7 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 	 * This method is a generated getter for the output of a Filter_Lines.
 	 * @return ArrayList<Line> output from Filter_Lines.
 	 */
-	public ArrayList<Line> filterLines1Output() {
+	public LinkedList<Line> filterLines1Output() {
 		return filterLines1Output;
 	}
 
@@ -174,12 +176,15 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 	private void filterLines(List<Line> inputs,double minLength,double[] angle,
 		List<Line> outputs) {
 		double minLenSquared = Math.pow(minLength,2);
-		outputs = new LinkedList<Line>();
+		// outputs = new LinkedList<Line>();
 		for(Line line : inputs) {
 			if(line.lengthSquared() >= minLenSquared) {
 				if((line.angle() >= angle[0] && line.angle() <= angle[1])
 				|| (line.angle() + 180.0 >= angle[0] && line.angle() + 180.0 <= angle[1])) {
+					System.out.println("Accepted line");
 					outputs.add(line);
+				} else {
+					System.out.println("Rejected line with angle " + line.angle() + " outside of " + angle[0] + ", " + angle[1]);
 				}
 			}
 		}
@@ -205,7 +210,7 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 
 		Scalar unfilteredLineColor = new Scalar(255, 0, 0);
 		Scalar leftLineColor = new Scalar(0, 255, 0);
-		Scalar rightLineColor = new Scalar(0, 255, 0);
+		Scalar rightLineColor = new Scalar(0, 0, 255);
 		int lineWidth = 1;
 	
 		GripPipelineLinesFromTarget processor = new GripPipelineLinesFromTarget();
