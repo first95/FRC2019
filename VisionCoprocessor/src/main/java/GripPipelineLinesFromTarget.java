@@ -24,6 +24,7 @@ import edu.wpi.first.vision.VisionPipeline;
 * @author GRIP
 */
 public class GripPipelineLinesFromTarget implements VisionPipeline {
+	public static final double MIN_LINE_LEN = 15;
 
 	//Outputs
 	private Mat hsvThresholdOutput = new Mat();
@@ -49,23 +50,21 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		// Step Find_Lines0:
 		Mat findLinesInput = hsvThresholdOutput;
 		findLines(findLinesInput, findLinesOutput);
-		System.out.println("Found " + findLinesOutput.size() + " lines.");
+		// System.out.println("Found " + findLinesOutput.size() + " lines.");
 
 		// Step Filter_Lines0:
 		ArrayList<Line> filterLines0Lines = findLinesOutput;
-		double filterLines0MinLength = 20.0;
-		double[] filterLines0Angle = {103.59712230215827, 126.66666666666664};
+		double[] filterLines0Angle = {100, 125};
 		filterLines0Output = new LinkedList<>();
-		filterLines(filterLines0Lines, filterLines0MinLength, filterLines0Angle, filterLines0Output);
-		System.out.println("Found " + filterLines0Output.size() + " lines angled left.");
+		filterLines(filterLines0Lines, MIN_LINE_LEN, filterLines0Angle, filterLines0Output);
+		// System.out.println("Found " + filterLines0Output.size() + " lines angled left.");
 
 		// Step Filter_Lines1:
 		ArrayList<Line> filterLines1Lines = findLinesOutput;
-		double filterLines1MinLength = 20.0;
-		double[] filterLines1Angle = {61.51079136690646, 96.36363636363635};
+		double[] filterLines1Angle = {55, 80};
 		filterLines1Output = new LinkedList<>();
-		filterLines(filterLines1Lines, filterLines1MinLength, filterLines1Angle, filterLines1Output);
-		System.out.println("Found " + filterLines1Output.size() + " lines angled right.");
+		filterLines(filterLines1Lines, MIN_LINE_LEN, filterLines1Angle, filterLines1Output);
+		// System.out.println("Found " + filterLines1Output.size() + " lines angled right.");
 
 	}
 
@@ -141,6 +140,10 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		public Point endPoint() {
 			return new Point(x2, y2);
 		}
+		@Override
+		public String toString() {
+			return String.format("(%.1f,%.1f)-(%.1f,%.1f)", x1, y1, x2, y2);
+		}
 	}
 	/**
 	 * Finds all line segments in an image.
@@ -181,10 +184,10 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 			if(line.lengthSquared() >= minLenSquared) {
 				if((line.angle() >= angle[0] && line.angle() <= angle[1])
 				|| (line.angle() + 180.0 >= angle[0] && line.angle() + 180.0 <= angle[1])) {
-					System.out.println("Accepted line");
+					// System.out.println("Accepted line");
 					outputs.add(line);
 				} else {
-					System.out.println("Rejected line with angle " + line.angle() + " outside of " + angle[0] + ", " + angle[1]);
+					// System.out.println("Rejected line with angle " + line.angle() + " outside of " + angle[0] + ", " + angle[1]);
 				}
 			}
 		}
@@ -206,6 +209,8 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 		String[] filesToProcess = {
 			"test_images/19 inches.png",
 			"test_images/29 inches.png",
+			"test_images/near.png",
+			"test_images/far.png",
 		};
 
 		Scalar unfilteredLineColor = new Scalar(255, 0, 0);
@@ -227,6 +232,8 @@ public class GripPipelineLinesFromTarget implements VisionPipeline {
 				Imgproc.line(img, line.startPoint(), line.endPoint(), rightLineColor, lineWidth);
 			}
 			HighGui.imshow(file, img);
+			System.out.println(file + " has " + processor.filterLines0Output().size() + " left side lines: " + processor.filterLines0Output());
+			System.out.println(file + " has " + processor.filterLines1Output().size() + " right side lines: " + processor.filterLines1Output());
 		}
 		HighGui.waitKey(10);
 	}
