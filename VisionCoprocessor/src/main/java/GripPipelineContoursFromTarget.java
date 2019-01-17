@@ -12,6 +12,8 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import org.opencv.highgui.HighGui;
+import org.opencv.imgcodecs.Imgcodecs;
 import edu.wpi.first.vision.VisionPipeline;
 
 /**
@@ -255,10 +257,87 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			if (ratio < minRatio || ratio > maxRatio) continue;
 			output.add(contour);
 		}
+
+		
 	}
 
 
 
+	public static void main(String[] args) {
+		// System.out.println("Hello world!");
+		// FileOutputStream fs;
+		// try {
+		// 	fs = new FileOutputStream("temp.txt");
+		// 	fs.write("hello".getBytes());
+		// 	fs.close();	
+		// } catch (FileNotFoundException e) {
+		// 	e.printStackTrace();
+		// } catch (IOException e) {
+		// 	e.printStackTrace();
+		// }
+
+		String[] filesToProcess = {
+			"test_images/Floor line/CargoAngledLine48in.jpg",
+			"test_images/Floor line/CargoLine16in.jpg                                               ",
+			"test_images/Floor line/CargoLine24in.jpg                                               ",
+			"test_images/Floor line/CargoLine36in.jpg                                               ",
+			"test_images/Floor line/CargoLine48in.jpg                                               ",
+			"test_images/Floor line/CargoLine60in.jpg                                               ",
+			"test_images/Occluded, single target/LoadingAngle36in.jpg                               ",
+			"test_images/Occluded, single target/LoadingAngleDark36in.jpg                           ",
+			"test_images/Occluded, single target/LoadingAngleDark60in.jpg                           ",
+			"test_images/Occluded, single target/LoadingAngleDark96in.jpg                           ",
+			"test_images/Occluded, single target/LoadingStraightDark108in.jpg                       ",
+			"test_images/Occluded, single target/LoadingStraightDark10in.jpg                        ",
+			"test_images/Occluded, single target/LoadingStraightDark13in.jpg                        ",
+			"test_images/Occluded, single target/LoadingStraightDark21in.jpg                        ",
+			"test_images/Occluded, single target/LoadingStraightDark36in.jpg                        ",
+			"test_images/Occluded, single target/LoadingStraightDark48in.jpg                        ",
+			"test_images/Occluded, single target/LoadingStraightDark60in.jpg                        ",
+			"test_images/Occluded, single target/LoadingStraightDark84in.jpg                        ",
+			"test_images/Occluded, single target/LoadingStraightDark9in.jpg                         ",
+			"test_images/Occluded, two targets/CargoSideStraightDark60in.jpg                        ",
+			"test_images/Occluded, two targets/CargoSideStraightDark72in.jpg                        ",
+			"test_images/Unoccluded, single target/From FRC/CargoSideStraightDark36in.jpg           ",
+			"test_images/Unoccluded, single target/From FRC/CargoStraightDark19in.jpg               ",
+			"test_images/Unoccluded, single target/From FRC/CargoStraightDark24in.jpg               ",
+			"test_images/Unoccluded, single target/From FRC/RocketBallStraightDark19in.jpg          ",
+			"test_images/Unoccluded, single target/From FRC/RocketBallStraightDark24in.jpg          ",
+			"test_images/Unoccluded, single target/From FRC/RocketBallStraightDark29in.jpg          ",
+			"test_images/Unoccluded, single target/From FRC/RocketBallStraightDark48in.jpg          ",
+			"test_images/Unoccluded, single target/From FRC/RocketPanelStraightDark12in.jpg         ",
+			"test_images/Unoccluded, single target/From FRC/RocketPanelStraightDark16in.jpg         ",
+			"test_images/Unoccluded, single target/From FRC/RocketPanelStraightDark24in.jpg         ",
+			"test_images/Unoccluded, single target/From FRC/RocketPanelStraightDark36in.jpg         ",
+			"test_images/Unoccluded, single target/Taken in classroom/19 inches.png                 ",
+			"test_images/Unoccluded, single target/Taken in classroom/29 inches.png                 ",
+			"test_images/Unoccluded, single target/Taken in classroom/far.png                       ",
+			"test_images/Unoccluded, single target/Taken in classroom/near.png                      ",
+			"test_images/Unoccluded, two targets/CargoAngledDark48in.jpg                            ",
+			"test_images/Unoccluded, two targets/CargoStraightDark72in.jpg                          ",
+			"test_images/Unoccluded, two targets/CargoStraightDark90in.jpg                          ",
+			"test_images/Unoccluded, two targets/RocketPanelAngleDark48in.jpg                       ",
+			"test_images/Unoccluded, two targets/RocketPanelAngleDark60in.jpg                       ",
+			"test_images/Unoccluded, two targets/RocketPanelAngleDark84in.jpg                       ",
+		};
+
+		Scalar unfilteredContoursColor = new Scalar(0,0,255);
+		Scalar filteredContoursColor = new Scalar(255, 0, 0);
+		int lineWidth = 1;
+	
+		GripPipelineContoursFromTarget processor = new GripPipelineContoursFromTarget();
+		for (String file : filesToProcess) {
+			Mat img = Imgcodecs.imread(file);
+			processor.process(img);
+			List<MatOfPoint> filteredContours = processor.filterContoursOutput();
+			Imgproc.drawContours(img, filteredContours, -1, filteredContoursColor);
+
+			HighGui.imshow(file, img);
+			// System.out.println(file + " has " + processor.filterLines0Output().size() + " left side lines: " + processor.filterLines0Output());
+			// System.out.println(file + " has " + processor.filterLines1Output().size() + " right side lines: " + processor.filterLines1Output());
+		}
+		HighGui.waitKey(10);
+	}
 
 }
 
