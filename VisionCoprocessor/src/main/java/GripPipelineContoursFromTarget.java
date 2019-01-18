@@ -305,14 +305,19 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			double aspectRatio;
 			if(rect.size.height > rect.size.width) {
 				aspectRatio = rect.size.height / rect.size.width;
+				System.out.println("height > width");
 			} else {
 				aspectRatio = rect.size.width / rect.size.height;
+				System.out.println("height < width");
 			}
 			if(aspectRatio > maxAspectRatio || aspectRatio < minAspectRatio) { continue; }
 
 			// Sufficiently filled in?
 			final double cAreaToRArea = contourArea / rect.size.area();
 			if(cAreaToRArea < minSolidity) { continue; }
+			
+			System.out.println("Accepting rectangle with angle: " + rect.angle);
+			
 			output.add(rect);
 		}
 	}
