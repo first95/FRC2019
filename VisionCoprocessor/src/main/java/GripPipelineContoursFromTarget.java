@@ -283,8 +283,8 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	/**
 	 * 
 	 * @param inputContours
-	 * @param minSlantAngle
-	 * @param maxSlantAngle
+	 * @param minSlantAngle Minimum angle, along the longer axis of the rectangle
+	 * @param maxSlantAngle Maximum angle, along the longer axis of the rectangle
 	 * @param minAspectRatio minimum ratio of larger to smaller dimension - eg, a 1x3 rectangle has aspect ratio 3.
 	 * @param maxAspectRatio maximum ratio of larger to smaller dimension - eg, a 1x3 rectangle has aspect ratio 3.
 	 * @param minSolidity min fraction of the rectangle that is filled in by the contour
@@ -302,8 +302,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			RotatedRect rect = Imgproc.minAreaRect(contours_2f);
 
 			// Aspect ratio within range?
+			boolean heightIsLongAxis = rect.size.height > rect.size.width;
 			double aspectRatio;
-			if(rect.size.height > rect.size.width) {
+			if(heightIsLongAxis) {
 				aspectRatio = rect.size.height / rect.size.width;
 				System.out.println("height > width");
 			} else {
@@ -316,6 +317,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			final double cAreaToRArea = contourArea / rect.size.area();
 			if(cAreaToRArea < minSolidity) { continue; }
 			
+			if(heightIsLongAxis) {
+				
+			}
+
 			System.out.println("Accepting rectangle with angle: " + rect.angle);
 			
 			output.add(rect);
