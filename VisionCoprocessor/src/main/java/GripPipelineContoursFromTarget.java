@@ -1,5 +1,10 @@
+import java.awt.Robot;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -7,7 +12,9 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -30,7 +37,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	private Mat hsvThresholdOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
-
+	private List<RotatedRect> rotatedBoxen = new LinkedList<>();
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
@@ -72,6 +79,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		double filterContoursMaxRatio = 1.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
+
+		// Find rotated minimum-volume rectangles to fit all contours and filter on them
+		rotatedBoxen = new LinkedList<>();
+		filterBoxen(findContoursOutput, 0.0, 0.0, 0.0, 0.0, 0.0, rotatedBoxen);
 	}
 
 	/**
@@ -106,7 +117,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		return filterContoursOutput;
 	}
 
-
+	public List<RotatedRect> getFilteredBoxes() {
+		return rotatedBoxen;
+	}
 	/**
 	 * An indication of which type of filter to use for a blur.
 	 * Choices are BOX, GAUSSIAN, MEDIAN, and BILATERAL
@@ -258,10 +271,18 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			output.add(contour);
 		}
 
-		
+
 	}
 
-
+	private void filterBoxen(List<MatOfPoint> inputContours, double minSlantAngle, double maxSlantAngle,
+		double minAspectRatio, double maxAspectRatio, double minArea, List<RotatedRect> output) {
+		output.clear();
+		for (MatOfPoint contour : inputContours) {
+			MatOfPoint2f  contours_2f = new MatOfPoint2f( contour.toArray() );
+			RotatedRect rect = Imgproc.minAreaRect(contours_2f);
+			output.add(rect);
+		}
+	}
 
 	public static void main(String[] args) {
 		// System.out.println("Hello world!");
@@ -277,12 +298,12 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		// }
 
 		String[] filesToProcess = {
-			"test_images/Floor line/CargoAngledLine48in.jpg",
-			"test_images/Floor line/CargoLine16in.jpg                                               ",
-			"test_images/Floor line/CargoLine24in.jpg                                               ",
-			"test_images/Floor line/CargoLine36in.jpg                                               ",
-			"test_images/Floor line/CargoLine48in.jpg                                               ",
-			"test_images/Floor line/CargoLine60in.jpg                                               ",
+			// "test_images/Floor line/CargoAngledLine48in.jpg",
+			// "test_images/Floor line/CargoLine16in.jpg                                               ",
+			// "test_images/Floor line/CargoLine24in.jpg                                               ",
+			// "test_images/Floor line/CargoLine36in.jpg                                               ",
+			// "test_images/Floor line/CargoLine48in.jpg                                               ",
+			// "test_images/Floor line/CargoLine60in.jpg                                               ",
 			"test_images/Occluded, single target/LoadingAngle36in.jpg                               ",
 			"test_images/Occluded, single target/LoadingAngleDark36in.jpg                           ",
 			"test_images/Occluded, single target/LoadingAngleDark60in.jpg                           ",
@@ -323,14 +344,24 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 
 		Scalar unfilteredContoursColor = new Scalar(0,0,255);
 		Scalar filteredContoursColor = new Scalar(255, 0, 0);
+		Scalar filteredRectsColor = new Scalar(0, 255, 255);
 		int lineWidth = 1;
 	
 		GripPipelineContoursFromTarget processor = new GripPipelineContoursFromTarget();
 		for (String file : filesToProcess) {
 			Mat img = Imgcodecs.imread(file);
 			processor.process(img);
-			List<MatOfPoint> filteredContours = processor.filterContoursOutput();
-			Imgproc.drawContours(img, filteredContours, -1, filteredContoursColor);
+			Imgproc.drawContours(img, processor.findContoursOutput(), -1, unfilteredContoursColor);
+			Imgproc.drawContours(img, processor.filterContoursOutput(), -1, filteredContoursColor);
+			LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
+			for(RotatedRect rect : processor.getFilteredBoxes()) {
+				Point[] vertices = new Point[4];
+				rect.points(vertices);
+				// MatOfPoint2f mop2f = new MatOfPoint2f(vertices);
+				MatOfPoint mop = new MatOfPoint(vertices);
+				rotboxes.add(mop);
+			}
+			Imgproc.drawContours(img, rotboxes, -1, filteredRectsColor);
 
 			HighGui.imshow(file, img);
 			// System.out.println(file + " has " + processor.filterLines0Output().size() + " left side lines: " + processor.filterLines0Output());
