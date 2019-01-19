@@ -82,8 +82,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 
 		// Find rotated minimum-volume rectangles to fit all contours and filter on them
 		rotatedBoxen = new LinkedList<>();
-		double minAspectRatio  = 2.0;
-		double maxAspectRatio  = 5.0;
+		double nominalAspectRatio = 5.5 / 2.0; // From field drawings page 143, drawing GE-19126
+		double minAspectRatio  = nominalAspectRatio * 0.6;
+		double maxAspectRatio  = nominalAspectRatio * 1.5;
 		double minSolidity     = 0.75;
 		double minArea         = 100.0;
 		filterBoxen(findContoursOutput,  minAspectRatio, maxAspectRatio, minSolidity, minArea, rotatedBoxen);
@@ -303,8 +304,11 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			// (It seems black-box deterministic)
 			// So here we correct for that, making it so the width is always the narrow dimension.
 			// That is, the equation rect.size.height > rect.size.width should always hold.
-			if( rect.size.width < rect.size.height) {
+			if( rect.size.height < rect.size.width) {
 				rect = new RotatedRect(rect.center, new Size(rect.size.height, rect.size.width), (rect.angle - 90));
+				if (rect.angle < -180) {
+					rect.angle += 360;
+				}
 			}
 
 
@@ -312,15 +316,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			if(rect.size.area() < minArea) { continue; }
 
 			// Aspect ratio within range?
-			boolean heightIsLongAxis = rect.size.height > rect.size.width;
-			double aspectRatio;
-			if(heightIsLongAxis) {
-				aspectRatio = rect.size.height / rect.size.width;
-				System.out.println("height > width");
-			} else {
-				aspectRatio = rect.size.width / rect.size.height;
-				System.out.println("height < width");
-			}
+			double aspectRatio = rect.size.height / rect.size.width;
 			if(aspectRatio > maxAspectRatio || aspectRatio < minAspectRatio) { continue; }
 
 			// Sufficiently filled in?
@@ -330,6 +326,33 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			System.out.println("Accepting rectangle with angle: " + rect.angle);
 			
 			output.add(rect);
+		}
+	}
+
+	/**
+	 * 
+	 * In OpenCV images, note that positive X is measured rightward from the left side, and positive Y is
+	 * measured downward from the top.  Therefore, 0 degrees is straight rightward, and positive angles are
+	 * clockwise.
+	 * 
+	 * @param input a set of rectangles from minAreaRect that meet certain filtering criteria
+	 * @param nominalLeftSideAngle angle in OpenCV image convention at which we expect to see the stripe above the left side of the open hatches
+	 * @param nominalRightSideAngle angle in OpenCV image convention at which we expect to see the stripe above the left side of the open hatches
+	 * @param angleTolerance
+	 * @param leftSides the subset of input where the angle is within a range of nominalLeftSideAngle +/- angleTolerance
+	 * @param rightSides the subset of input where the angle is within a range of nominalRightSideAngle +/- angleTolerance
+	 */
+	private void classifyRectangles(List<RotatedRect> input,  
+		double nominalLeftSideAngle, double nominalRightSideAngle, double angleTolerance,
+		List<RotatedRect> leftSides,  List<RotatedRect> rightSides) {
+		leftSides.clear();
+		rightSides.clear();
+		for (RotatedRect rect : input) {
+			if(rect.angle >= (nominalLeftSideAngle - angleTolerance) && rect.angle <(nominalLeftSideAngle + angleTolerance)) {
+				leftSides.add(rect);
+			} else if(rect.angle >= (nominalRightSideAngle - angleTolerance) && rect.angle <(nominalRightSideAngle + angleTolerance)) {
+				rightSides.add(rect);
+			}		
 		}
 	}
 
