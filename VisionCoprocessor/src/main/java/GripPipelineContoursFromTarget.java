@@ -399,7 +399,8 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 				MatOfPoint mop = new MatOfPoint(vertices);
 				rotboxes.add(mop);
 				Integer angle = (int) rect.angle;
-				Imgproc.putText(img, angle.toString(), rect.center, Core.FONT_HERSHEY_SIMPLEX, 0.25, new Scalar(255,255,255));
+				Imgproc.putText(img, angle.toString(), rect.center, Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
+				Imgproc.putText(img, String.format("%.0fx%.0f", rect.size.width, rect.size.height), new Point(rect.center.x -20, rect.center.y + 50), Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
 			}
 			Imgproc.drawContours(img, rotboxes, -1, filteredRectsColor);
 
