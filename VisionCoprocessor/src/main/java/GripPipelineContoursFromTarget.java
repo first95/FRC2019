@@ -132,6 +132,13 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	public List<RotatedRect> getFilteredBoxes() {
 		return rotatedBoxen;
 	}
+
+	public List<RotatedRect> getClassifiedLeftStripes() {
+		return leftSideStripes;
+	}
+	public List<RotatedRect> getClassifiedRightStripes() {
+		return rightSideStripes;
+	}
 	/**
 	 * An indication of which type of filter to use for a blur.
 	 * Choices are BOX, GAUSSIAN, MEDIAN, and BILATERAL
@@ -424,26 +431,19 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		Scalar unfilteredContoursColor = new Scalar(0,0,255);
 		Scalar filteredContoursColor = new Scalar(255, 0, 0);
 		Scalar filteredRectsColor = new Scalar(0, 255, 255);
+		Scalar leftStripesColor = new Scalar(0, 255, 0);
+		Scalar rightStripesColor = new Scalar(0, 0, 255);
 		int lineWidth = 1;
 	
 		GripPipelineContoursFromTarget processor = new GripPipelineContoursFromTarget();
 		for (String file : filesToProcess) {
 			Mat img = Imgcodecs.imread(file);
 			processor.process(img);
-			Imgproc.drawContours(img, processor.findContoursOutput(), -1, unfilteredContoursColor);
-			Imgproc.drawContours(img, processor.filterContoursOutput(), -1, filteredContoursColor);
+			// Imgproc.drawContours(img, processor.findContoursOutput(), -1, unfilteredContoursColor);
+			// Imgproc.drawContours(img, processor.filterContoursOutput(), -1, filteredContoursColor);
 			LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
-			for(RotatedRect rect : processor.getFilteredBoxes()) {
-				Point[] vertices = new Point[4];
-				rect.points(vertices);
-				// MatOfPoint2f mop2f = new MatOfPoint2f(vertices);
-				MatOfPoint mop = new MatOfPoint(vertices);
-				rotboxes.add(mop);
-				Integer angle = (int) rect.angle;
-				Imgproc.putText(img, angle.toString(), rect.center, Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
-				Imgproc.putText(img, String.format("%.0fx%.0f", rect.size.width, rect.size.height), new Point(rect.center.x -20, rect.center.y + 50), Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
-			}
-			Imgproc.drawContours(img, rotboxes, -1, filteredRectsColor);
+			drawRotBoxes(img, processor.getClassifiedLeftStripes(), leftStripesColor);
+			drawRotBoxes(img, processor.getClassifiedRightStripes(), rightStripesColor);
 
 			HighGui.imshow(file, img);
 			// System.out.println(file + " has " + processor.filterLines0Output().size() + " left side lines: " + processor.filterLines0Output());
@@ -452,5 +452,20 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		HighGui.waitKey(10);
 	}
 
+	public static void drawRotBoxes(Mat img, List<RotatedRect> rects, Scalar color) {
+		LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
+		for(RotatedRect rect : rects) {
+			Point[] vertices = new Point[4];
+			rect.points(vertices);
+			// MatOfPoint2f mop2f = new MatOfPoint2f(vertices);
+			MatOfPoint mop = new MatOfPoint(vertices);
+			rotboxes.add(mop);
+			Integer angle = (int) rect.angle;
+			// Imgproc.putText(img, angle.toString(), rect.center, Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
+			// Imgproc.putText(img, String.format("%.0fx%.0f", rect.size.width, rect.size.height), new Point(rect.center.x -20, rect.center.y + 50), Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
+		}
+		Imgproc.drawContours(img, rotboxes, -1, color);
+
+	}
 }
 
