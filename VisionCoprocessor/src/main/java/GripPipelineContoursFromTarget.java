@@ -299,16 +299,16 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			RotatedRect rect = Imgproc.minAreaRect(contours_2f);
 
 			// The convention for angles coming from minAreaRect is a little odd.
-			// Angle is out off the "left" of the rectangle, where left is defined relative to the "width".
+			// Angle is out of the "top" of the rectangle, perpendicular to the long axis of the stripe.
 			// However, it's a little arbitrary whether the long or short side is mapped to the width vs the height.
 			// (It seems black-box deterministic)
 			// So here we correct for that, making it so the width is always the narrow dimension.
 			// That is, the equation rect.size.height > rect.size.width should always hold.
 			if( rect.size.height < rect.size.width) {
 				rect = new RotatedRect(rect.center, new Size(rect.size.height, rect.size.width), (rect.angle - 90));
-				if (rect.angle < -180) {
-					rect.angle += 360;
-				}
+			}
+			if (rect.angle < -180) {
+				rect.angle += 360;
 			}
 
 
