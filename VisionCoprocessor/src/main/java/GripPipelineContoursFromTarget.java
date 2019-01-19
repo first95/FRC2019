@@ -28,7 +28,30 @@ import edu.wpi.first.vision.VisionPipeline;
  * @author GRIP
  */
 public class GripPipelineContoursFromTarget implements VisionPipeline {
+	public class HatchVisionTarget {
+		public HatchVisionTarget(RotatedRect left, RotatedRect right) {
+			leftStripe = left;
+			rightStripe = right;
+		}
+		private RotatedRect leftStripe = null;
+		private RotatedRect rightStripe = null;
 
+		public double computeRangeInches() {
+			return 0; // TODO
+		}
+		public double computeBearingDegrees() {
+			return 0; // TODO
+		}
+		public double computeIncidentAngleDegrees() {
+			return 0; // TODO
+		}
+	}
+
+	// From field drawings page 143, drawing GE-19126
+	static final double STRIPE_LENGTH_IN = 5.5;
+	static final double STRIPE_WIDTH_IN = 2.0;
+	static final double STRIPE_TIP_SEPARATION_IN = 8.0;
+	static final double STRIPE_BOTTOM_KICKOUT_IN = 1.38;
 	//Outputs
 	private Mat blurOutput = new Mat();
 	private Mat hsvThresholdOutput = new Mat();
@@ -82,14 +105,14 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 
 		// Find rotated minimum-volume rectangles to fit all contours and filter on them
 		rotatedBoxen = new LinkedList<>();
-		final double nominalAspectRatio = 5.5 / 2.0; // From field drawings page 143, drawing GE-19126
+		final double nominalAspectRatio = STRIPE_LENGTH_IN / STRIPE_WIDTH_IN;
 		final double minAspectRatio  = nominalAspectRatio * 0.6;
 		final double maxAspectRatio  = nominalAspectRatio * 1.5;
 		final double minSolidity     = 0.75;
 		final double minArea         = 100.0;
 		filterBoxen(findContoursOutput,  minAspectRatio, maxAspectRatio, minSolidity, minArea, rotatedBoxen);
 
-		final double nominalAngleOffAxis = Math.toDegrees(Math.asin(1.38 / 5.5));
+		final double nominalAngleOffAxis = Math.toDegrees(Math.asin(STRIPE_BOTTOM_KICKOUT_IN / STRIPE_LENGTH_IN));
 		final double leftStripeNominalAngle = -180 + nominalAngleOffAxis;
 		final double rightStripeNominalAngle = -0 - nominalAngleOffAxis;
 		final double angleToleranceDeg = 10;
@@ -186,7 +209,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 * @param doubleRadius The radius for the blur.
 	 * @param output The image in which to store the output.
 	 */
-	private void blur(Mat input, BlurType type, double doubleRadius,
+	private static void blur(Mat input, BlurType type, double doubleRadius,
 		Mat output) {
 		int radius = (int)(doubleRadius + 0.5);
 		int kernelSize;
@@ -218,7 +241,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 * @param val The min and max value
 	 * @param output The image in which to store the output.
 	 */
-	private void hsvThreshold(Mat input, double[] hue, double[] sat, double[] val,
+	private static void hsvThreshold(Mat input, double[] hue, double[] sat, double[] val,
 	    Mat out) {
 		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2HSV);
 		Core.inRange(out, new Scalar(hue[0], sat[0], val[0]),
@@ -232,7 +255,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 * @param maskSize the size of the mask.
 	 * @param output The image in which to store the output.
 	 */
-	private void findContours(Mat input, boolean externalOnly,
+	private static void findContours(Mat input, boolean externalOnly,
 		List<MatOfPoint> contours) {
 		Mat hierarchy = new Mat();
 		contours.clear();
@@ -264,7 +287,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 * @param minRatio minimum ratio of width to height
 	 * @param maxRatio maximum ratio of width to height
 	 */
-	private void filterContours(List<MatOfPoint> inputContours, double minArea,
+	private static void filterContours(List<MatOfPoint> inputContours, double minArea,
 		double minPerimeter, double minWidth, double maxWidth, double minHeight, double
 		maxHeight, double[] solidity, double maxVertexCount, double minVertexCount, double
 		minRatio, double maxRatio, List<MatOfPoint> output) {
@@ -307,7 +330,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 * @param minArea minimum area, in square pixels
 	 * @param output
 	 */
-	private void filterBoxen(List<MatOfPoint> inputContours,
+	private static void filterBoxen(List<MatOfPoint> inputContours,
 		double minAspectRatio, double maxAspectRatio, double minSolidity, double minArea, List<RotatedRect> output) {
 		output.clear();
 		for (MatOfPoint contour : inputContours) {
@@ -361,7 +384,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 * @param leftSides the subset of input where the angle is within a range of nominalLeftSideAngle +/- angleTolerance
 	 * @param rightSides the subset of input where the angle is within a range of nominalRightSideAngle +/- angleTolerance
 	 */
-	private void classifyRectangles(List<RotatedRect> input,  
+	private static void classifyRectangles(List<RotatedRect> input,  
 		double nominalLeftSideAngle, double nominalRightSideAngle, double angleTolerance,
 		List<RotatedRect> leftSides,  List<RotatedRect> rightSides, List<RotatedRect> neitherSideStripes) {
 		leftSides.clear();
@@ -375,6 +398,36 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 				neitherSideStripes.add(rect);
 			}
 		}
+	}
+
+	public static List<HatchVisionTarget> findTargets(List<RotatedRect> leftSides,  List<RotatedRect> rightSides) {
+		LinkedList<HatchVisionTarget> targets = new LinkedList<HatchVisionTarget>();
+
+		// Maybe we should do this in inches?
+		final double VERTICAL_TOLERANCE_PIX = 5;
+		final double HORIZONAL_TOLERANCE_PIX = 5;
+		// For every left side stripe, see if you can find a matching right side stripe
+		for (RotatedRect leftStripe : leftSides) {
+			// Technically these aren't quite aligned with x or y but are 15 degrees off
+			double yPixPerInch = leftStripe.size.height / STRIPE_LENGTH_IN;
+			double xPixPerInch = leftStripe.size.width / STRIPE_WIDTH_IN;
+			double avgPixPerInch = (yPixPerInch + xPixPerInch) / 2.0;
+			// Right now we just assume the right stripe is vertically aligned with the left stripe
+			double centerXOffsetPix = (STRIPE_BOTTOM_KICKOUT_IN + STRIPE_TIP_SEPARATION_IN) * avgPixPerInch;
+
+			for(int i = 0; i < rightSides.size(); ++i) {
+				RotatedRect rightStripe = rightSides.get(i);
+				boolean verticalMatch = Math.abs(rightStripe.center.y - leftStripe.center.y) < VERTICAL_TOLERANCE_PIX;
+				boolean horizontalMatch =  Math.abs(rightStripe.center.x - leftStripe.center.x - centerXOffsetPix) < VERTICAL_TOLERANCE_PIX;;
+				if(horizontalMatch && verticalMatch) {
+					rightSides.remove(i);
+					i--;
+					break;
+				}
+			}
+		}
+
+		return targets;
 	}
 
 	public static void main(String[] args) {
