@@ -82,13 +82,11 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 
 		// Find rotated minimum-volume rectangles to fit all contours and filter on them
 		rotatedBoxen = new LinkedList<>();
-		double minSlantAngle   = 0.0;
-		double maxSlantAngle   = 0.0;
 		double minAspectRatio  = 2.0;
 		double maxAspectRatio  = 5.0;
 		double minSolidity     = 0.75;
-		double minArea         = 0.0;
-		filterBoxen(findContoursOutput, 0.0, 0.0, minAspectRatio, maxAspectRatio, minSolidity, minArea, rotatedBoxen);
+		double minArea         = 100.0;
+		filterBoxen(findContoursOutput,  minAspectRatio, maxAspectRatio, minSolidity, minArea, rotatedBoxen);
 	}
 
 	/**
@@ -283,15 +281,13 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	/**
 	 * 
 	 * @param inputContours
-	 * @param minSlantAngle Minimum angle, along the longer axis of the rectangle
-	 * @param maxSlantAngle Maximum angle, along the longer axis of the rectangle
 	 * @param minAspectRatio minimum ratio of larger to smaller dimension - eg, a 1x3 rectangle has aspect ratio 3.
 	 * @param maxAspectRatio maximum ratio of larger to smaller dimension - eg, a 1x3 rectangle has aspect ratio 3.
 	 * @param minSolidity min fraction of the rectangle that is filled in by the contour
-	 * @param minArea
+	 * @param minArea minimum area, in square pixels
 	 * @param output
 	 */
-	private void filterBoxen(List<MatOfPoint> inputContours, double minSlantAngle, double maxSlantAngle,
+	private void filterBoxen(List<MatOfPoint> inputContours,
 		double minAspectRatio, double maxAspectRatio, double minSolidity, double minArea, List<RotatedRect> output) {
 		output.clear();
 		for (MatOfPoint contour : inputContours) {
@@ -300,6 +296,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			// Compute rectangle of tightest fit
 			MatOfPoint2f  contours_2f = new MatOfPoint2f( contour.toArray() );
 			RotatedRect rect = Imgproc.minAreaRect(contours_2f);
+
+			// Big enough to be worked with?
+			if(rect.size.area() < minArea) { continue; }
 
 			// Aspect ratio within range?
 			boolean heightIsLongAxis = rect.size.height > rect.size.width;
@@ -316,10 +315,6 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			// Sufficiently filled in?
 			final double cAreaToRArea = contourArea / rect.size.area();
 			if(cAreaToRArea < minSolidity) { continue; }
-			
-			if(heightIsLongAxis) {
-				
-			}
 
 			System.out.println("Accepting rectangle with angle: " + rect.angle);
 			
