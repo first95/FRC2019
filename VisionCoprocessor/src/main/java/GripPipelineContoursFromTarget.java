@@ -35,6 +35,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 	private List<RotatedRect> rotatedBoxen = new LinkedList<>();
+	private List<RotatedRect> neitherSideStripes = new LinkedList<>();
 	private List<RotatedRect> leftSideStripes = new LinkedList<>();
 	private List<RotatedRect> rightSideStripes = new LinkedList<>();
 	static {
@@ -92,9 +93,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		final double leftStripeNominalAngle = -180 + nominalAngleOffAxis;
 		final double rightStripeNominalAngle = -0 - nominalAngleOffAxis;
 		final double angleToleranceDeg = 10;
+		neitherSideStripes = new LinkedList<>();
 		leftSideStripes = new LinkedList<>();
 		rightSideStripes = new LinkedList<>();
-		classifyRectangles(rotatedBoxen, leftStripeNominalAngle, rightStripeNominalAngle, angleToleranceDeg, leftSideStripes, rightSideStripes);
+		classifyRectangles(rotatedBoxen, leftStripeNominalAngle, rightStripeNominalAngle, angleToleranceDeg, leftSideStripes, rightSideStripes, neitherSideStripes);
 	}
 
 	/**
@@ -138,6 +140,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	}
 	public List<RotatedRect> getClassifiedRightStripes() {
 		return rightSideStripes;
+	}
+	public List<RotatedRect> getUnclassifiedStripes() {
+		return neitherSideStripes;
 	}
 	/**
 	 * An indication of which type of filter to use for a blur.
@@ -358,7 +363,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 */
 	private void classifyRectangles(List<RotatedRect> input,  
 		double nominalLeftSideAngle, double nominalRightSideAngle, double angleTolerance,
-		List<RotatedRect> leftSides,  List<RotatedRect> rightSides) {
+		List<RotatedRect> leftSides,  List<RotatedRect> rightSides, List<RotatedRect> neitherSideStripes) {
 		leftSides.clear();
 		rightSides.clear();
 		for (RotatedRect rect : input) {
@@ -366,30 +371,21 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 				leftSides.add(rect);
 			} else if(rect.angle >= (nominalRightSideAngle - angleTolerance) && rect.angle <(nominalRightSideAngle + angleTolerance)) {
 				rightSides.add(rect);
-			}		
+			} else {
+				neitherSideStripes.add(rect);
+			}
 		}
 	}
 
 	public static void main(String[] args) {
-		// System.out.println("Hello world!");
-		// FileOutputStream fs;
-		// try {
-		// 	fs = new FileOutputStream("temp.txt");
-		// 	fs.write("hello".getBytes());
-		// 	fs.close();	
-		// } catch (FileNotFoundException e) {
-		// 	e.printStackTrace();
-		// } catch (IOException e) {
-		// 	e.printStackTrace();
-		// }
 
 		String[] filesToProcess = {
-			// "test_images/Floor line/CargoAngledLine48in.jpg",
-			// "test_images/Floor line/CargoLine16in.jpg                                               ",
-			// "test_images/Floor line/CargoLine24in.jpg                                               ",
-			// "test_images/Floor line/CargoLine36in.jpg                                               ",
-			// "test_images/Floor line/CargoLine48in.jpg                                               ",
-			// "test_images/Floor line/CargoLine60in.jpg                                               ",
+			"test_images/Floor line/CargoAngledLine48in.jpg",
+			"test_images/Floor line/CargoLine16in.jpg                                               ",
+			"test_images/Floor line/CargoLine24in.jpg                                               ",
+			"test_images/Floor line/CargoLine36in.jpg                                               ",
+			"test_images/Floor line/CargoLine48in.jpg                                               ",
+			"test_images/Floor line/CargoLine60in.jpg                                               ",
 			"test_images/Occluded, single target/LoadingAngle36in.jpg                               ",
 			"test_images/Occluded, single target/LoadingAngleDark36in.jpg                           ",
 			"test_images/Occluded, single target/LoadingAngleDark60in.jpg                           ",
@@ -442,8 +438,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			// Imgproc.drawContours(img, processor.findContoursOutput(), -1, unfilteredContoursColor);
 			// Imgproc.drawContours(img, processor.filterContoursOutput(), -1, filteredContoursColor);
 			LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
-			drawRotBoxes(img, processor.getClassifiedLeftStripes(), leftStripesColor);
-			drawRotBoxes(img, processor.getClassifiedRightStripes(), rightStripesColor);
+			drawRotBoxes(img, processor.getUnclassifiedStripes(), filteredRectsColor, true);
+			drawRotBoxes(img, processor.getClassifiedLeftStripes(), leftStripesColor, false);
+			drawRotBoxes(img, processor.getClassifiedRightStripes(), rightStripesColor, false);
 
 			HighGui.imshow(file, img);
 			// System.out.println(file + " has " + processor.filterLines0Output().size() + " left side lines: " + processor.filterLines0Output());
@@ -452,7 +449,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		HighGui.waitKey(10);
 	}
 
-	public static void drawRotBoxes(Mat img, List<RotatedRect> rects, Scalar color) {
+	public static void drawRotBoxes(Mat img, List<RotatedRect> rects, Scalar color, boolean annotate) {
 		LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
 		for(RotatedRect rect : rects) {
 			Point[] vertices = new Point[4];
@@ -461,8 +458,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			MatOfPoint mop = new MatOfPoint(vertices);
 			rotboxes.add(mop);
 			Integer angle = (int) rect.angle;
-			// Imgproc.putText(img, angle.toString(), rect.center, Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
-			// Imgproc.putText(img, String.format("%.0fx%.0f", rect.size.width, rect.size.height), new Point(rect.center.x -20, rect.center.y + 50), Core.FONT_HERSHEY_SIMPLEX, 0.5, new Scalar(255,255,255));
+			if(annotate) {
+				Imgproc.putText(img, angle.toString(), rect.center, Core.FONT_HERSHEY_SIMPLEX, 0.5, color);
+				Imgproc.putText(img, String.format("%.0fx%.0f", rect.size.width, rect.size.height), new Point(rect.center.x -20, rect.center.y + 50), Core.FONT_HERSHEY_SIMPLEX, 0.5, color);
+			}
 		}
 		Imgproc.drawContours(img, rotboxes, -1, color);
 
