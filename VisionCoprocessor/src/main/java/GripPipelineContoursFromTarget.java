@@ -442,9 +442,8 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	public static List<HatchVisionTarget> findTargets(List<RotatedRect> leftSides,  List<RotatedRect> rightSides) {
 		LinkedList<HatchVisionTarget> targets = new LinkedList<HatchVisionTarget>();
 
-		// Maybe we should do this in inches?
-		final double VERTICAL_TOLERANCE_PIX = 5;
-		final double HORIZONAL_TOLERANCE_PIX = 5;
+		final double VERTICAL_TOLERANCE_IN = STRIPE_LENGTH_IN * 0.25;
+		final double HORIZONAL_TOLERANCE_IN = STRIPE_WIDTH_IN * 0.5;
 		// For every left side stripe, see if you can find a matching right side stripe
 		for (RotatedRect leftStripe : leftSides) {
 			// Technically these aren't quite aligned with x or y but are 15 degrees off
@@ -456,8 +455,8 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 
 			for(int i = 0; i < rightSides.size(); ++i) {
 				RotatedRect rightStripe = rightSides.get(i);
-				boolean verticalMatch = Math.abs(rightStripe.center.y - leftStripe.center.y) < VERTICAL_TOLERANCE_PIX;
-				boolean horizontalMatch =  Math.abs(rightStripe.center.x - leftStripe.center.x - centerXOffsetPix) < VERTICAL_TOLERANCE_PIX;;
+				boolean verticalMatch = Math.abs(rightStripe.center.y - leftStripe.center.y) < (VERTICAL_TOLERANCE_IN * avgPixPerInch);
+				boolean horizontalMatch =  Math.abs(rightStripe.center.x - leftStripe.center.x - centerXOffsetPix) < (HORIZONAL_TOLERANCE_IN * avgPixPerInch);
 				if(horizontalMatch && verticalMatch) {
 					HatchVisionTarget hvt = new HatchVisionTarget(leftStripe, rightStripe);
 					targets.add(hvt);
