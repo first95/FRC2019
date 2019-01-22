@@ -28,13 +28,17 @@ import edu.wpi.first.vision.VisionPipeline;
  * @author GRIP
  */
 public class GripPipelineContoursFromTarget implements VisionPipeline {
-	public class HatchVisionTarget {
+	public static class HatchVisionTarget {
 		public HatchVisionTarget(RotatedRect left, RotatedRect right) {
 			leftStripe = left;
 			rightStripe = right;
 		}
 		private RotatedRect leftStripe = null;
 		private RotatedRect rightStripe = null;
+
+		public Point centerPoint() {
+			return new Point((leftStripe.center.x + rightStripe.center.x) / 2.0, (leftStripe.center.y + rightStripe.center.y) / 2.0);
+		}
 
 		public double computeRangeInches() {
 			return 0; // TODO
@@ -44,6 +48,20 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		}
 		public double computeIncidentAngleDegrees() {
 			return 0; // TODO
+		}
+
+		public void drawOn(Mat img) {
+			drawOn(img, new Scalar(255,255,255));
+		}
+		public void drawOn(Mat img, Scalar color) {
+			LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
+			rotboxes.add(rrToMop(leftStripe));
+			rotboxes.add(rrToMop(rightStripe));
+			Imgproc.drawContours(img, rotboxes, -1, color);
+			Imgproc.line(img, leftStripe.center, rightStripe.center, color);
+			double avgHeight = (leftStripe.size.height + rightStripe.size.height) / 2.0;
+			Imgproc.line(img, new Point(centerPoint().x, centerPoint().y - (avgHeight / 2.0)), 
+			                  new Point(centerPoint().x, centerPoint().y + (avgHeight / 2.0)), color);
 		}
 	}
 
@@ -61,8 +79,22 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	private List<RotatedRect> neitherSideStripes = new LinkedList<>();
 	private List<RotatedRect> leftSideStripes = new LinkedList<>();
 	private List<RotatedRect> rightSideStripes = new LinkedList<>();
+	private List<HatchVisionTarget> detectedTargets = new LinkedList<>();
+
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	}
+
+	/**
+	 * Convert an OpenCV RotatedRect object, which we can't draw,
+	 * to an MatOfPoint object, which we can.
+	 * @param rect the rectangle to convert
+	 * @return a copy of the rectangle, represented as a MatOfPoint
+	 */
+	public static MatOfPoint rrToMop(RotatedRect rect) {
+		Point[] vertices = new Point[4];
+		rect.points(vertices);
+		return new MatOfPoint(vertices);
 	}
 
 	/**
@@ -120,6 +152,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		leftSideStripes = new LinkedList<>();
 		rightSideStripes = new LinkedList<>();
 		classifyRectangles(rotatedBoxen, leftStripeNominalAngle, rightStripeNominalAngle, angleToleranceDeg, leftSideStripes, rightSideStripes, neitherSideStripes);
+
+
+		detectedTargets = findTargets(leftSideStripes, rightSideStripes);
 	}
 
 	/**
@@ -166,6 +201,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	}
 	public List<RotatedRect> getUnclassifiedStripes() {
 		return neitherSideStripes;
+	}
+
+	public List<HatchVisionTarget> getDetectedTargets() {
+		return detectedTargets;
 	}
 	/**
 	 * An indication of which type of filter to use for a blur.
@@ -420,8 +459,14 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 				boolean verticalMatch = Math.abs(rightStripe.center.y - leftStripe.center.y) < VERTICAL_TOLERANCE_PIX;
 				boolean horizontalMatch =  Math.abs(rightStripe.center.x - leftStripe.center.x - centerXOffsetPix) < VERTICAL_TOLERANCE_PIX;;
 				if(horizontalMatch && verticalMatch) {
+					HatchVisionTarget hvt = new HatchVisionTarget(leftStripe, rightStripe);
+					targets.add(hvt);
+
+					// Remove right stripe from future consideration
 					rightSides.remove(i);
 					i--;
+
+					// Conclude our checks for this left stripe
 					break;
 				}
 			}
@@ -495,6 +540,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			drawRotBoxes(img, processor.getClassifiedLeftStripes(), leftStripesColor, false);
 			drawRotBoxes(img, processor.getClassifiedRightStripes(), rightStripesColor, false);
 
+			for(HatchVisionTarget hvt : processor.getDetectedTargets()) {
+				hvt.drawOn(img);
+			}
+
 			HighGui.imshow(file, img);
 			// System.out.println(file + " has " + processor.filterLines0Output().size() + " left side lines: " + processor.filterLines0Output());
 			// System.out.println(file + " has " + processor.filterLines1Output().size() + " right side lines: " + processor.filterLines1Output());
@@ -505,11 +554,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	public static void drawRotBoxes(Mat img, List<RotatedRect> rects, Scalar color, boolean annotate) {
 		LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
 		for(RotatedRect rect : rects) {
-			Point[] vertices = new Point[4];
-			rect.points(vertices);
-			// MatOfPoint2f mop2f = new MatOfPoint2f(vertices);
-			MatOfPoint mop = new MatOfPoint(vertices);
-			rotboxes.add(mop);
+			rotboxes.add(rrToMop(rect));
 			Integer angle = (int) rect.angle;
 			if(annotate) {
 				Imgproc.putText(img, angle.toString(), rect.center, Core.FONT_HERSHEY_SIMPLEX, 0.5, color);
