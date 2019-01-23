@@ -145,13 +145,15 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		filterBoxen(findContoursOutput,  minAspectRatio, maxAspectRatio, minSolidity, minArea, rotatedBoxen);
 
 		final double nominalAngleOffAxis = Math.toDegrees(Math.asin(STRIPE_BOTTOM_KICKOUT_IN / STRIPE_LENGTH_IN));
-		final double leftStripeNominalAngle = -180 + nominalAngleOffAxis;
-		final double rightStripeNominalAngle = -0 - nominalAngleOffAxis;
-		final double angleToleranceDeg = 10;
+		final double leftStripeNominalAngle = -180 + nominalAngleOffAxis; // -165ish
+		final double rightStripeNominalAngle = -0 - nominalAngleOffAxis; // -15ish
+		final double angleToleranceDegVert = 10; // Angle tolerance, when rotating the stripe to be more vertical
+		final double angleToleranceDegHorz = 20; // Angle tolerance, when rotating the stripe to be more horizontal
 		neitherSideStripes = new LinkedList<>();
 		leftSideStripes = new LinkedList<>();
 		rightSideStripes = new LinkedList<>();
-		classifyRectangles(rotatedBoxen, leftStripeNominalAngle, rightStripeNominalAngle, angleToleranceDeg, leftSideStripes, rightSideStripes, neitherSideStripes);
+		classifyRectangles(rotatedBoxen, leftStripeNominalAngle - angleToleranceDegVert, leftStripeNominalAngle + angleToleranceDegHorz,
+		  rightStripeNominalAngle - angleToleranceDegHorz, rightStripeNominalAngle + angleToleranceDegVert, leftSideStripes, rightSideStripes, neitherSideStripes);
 
 
 		detectedTargets = findTargets(leftSideStripes, rightSideStripes);
@@ -424,14 +426,14 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 	 * @param rightSides the subset of input where the angle is within a range of nominalRightSideAngle +/- angleTolerance
 	 */
 	private static void classifyRectangles(List<RotatedRect> input,  
-		double nominalLeftSideAngle, double nominalRightSideAngle, double angleTolerance,
+		double minLeftSideAngle, double maxLeftSideAngle, double minRightSideAngle, double maxRightSideAngle,
 		List<RotatedRect> leftSides,  List<RotatedRect> rightSides, List<RotatedRect> neitherSideStripes) {
 		leftSides.clear();
 		rightSides.clear();
 		for (RotatedRect rect : input) {
-			if(rect.angle >= (nominalLeftSideAngle - angleTolerance) && rect.angle <(nominalLeftSideAngle + angleTolerance)) {
+			if(rect.angle >= minLeftSideAngle && rect.angle < maxLeftSideAngle) {
 				leftSides.add(rect);
-			} else if(rect.angle >= (nominalRightSideAngle - angleTolerance) && rect.angle <(nominalRightSideAngle + angleTolerance)) {
+			} else if(rect.angle >= minRightSideAngle && rect.angle < maxRightSideAngle) {
 				rightSides.add(rect);
 			} else {
 				neitherSideStripes.add(rect);
