@@ -40,8 +40,17 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			return new Point((leftStripe.center.x + rightStripe.center.x) / 2.0, (leftStripe.center.y + rightStripe.center.y) / 2.0);
 		}
 
-		public double computeRangeInches() {
-			return 0; // TODO
+		public double computePixelsPerInch() {
+			// Compute 3 known dimensions in pixels and compare them against their known dimensions in inches.
+			double yPixPerInch = (leftStripe.size.height + rightStripe.size.height) / (2.0 * STRIPE_LENGTH_IN);
+			double xPixPerInch = (leftStripe.size.width  + rightStripe.size.width) / (2.0 * STRIPE_WIDTH_IN);
+			double distPixPerInch = (rightStripe.center.x - leftStripe.center.x) / (STRIPE_TIP_SEPARATION_IN + STRIPE_BOTTOM_KICKOUT_IN);
+			// Then average them all together
+			return (yPixPerInch + xPixPerInch + distPixPerInch) / 3.0;
+		}
+
+		public double computeRangeInches(int imageWidthPx, double cameraFovWidthDeg) {
+			return 0;
 		}
 		public double computeBearingDegrees() {
 			return 0; // TODO
@@ -406,7 +415,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			final double cAreaToRArea = contourArea / rect.size.area();
 			if(cAreaToRArea < minSolidity) { continue; }
 
-			System.out.println("Accepting rectangle with angle: " + rect.angle);
+			//System.out.println("Accepting rectangle with angle: " + rect.angle);
 			
 			output.add(rect);
 		}
