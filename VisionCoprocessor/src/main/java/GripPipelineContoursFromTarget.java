@@ -50,7 +50,14 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		}
 
 		public double computeRangeInches(int imageWidthPx, double cameraFovWidthDeg) {
-			return 0;
+			// Ignore the effects of lens distortion
+			double degreesPerPixel = cameraFovWidthDeg / imageWidthPx;
+			
+			double angularWidthOfTarget = Math.toRadians(rightStripe.center.x * degreesPerPixel - leftStripe.center.x * degreesPerPixel);
+			// Ignore the effects of any nonzero incident angle for now
+			double range = (((STRIPE_TIP_SEPARATION_IN + STRIPE_BOTTOM_KICKOUT_IN)/2.0) / Math.sin(angularWidthOfTarget / 2.0));
+
+			return range;
 		}
 		public double computeBearingDegrees() {
 			return 0; // TODO
@@ -74,6 +81,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		}
 	}
 
+	static final double CAMERA_FOV_WIDTH_DEG = 61;//https://www.chiefdelphi.com/t/what-are-the-view-angles-of-the-microsoft-lifecam-hd-3000/149360
 	// From field drawings page 143, drawing GE-19126
 	static final double STRIPE_LENGTH_IN = 5.5;
 	static final double STRIPE_WIDTH_IN = 2.0;
@@ -552,6 +560,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 
 			for(HatchVisionTarget hvt : processor.getDetectedTargets()) {
 				hvt.drawOn(img);
+				System.out.println(file + " contains target at range " + hvt.computeRangeInches(img.width(), CAMERA_FOV_WIDTH_DEG));
 			}
 
 			HighGui.imshow(file, img);
