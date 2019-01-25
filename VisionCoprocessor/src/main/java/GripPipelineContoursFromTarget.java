@@ -40,6 +40,11 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			return new Point((leftStripe.center.x + rightStripe.center.x) / 2.0, (leftStripe.center.y + rightStripe.center.y) / 2.0);
 		}
 
+		private double computeDegPerPix(int imageWidthPx, double cameraFovWidthDeg) {
+			// Ignore the effects of lens distortion
+			return cameraFovWidthDeg / imageWidthPx;
+		}
+
 		public double computePixelsPerInch() {
 			// Compute 3 known dimensions in pixels and compare them against their known dimensions in inches.
 			double yPixPerInch = (leftStripe.size.height + rightStripe.size.height) / (2.0 * STRIPE_LENGTH_IN);
@@ -50,8 +55,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		}
 
 		public double computeRangeInches(int imageWidthPx, double cameraFovWidthDeg) {
-			// Ignore the effects of lens distortion
-			double degreesPerPixel = cameraFovWidthDeg / imageWidthPx;
+			double degreesPerPixel = computeDegPerPix(imageWidthPx, cameraFovWidthDeg);
 			
 			double angularWidthOfTarget = Math.toRadians(rightStripe.center.x * degreesPerPixel - leftStripe.center.x * degreesPerPixel);
 			// Ignore the effects of any nonzero incident angle for now
@@ -59,8 +63,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 
 			return range;
 		}
-		public double computeBearingDegrees() {
-			return 0; // TODO
+		public double computeBearingDegrees(int imageWidthPx, double cameraFovWidthDeg) {
+			double degreesPerPixel = computeDegPerPix(imageWidthPx, cameraFovWidthDeg);
+
+			return (((leftStripe.center.x + rightStripe.center.x) / 2.0) - (imageWidthPx / 2 )) * degreesPerPixel;
 		}
 		public double computeIncidentAngleDegrees() {
 			return 0; // TODO
@@ -77,7 +83,10 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			Imgproc.line(img, leftStripe.center, rightStripe.center, color);
 			double avgHeight = (leftStripe.size.height + rightStripe.size.height) / 2.0;
 			Imgproc.line(img, new Point(centerPoint().x, centerPoint().y - (avgHeight / 2.0)), 
-			                  new Point(centerPoint().x, centerPoint().y + (avgHeight / 2.0)), color);
+							  new Point(centerPoint().x, centerPoint().y + (avgHeight / 2.0)), color);
+			double range = computeRangeInches(img.width(), CAMERA_FOV_WIDTH_DEG);
+			double bearing = computeBearingDegrees(img.width(), CAMERA_FOV_WIDTH_DEG);
+			Imgproc.putText(img, String.format("%3.0f\"@%3.0fd", range, bearing), new Point(centerPoint().x - 44, centerPoint().y + (avgHeight / 2.0) + 15), Core.FONT_HERSHEY_SIMPLEX, 0.5, color);
 		}
 	}
 
@@ -554,9 +563,9 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 			// Imgproc.drawContours(img, processor.findContoursOutput(), -1, unfilteredContoursColor);
 			// Imgproc.drawContours(img, processor.filterContoursOutput(), -1, filteredContoursColor);
 			LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
-			drawRotBoxes(img, processor.getUnclassifiedStripes(), filteredRectsColor, true);
-			drawRotBoxes(img, processor.getClassifiedLeftStripes(), leftStripesColor, false);
-			drawRotBoxes(img, processor.getClassifiedRightStripes(), rightStripesColor, false);
+			// drawRotBoxes(img, processor.getUnclassifiedStripes(), filteredRectsColor, true);
+			// drawRotBoxes(img, processor.getClassifiedLeftStripes(), leftStripesColor, false);
+			// drawRotBoxes(img, processor.getClassifiedRightStripes(), rightStripesColor, false);
 
 			for(HatchVisionTarget hvt : processor.getDetectedTargets()) {
 				hvt.drawOn(img);
