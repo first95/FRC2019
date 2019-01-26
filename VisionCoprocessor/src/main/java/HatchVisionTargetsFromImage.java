@@ -68,9 +68,6 @@ public class HatchVisionTargetsFromImage implements VisionPipeline {
 
 			return (((leftStripe.center.x + rightStripe.center.x) / 2.0) - (imageWidthPx / 2 )) * degreesPerPixel;
 		}
-		public double computeIncidentAngleDegrees() {
-			return 0; // TODO
-		}
 
 		public void drawOn(Mat img) {
 			drawOn(img, new Scalar(255,255,255));
@@ -548,24 +545,11 @@ public class HatchVisionTargetsFromImage implements VisionPipeline {
 			"test_images/Unoccluded, two targets/RocketPanelAngleDark60in.jpg                       ",
 			"test_images/Unoccluded, two targets/RocketPanelAngleDark84in.jpg                       ",
 		};
-
-		Scalar unfilteredContoursColor = new Scalar(0,0,255);
-		Scalar filteredContoursColor = new Scalar(255, 0, 0);
-		Scalar filteredRectsColor = new Scalar(0, 255, 255);
-		Scalar leftStripesColor = new Scalar(0, 255, 0);
-		Scalar rightStripesColor = new Scalar(0, 0, 255);
-		int lineWidth = 1;
 	
 		HatchVisionTargetsFromImage processor = new HatchVisionTargetsFromImage();
 		for (String file : filesToProcess) {
 			Mat img = Imgcodecs.imread(file);
 			processor.process(img);
-			// Imgproc.drawContours(img, processor.findContoursOutput(), -1, unfilteredContoursColor);
-			// Imgproc.drawContours(img, processor.filterContoursOutput(), -1, filteredContoursColor);
-			LinkedList<MatOfPoint> rotboxes = new LinkedList<>();
-			// drawRotBoxes(img, processor.getUnclassifiedStripes(), filteredRectsColor, true);
-			// drawRotBoxes(img, processor.getClassifiedLeftStripes(), leftStripesColor, false);
-			// drawRotBoxes(img, processor.getClassifiedRightStripes(), rightStripesColor, false);
 
 			for(HatchVisionTarget hvt : processor.getDetectedTargets()) {
 				hvt.drawOn(img);
