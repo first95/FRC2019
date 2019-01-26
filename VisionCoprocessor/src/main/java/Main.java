@@ -22,10 +22,7 @@ import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
-
-import org.opencv.core.Mat;
 
 /*
    JSON format:
@@ -176,19 +173,6 @@ public final class Main {
     camera.setConfigJson(gson.toJson(config.config));
 
     return camera;
-  }
-
-  /**
-   * Example pipeline.
-   */
-  public static class MyPipeline implements VisionPipeline {
-    public int val;
-
-    @Override
-    public void process(Mat mat) {
-      
-      val += 1;
-    }
   }
 
   /**
