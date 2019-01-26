@@ -38,7 +38,6 @@ public class Robot extends IterativeRobot {
 	 * plate in all of these cases.
 	 */
 	private StartPosition robotStartSide; // The location where the robot began
-	private String gameData;
 	private Command autonomousCommand;
 
 	// Components of the robot
@@ -73,29 +72,13 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		
-		int maxTime_sec = 8;
-		double startTime_sec = Timer.getFPGATimestamp();
-		double elapTime_sec = Timer.getFPGATimestamp() - startTime_sec;
-		gameData = "";
-		while ((gameData.length() < 3) & (elapTime_sec < maxTime_sec)) {
-			gameData = DriverStation.getInstance().getGameSpecificMessage();
-			elapTime_sec = Timer.getFPGATimestamp() - startTime_sec;
-		}
-		if (gameData == "") {
-			gameData = "UUU";
-		} else {
-			System.out.println("Time to get game data was "+elapTime_sec+" seconds.");
-		}
-		System.out.println("Plate assignments are " + gameData);
 
 		robotStartSide = oi.getRobotStartPosition();
 		System.out.println("Robot start side: " + robotStartSide);
-		System.out.println("The " + getWhichSideOfTheNearSwitchIsOurColor() + " side of the near switch is our color.");
-		System.out.println("The " + getWhichSideOfTheScaleIsOurColor() + " side of the scale is our color.");
-		System.out.println("The " + getWhichSideOfTheFarSwitchIsOurColor() + " side of the far switch is our color.");
 		
-		autonomousCommand = oi.getSelectedCommand(getWhichSideOfTheNearSwitchIsOurColor(), getWhichSideOfTheScaleIsOurColor());
+		// Setup autonomous command selection not based off switch and scale colors
+		//autonomousCommand = oi.getSelectedCommand(getWhichSideOfTheNearSwitchIsOurColor(), getWhichSideOfTheScaleIsOurColor());
+		
 		autonomousCommand.start();
 	}
 
@@ -187,28 +170,5 @@ public class Robot extends IterativeRobot {
 
 	public Robot.StartPosition getRobotStartSide() {
 		return robotStartSide;
-	}
-	
-	private FieldSide sideFromChar(char side) {
-		if(side == 'L') {
-			return FieldSide.LEFT;
-		} else if(side == 'R') {
-			return FieldSide.RIGHT;
-		} else {
-			return FieldSide.UNKNOWN;
-		}
-	}
-	
-	// The side of the near switch that belongs to us
-	public  FieldSide getWhichSideOfTheNearSwitchIsOurColor() {
-		return sideFromChar(gameData.charAt(0));
-	}
-	// The side of the scale that belongs to us
-	public  FieldSide getWhichSideOfTheScaleIsOurColor() {
-		return sideFromChar(gameData.charAt(1));
-	}
-	// The side of the far  switch that belongs to us
-	public  FieldSide getWhichSideOfTheFarSwitchIsOurColor() {
-		return sideFromChar(gameData.charAt(2));
 	}
 }

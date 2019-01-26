@@ -58,10 +58,9 @@ public class OI {
 
 	// Setup choosers for automoves
 	SendableChooser<StartPosition> robotStartingPosition = new SendableChooser<>();
-	MutableSendableChooser<Command> moveSwitchLScaleL = new MutableSendableChooser<>();
-	MutableSendableChooser<Command> moveSwitchLScaleR = new MutableSendableChooser<>();
-	MutableSendableChooser<Command> moveSwitchRScaleL = new MutableSendableChooser<>();
-	MutableSendableChooser<Command> moveSwitchRScaleR = new MutableSendableChooser<>();
+	MutableSendableChooser<Command> selectionOne = new MutableSendableChooser<>();
+	MutableSendableChooser<Command> selectionTwo = new MutableSendableChooser<>();
+	MutableSendableChooser<Command> selectionThree = new MutableSendableChooser<>();
 
 	// The position that was selected last iteration
 	StartPosition lastSelectedPosition = null; 
@@ -75,29 +74,28 @@ public class OI {
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
+		// Rotations
 		SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
 		// SmartDashboard.putData("Pivot 90 degrees CCW", new Pivot(-90));
-	
 		// SmartDashboard.putData("Pivot 180 degrees CW", new Pivot(180));
 		// SmartDashboard.putData("Pivot 180 degrees CCW", new Pivot(-180));
-		
 		// SmartDashboard.putData("Pivot 360 degrees CW", new Pivot(360));
 		// SmartDashboard.putData("Pivot 360 degrees CCW", new Pivot(-360));
 
+		// Forward and Backwards
 		// SmartDashboard.putData("One Foot Forward", new DriveStraight(12));
 		// SmartDashboard.putData("Two Feet Forward", new DriveStraight(24));
 		// SmartDashboard.putData("Three Feet Forward", new DriveStraight(36));
 		// SmartDashboard.putData("Six Feet Forward", new DriveStraight(12*6));
-		
 		// SmartDashboard.putData("One Foot Backward", new DriveStraight(-12));
 		// SmartDashboard.putData("Two Feet Backward", new DriveStraight(-24));
 		// SmartDashboard.putData("Three Feet Backward", new DriveStraight(-36));
 		// SmartDashboard.putData("Six Feet Backward", new DriveStraight(-12*6));
 		
+		// Gear Shifting
 		// SmartDashboard.putData("Lock High Gear", new LockGear(true));
 		// SmartDashboard.putData("Lock Low Gear", new LockGear(false));
 		// SmartDashboard.putData("Unlock Gear", new UnlockGear());
-		
 		// SmartDashboard.putData("LOCK DRIVE UNLOCK", new DriveStraightLockedGears(12*4, true));
 		
 		// For the operators to indicate on which side of the field they placed the
@@ -108,10 +106,8 @@ public class OI {
 		SmartDashboard.putData("Starting position", robotStartingPosition);
 
 		// Add the move choosers, which will be populated the first call to visit()
-		SmartDashboard.putData("LL", moveSwitchLScaleL);
-		SmartDashboard.putData("LR", moveSwitchLScaleR);
-		SmartDashboard.putData("RL", moveSwitchRScaleL);
-		SmartDashboard.putData("RR", moveSwitchRScaleR);
+		SmartDashboard.putData("selOne", selectionOne);
+		SmartDashboard.putData("selTwo", selectionTwo);
 	}
 
 	// There are a few things the OI wants to revisit every time around
@@ -237,117 +233,80 @@ public class OI {
 
 		if (curPos != lastSelectedPosition) {
 			System.out.println("Updating auto move choices list");
-			updateLLAutoMoveChooser(curPos);
-			updateLRAutoMoveChooser(curPos);
-			updateRLAutoMoveChooser(curPos);
-			updateRRAutoMoveChooser(curPos);
+			updateS1AutoMoveChooser(curPos);
+			updateS2AutoMoveChooser(curPos);
+			updateS3AutoMoveChooser(curPos);
 		}
 		lastSelectedPosition = curPos;
 	}
 
-	public Command getSelectedCommand(FieldSide switchPosOurColor, FieldSide scalePosOurColor) {
-		if (switchPosOurColor == FieldSide.LEFT && scalePosOurColor == FieldSide.LEFT) {
-			return moveSwitchLScaleL.getSelected();
-		} else if (switchPosOurColor == FieldSide.LEFT && scalePosOurColor == FieldSide.RIGHT) {
-			return moveSwitchLScaleR.getSelected();
-		} else if (switchPosOurColor == FieldSide.RIGHT && scalePosOurColor == FieldSide.LEFT) {
-			return moveSwitchRScaleL.getSelected();
-		} else if (switchPosOurColor == FieldSide.RIGHT && scalePosOurColor == FieldSide.RIGHT) {
-			return moveSwitchRScaleR.getSelected();
-		} else {
-			return new Nothing();
-		}
+	// Get the current selection of commands, possibly change to three selectors?
+	public Command getSelectedCommand() {
+		return new Nothing();
 	}
 	
 	
 	// AUTO MOVE CHOOSERS
-
-	// SWITCH LEFT || SCALE LEFT
-	private void updateLLAutoMoveChooser(StartPosition robotStartPosition) {
+	private void updateS1AutoMoveChooser(StartPosition robotStartPosition) {
 		// Clear chooser before updating
-		moveSwitchLScaleL.clear();
+		selectionOne.clear();
 
 		// Default move || The closest thing we have to a label
-		moveSwitchLScaleL.addDefault("SW L, SC L: Nothing", new Nothing());
+		selectionOne.addDefault("Nothing", new Nothing());
 
 		switch (robotStartPosition) {
 		case LEFT:
-			moveSwitchLScaleL.addObject("Forward to auto line", new AnyForward());
+			selectionOne.addObject("Forward to auto line", new AnyForward());
 			break;
 		case CENTER:
-			moveSwitchLScaleL.addObject("Nothing", new Nothing());
+			selectionOne.addObject("Nothing", new Nothing());
 			break;
 		case RIGHT:
-			moveSwitchLScaleL.addObject("Forward to auto line", new AnyForward());
+			selectionOne.addObject("Forward to auto line", new AnyForward());
 			break;
 		default:
 			break;
 		}
 	}
 
-	// SWITCH LEFT || SCALE RIGHT --> Chooser for automoves
-	private void updateLRAutoMoveChooser(StartPosition robotStartPosition) {
+	private void updateS2AutoMoveChooser(StartPosition robotStartPosition) {
 		// Clear chooser before updating
-		moveSwitchLScaleR.clear();
+		selectionTwo.clear();
 
 		// Default move || The closest thing we have to a label
-		moveSwitchLScaleR.addDefault("SW L, SC R: Nothing", new Nothing());
+		selectionTwo.addDefault("Nothing", new Nothing());
 
 		switch (robotStartPosition) {
 		case LEFT:
-			moveSwitchLScaleR.addObject("Forward to auto line", new AnyForward());
+			selectionTwo.addObject("Forward to auto line", new AnyForward());
 			break;
 		case CENTER:
-			moveSwitchLScaleR.addObject("Nothing", new Nothing());
+			selectionTwo.addObject("Nothing", new Nothing());
 			break;
 		case RIGHT:
-			moveSwitchLScaleR.addObject("Forward to auto line", new AnyForward());
+			selectionTwo.addObject("Forward to auto line", new AnyForward());
 			break;
 		default:
 			break;
 		}
 	}
 
-	// SWITCH RIGHT || SCALE LEFT --> Chooser for automoves
-	private void updateRLAutoMoveChooser(StartPosition robotStartPosition) {
+	private void updateS3AutoMoveChooser(StartPosition robotStartPosition) {
 		// Clear chooser before updating
-		moveSwitchRScaleL.clear();
+		selectionThree.clear();
 
 		// Default move || The closest thing we have to a label
-		moveSwitchRScaleL.addDefault("SW R, SC L: Nothing", new Nothing());
+		selectionThree.addDefault("Nothing", new Nothing());
 
 		switch (robotStartPosition) {
 		case LEFT:
-			moveSwitchRScaleL.addObject("Forward to auto line", new AnyForward());
+			selectionThree.addObject("Forward to auto line", new AnyForward());
 			break;
 		case CENTER:
-			moveSwitchRScaleL.addObject("Nothing", new Nothing());
+			selectionThree.addObject("Nothing", new Nothing());
 			break;
 		case RIGHT:
-			moveSwitchRScaleL.addObject("Forward to auto line", new AnyForward());
-			break;
-		default:
-			break;
-		}
-	}
-
-	// SWITCH RIGHT || SCALE RIGHT
-	private void updateRRAutoMoveChooser(StartPosition robotStartPosition) {
-		// Clear chooser before updating
-		moveSwitchRScaleR.clear();
-
-		// Default move || The closest thing we have to a label
-		moveSwitchRScaleR.addDefault("SW R, SC R: Nothing", new Nothing());
-
-		switch (robotStartPosition) {
-		case LEFT:
-			moveSwitchRScaleR.addObject("Forward to auto line", new AnyForward());
-			break;
-		case CENTER:
-			moveSwitchRScaleR.addObject("Nothing", new Nothing());
-			break;
-		case RIGHT:
-			moveSwitchRScaleR.addObject("Forward to auto line", new AnyForward());
+			selectionThree.addObject("Forward to auto line", new AnyForward());
 			break;
 		default:
 			break;
