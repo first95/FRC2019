@@ -223,20 +223,21 @@ public final class Main {
     // start image processing on camera 0 if present
     if (cameras.size() >= 1) {
       VisionThread visionThread = new VisionThread(cameras.get(0),
-              new GripPipelineLinesFromTarget(), pipeline -> {
+              new HatchVisionTargetsFromImage(), pipeline -> {
                 //analysisOutputTable.getEntry("Hello").setString("World");
-                ArrayList<GripPipelineLinesFromTarget.Line> lines = pipeline.findLinesOutput();
-                Number[] angles = new Number[lines.size()];
-                Number[] lengths = new Number[lines.size()];
+                List<HatchVisionTargetsFromImage.HatchVisionTarget> hvts = pipeline.getDetectedTargets();
+                Number[] bearings = new Number[hvts.size()];
+                Number[] ranges = new Number[hvts.size()];
                 int i = 0;
-                for (GripPipelineLinesFromTarget.Line line : lines) {
-                  lengths[i] = line.length();
-                  angles[i++] = line.angle();
+                int imgWidth = cameras.get(0).getVideoMode().width;
+                for (HatchVisionTargetsFromImage.HatchVisionTarget hvt : hvts) {
+                  ranges[i] = hvt.computeRangeInches(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
+                  bearings[i] = hvt.computeRangeInches(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
+                  i++;
                 }
-                analysisOutputTable.getEntry("line angles").setNumberArray(angles);
-                analysisOutputTable.getEntry("line lengths").setNumberArray(lengths);
-                analysisOutputTable.getEntry("num left sides").setNumber(pipeline.filterLines0Output().size());
-                analysisOutputTable.getEntry("num right sides").setNumber(pipeline.filterLines0Output().size());
+                analysisOutputTable.getEntry("target bearings (deg)").setNumberArray(bearings);
+                analysisOutputTable.getEntry("target ranges (in)").setNumberArray(ranges);
+                analysisOutputTable.getEntry("target count").setNumber(hvts.size());
       });
       visionThread.start();
     }
