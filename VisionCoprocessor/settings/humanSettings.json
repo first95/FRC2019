@@ -13,7 +13,7 @@
         },
         {
             "name": "exposure_auto",
-            "value": true
+            "value": 3
         },
         {
             "name": "exposure_absolute",
