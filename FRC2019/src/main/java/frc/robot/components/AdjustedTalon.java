@@ -39,9 +39,9 @@ public class AdjustedTalon extends TalonSrxWrapper
 		public void set(ControlMode mode,  double value)
 			{
 				if (mode == ControlMode.PercentOutput) {
-					// In this mode, the value is a rate
-					// TODO: Right now we're checking voltage once per AdjustedTalon, when we technically only need to do it once per iteration for the whole robot
-					double current = super.getOutputCurrent();
+					// In this mode, the value is a rate.
+					// Right now we're checking voltage once per AdjustedTalon, when we technically only need to do it once per iteration for the whole robot
+					// double current = super.getOutputCurrent();
 					double voltage = panel.getVoltage();
 					double newAtten;
 					
