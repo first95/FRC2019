@@ -1,9 +1,20 @@
 # FRC2019
 The code base for our 2019 robot
 
-When you clone this project for the first time:
-* Copy the file "FRC2018/example .classpath"
-* Open Eclipse, set workspace to the root of this git working copy
+To open the main robot code, open Visual Studio Code, click "Open Folder", and open the `FRC2019` folder.
+
+## Vision coprocessor
+
+This repository also contains our Vision Coprocessor code.  This application runs on a Raspberry Pi, analyzes video from a camera, and publishes information about the targets it sees.  To open this project, click "open folder" in VSCode and open the `VisionCoprocessor` folder.
+
+To build and run the vision coprocessor:
+1. Right click build.gradle, click "Build Robot Code", click "Java".  This should generate a file at `VisionCoprocessor/build/libs/VisionCoprocessor-all.jar`.
+2. Connect your computer to the same network as the raspberry Pi, and determine its IP address.  I tend to do this by sharing my laptop's wifi, and running wireshark to learn the DHCP-granted address of the raspberry pi.
+3. Go to the pi webconsole and stop the vision application.
+4. Use FileZilla (or your favorite SFTP tool) to copy VisionCoprocessor-all.jar to /home/pi on the raspberry pi.
+5. Rename VisionCoprocessor-all.jar to uploaded.jar.
+6. Go to the pi webconsole and start the vision application.
+
 
 ## Branches
 
