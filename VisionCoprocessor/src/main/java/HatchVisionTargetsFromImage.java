@@ -27,7 +27,7 @@ import edu.wpi.first.vision.VisionPipeline;
  *
  * @author GRIP
  */
-public class GripPipelineContoursFromTarget implements VisionPipeline {
+public class HatchVisionTargetsFromImage implements VisionPipeline {
 	public static class HatchVisionTarget {
 		public HatchVisionTarget(RotatedRect left, RotatedRect right) {
 			leftStripe = left;
@@ -556,7 +556,7 @@ public class GripPipelineContoursFromTarget implements VisionPipeline {
 		Scalar rightStripesColor = new Scalar(0, 0, 255);
 		int lineWidth = 1;
 	
-		GripPipelineContoursFromTarget processor = new GripPipelineContoursFromTarget();
+		HatchVisionTargetsFromImage processor = new HatchVisionTargetsFromImage();
 		for (String file : filesToProcess) {
 			Mat img = Imgcodecs.imread(file);
 			processor.process(img);
