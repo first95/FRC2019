@@ -19,6 +19,8 @@ public class OI {
 	private int shiftLockValue = 0;
 	
 	// Axes on weapons controller
+	public static final int H_GROUND_LOADER_IN_AXIS = 2;
+	public static final int H_GROUND_LOADER_OUT_AXIS = 3;
 	public static final int ELEVATOR_AXIS = 5; // Right stick Y
 
 	// Buttons on drive controller
@@ -43,9 +45,8 @@ public class OI {
 	public static final int POV_LEFT = 270;
 	public static final int POV_LEFT_UP = 315;
 
-	// Wrist positions
-	private boolean stageOneRetracted = false;
-	private boolean stageTwoRetracted = false;
+	// Hatch loader positions
+	private boolean hGroundLoaderRetracted = false;
 
 	// Controllers
 	private Joystick driverController = new Joystick(0);
@@ -104,40 +105,32 @@ public class OI {
 		shiftLockValue = shifterValue;
 	}
 
-	// Wrist controls
-	// We support 4 positions:
-	// Stage 1 Stage 2 POV position
-	// Full up extended extended Up
-	// some up extended retracted Up/right, left/up
-	// some down retracted extended Right, left
-	// full down retracted retracted Down , right/down, left/down
+	// Hatch loader controls
+	// We support 2 positions:
+	// Full up - extended Up
+	// Full down - retracted Down
 	public void updateWristSettings() {
 		if (weaponsController.getPOV() != POV_NONE) {
-			// Per table above, retract stage one if the POV hat is right or down
-			stageOneRetracted = (weaponsController.getPOV() >= POV_RIGHT
-					&& weaponsController.getPOV() <= POV_DOWN_LEFT);
-			// Retract if the POV hat is up or down-ish
-			stageTwoRetracted = (weaponsController.getPOV() >= POV_RIGHT_DOWN
-					&& weaponsController.getPOV() <= POV_LEFT);
+
+			// Retract the Hatch Ground Loader if the POV hat is UP
+			hGroundLoaderRetracted = (weaponsController.getPOV() <= POV_RIGHT
+					&& weaponsController.getPOV() >= POV_LEFT);
+
 		} else {
 			// When no D-Pad button is pressed, don't change the angle
 		}
 	}
 
-	public void setWristStageOneRectractedStatus(boolean retracted) {
-		stageOneRetracted = retracted;
+	public void setHGroundLoaderRectracted(boolean retracted) {
+		hGroundLoaderRetracted = retracted;
 	}
 
-	public void setWristStageTwoRetractedStatus(boolean retracted) {
-		stageTwoRetracted = retracted;
+	public boolean getHGroundLoaderRectracted() {
+		return hGroundLoaderRetracted;
 	}
 
-	public boolean getWristStageOneRetracted() {
-		return stageOneRetracted;
-	}
-
-	public boolean getWristStageTwoRetracted() {
-		return stageTwoRetracted;
+	public double getHGroundLoaderSpeed() {
+		return weaponsController.getRawAxis(H_GROUND_LOADER_IN_AXIS) - weaponsController.getRawAxis(H_GROUND_LOADER_OUT_AXIS);
 	}
 
 	// Elevator controls

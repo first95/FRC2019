@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.HatchGroundLoader;
 import frc.robot.subsystems.HatchScorer;
 import frc.robot.subsystems.VisionCoprocessor;
 
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
 	public static DriveBase drivebase;
 	public static Elevator elevator;
 	public static HatchScorer hScorer;
+	public static HatchGroundLoader hGroundLoader;
 	public static Compressor compressor;
 	public static OI oi;
 	public static VisionCoprocessor vision;
