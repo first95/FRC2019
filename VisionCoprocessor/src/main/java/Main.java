@@ -54,6 +54,12 @@ import edu.wpi.first.vision.VisionThread;
 public final class Main {
   private static String configFile = "/boot/frc.json";
 
+  private static boolean isCamHumanVisible = true;
+  private final static String humanVisibleSettingsFile = "/home/pi/humanSettings.json";
+  private static JsonObject humanVisibleSettings;
+  private final static String machineVisibleSettingsFile = "/home/pi/machineSettings.json";
+  private static JsonObject machineVisibleSettings;
+
   // @SuppressWarnings("MemberName")
   public static class CameraConfig {
     public String name;
@@ -103,26 +109,34 @@ public final class Main {
     return true;
   }
 
-  /**
-   * Read configuration file.
-   */
-  // @SuppressWarnings("PMD.CyclomaticComplexity")
-  public static boolean readConfig() {
+public static JsonObject readJsonFile(String path) {
     // parse file
     JsonElement top;
     try {
-      top = new JsonParser().parse(Files.newBufferedReader(Paths.get(configFile)));
+      top = new JsonParser().parse(Files.newBufferedReader(Paths.get(path)));
     } catch (IOException ex) {
-      System.err.println("could not open '" + configFile + "': " + ex);
-      return false;
+      System.err.println("could not open '" + path + "': " + ex);
+      return null;
     }
 
     // top level must be an object
     if (!top.isJsonObject()) {
       parseError("must be JSON object");
+      return null;
+    }
+    return top.getAsJsonObject();
+}
+
+  /**
+   * Read configuration file.
+   */
+  // @SuppressWarnings("PMD.CyclomaticComplexity")
+  public static boolean readConfig() {
+    JsonObject obj = readJsonFile(configFile);
+
+    if (obj == null) {
       return false;
     }
-    JsonObject obj = top.getAsJsonObject();
 
     // team number
     JsonElement teamElement = obj.get("team");
@@ -156,6 +170,12 @@ public final class Main {
         return false;
       }
     }
+
+    // Read settings for specific scenarios
+    humanVisibleSettings = readJsonFile(humanVisibleSettingsFile);
+    if(humanVisibleSettings == null) { return false; }
+    machineVisibleSettings = readJsonFile(machineVisibleSettingsFile);
+    if(machineVisibleSettings == null) { return false; }
 
     return true;
   }
@@ -198,6 +218,8 @@ public final class Main {
       ntinst.startClientTeam(team);
     }
     NetworkTable analysisOutputTable = ntinst.getTable("vision_metrics");
+    NetworkTable cameraControlTable = ntinst.getTable("camera_control");
+    cameraControlTable.getEntry("camera_for_humans").setBoolean(false);
     // start cameras
     List<VideoSource> cameras = new ArrayList<>();
     for (CameraConfig cameraConfig : cameraConfigs) {
@@ -226,10 +248,20 @@ public final class Main {
       visionThread.start();
     }
 
+    //cameras.get(0).set
+    boolean shouldbeSetForHumans = !isCamHumanVisible; // Be contrarian to make sure we set it the first time
     // loop forever
     for (;;) {
       try {
-        Thread.sleep(10000);
+        shouldbeSetForHumans = cameraControlTable.getEntry("camera_for_humans").getBoolean(false);
+        if(shouldbeSetForHumans && !isCamHumanVisible) {
+          cameras.get(0).setConfigJson(humanVisibleSettings.toString());
+          isCamHumanVisible = shouldbeSetForHumans;
+        } else if (!shouldbeSetForHumans && isCamHumanVisible) {
+          cameras.get(0).setConfigJson(machineVisibleSettings.toString());
+          isCamHumanVisible = shouldbeSetForHumans;
+        }
+        Thread.sleep(10);
       } catch (InterruptedException ex) {
         return;
       }
