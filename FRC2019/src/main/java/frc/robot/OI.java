@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot.StartPosition;
 import frc.robot.commands.Nothing;
 import frc.robot.commands.drivebase.AnyForward;
+import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.oi.MutableSendableChooser;
 
@@ -75,6 +76,7 @@ public class OI {
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
 		// Rotations
+		SmartDashboard.putData("Drive to vision target", new DriveToVT());
 		SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
 		// SmartDashboard.putData("Pivot 90 degrees CCW", new Pivot(-90));
 		// SmartDashboard.putData("Pivot 180 degrees CW", new Pivot(180));
