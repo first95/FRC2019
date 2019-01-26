@@ -255,11 +255,15 @@ public static JsonObject readJsonFile(String path) {
       try {
         shouldbeSetForHumans = cameraControlTable.getEntry("camera_for_humans").getBoolean(false);
         if(shouldbeSetForHumans && !isCamHumanVisible) {
+          System.out.print("Switching to human-visible settings... ");
           cameras.get(0).setConfigJson(humanVisibleSettings.toString());
           isCamHumanVisible = shouldbeSetForHumans;
+          System.out.println("done.");
         } else if (!shouldbeSetForHumans && isCamHumanVisible) {
+          System.out.print("Switching to machine-visible settings... ");
           cameras.get(0).setConfigJson(machineVisibleSettings.toString());
           isCamHumanVisible = shouldbeSetForHumans;
+          System.out.println("done.");
         }
         Thread.sleep(10);
       } catch (InterruptedException ex) {
