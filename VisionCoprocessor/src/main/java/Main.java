@@ -232,8 +232,8 @@ public static JsonObject readJsonFile(String path) {
               new HatchVisionTargetsFromImage(), pipeline -> {
                 //analysisOutputTable.getEntry("Hello").setString("World");
                 List<HatchVisionTargetsFromImage.HatchVisionTarget> hvts = pipeline.getDetectedTargets();
-                Number[] bearings = new Number[hvts.size()];
-                Number[] ranges = new Number[hvts.size()];
+                double[] bearings = new double[hvts.size()];
+                double[] ranges = new double[hvts.size()];
                 int i = 0;
                 int imgWidth = cameras.get(0).getVideoMode().width;
                 for (HatchVisionTargetsFromImage.HatchVisionTarget hvt : hvts) {
@@ -241,8 +241,8 @@ public static JsonObject readJsonFile(String path) {
                   bearings[i] = hvt.computeBearingDegrees(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
                   i++;
                 }
-                analysisOutputTable.getEntry("target bearings (deg)").setNumberArray(bearings);
-                analysisOutputTable.getEntry("target ranges (in)").setNumberArray(ranges);
+                analysisOutputTable.getEntry("target bearings (deg)").setDoubleArray(bearings);
+                analysisOutputTable.getEntry("target ranges (in)").setDoubleArray(ranges);
                 analysisOutputTable.getEntry("target count").setNumber(hvts.size());
       });
       visionThread.start();

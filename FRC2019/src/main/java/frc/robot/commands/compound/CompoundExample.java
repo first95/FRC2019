@@ -2,7 +2,6 @@ package frc.robot.commands.compound;
 
 // Import your needed commands!
 import frc.robot.commands.Nothing;
-import frc.robot.commands.Pause;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 // Then extend command group as it is not a single command but a group!
