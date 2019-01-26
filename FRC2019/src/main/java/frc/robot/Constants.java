@@ -29,6 +29,8 @@ public class Constants
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
 		public static final int WRIST_STAGE_ONE = 3; // The longer piston
 		public static final int WRIST_STAGE_TWO = 2; // The shorter piston
+		public static final int HS_OPEN_A = 4;
+		public static final int HS_PUSH_A = 5;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
