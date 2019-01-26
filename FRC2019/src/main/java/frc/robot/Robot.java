@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.VisionCoprocessor;
+import frc.robot.components.VisionCameraStart;
 import frc.robot.subsystems.DriveBase;
 
 /**
@@ -45,6 +47,7 @@ public class Robot extends IterativeRobot {
 	public static Elevator elevator;
 	public static Compressor compressor;
 	public static OI oi;
+	public static VisionCoprocessor vision;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
