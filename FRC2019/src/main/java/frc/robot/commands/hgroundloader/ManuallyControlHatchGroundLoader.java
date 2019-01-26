@@ -11,9 +11,8 @@ public class ManuallyControlHatchGroundLoader extends Command {
 
 	@Override
 	protected void execute() {
-		// Reset Wrists operator is located within the OI class
-		Robot.hGroundLoader.setIntakeSpeed(Robot.oi.getHGroundLoaderSpeed());
-		Robot.hGroundLoader.setHGroundLoaderRetracted(Robot.oi.getHGroundLoaderRectracted());
+		Robot.hGroundLoader.setIntakeSpeed(Robot.oi.getHGLSpeed());
+		Robot.hGroundLoader.setRetracted(Robot.oi.getHGLWristRectracted());
 	}
 	
 	@Override

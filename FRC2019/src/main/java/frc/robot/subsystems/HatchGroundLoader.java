@@ -14,16 +14,17 @@ public class HatchGroundLoader extends Subsystem {
 	// Motor controllers for the intake/expel chains
 	private IMotorControllerEnhanced leftChainDriver, rightChainDriver;
 	
-	// The solenoids for the cylinder that opens the maw, and operates the wrist
+	// The solenoids for the cylinder that operates wrist action
 	private SolenoidI hatchWrist;
 	
 	public HatchGroundLoader() {
 		super();
-		leftChainDriver  = new AdjustedTalon(Constants.LEFT_H_LOADER_DRIVER);
-		rightChainDriver = new AdjustedTalon(Constants.RIGHT_H_LOADER_DRIVER);
 		
-		// False means it is extended
-		hatchWrist = new SolenoidWrapper(Constants.HATCH_GROUND_LOADER);
+		leftChainDriver  = new AdjustedTalon(Constants.LEFT_HGL_DRIVER);
+		rightChainDriver = new AdjustedTalon(Constants.RIGHT_HGL_DRIVER);
+		
+		// False means the wrist is extended
+		hatchWrist = new SolenoidWrapper(Constants.HGL_WRIST_SOLENOID_NUM);
 	}
 
 	@Override
@@ -35,16 +36,16 @@ public class HatchGroundLoader extends Subsystem {
 	
 	}
 	
-	public void setHGroundLoaderRetracted(boolean retracted) {
+	public void setRetracted(boolean retracted) {
 		hatchWrist.set(retracted);
 	}
-
-	public boolean getHGroundLoaderRetracted() {
-		return hatchWrist.get();
-	}	
 	
 	public void setIntakeSpeed(double outwardThrottle) {
 		leftChainDriver.set(ControlMode.PercentOutput, -outwardThrottle);
 		rightChainDriver.set(ControlMode.PercentOutput, outwardThrottle);
 	}
+
+	public boolean getRetracted() {
+		return hatchWrist.get();
+	}	
 }

@@ -19,8 +19,8 @@ public class OI {
 	private int shiftLockValue = 0;
 	
 	// Axes on weapons controller
-	public static final int H_GROUND_LOADER_IN_AXIS = 2;
-	public static final int H_GROUND_LOADER_OUT_AXIS = 3;
+	public static final int HGL_CHAIN_DRIVER_IN_AXIS = 2;
+	public static final int HGL_CHAIN_DRIVER_OUT_AXIS = 3;
 	public static final int ELEVATOR_AXIS = 5; // Right stick Y
 
 	// Buttons on drive controller
@@ -46,7 +46,7 @@ public class OI {
 	public static final int POV_LEFT_UP = 315;
 
 	// Hatch loader positions
-	private boolean hGroundLoaderRetracted = false;
+	private boolean hWristRetracted = false;
 
 	// Controllers
 	private Joystick driverController = new Joystick(0);
@@ -113,7 +113,7 @@ public class OI {
 		if (weaponsController.getPOV() != POV_NONE) {
 
 			// Retract the Hatch Ground Loader if the POV hat is UP
-			hGroundLoaderRetracted = (weaponsController.getPOV() <= POV_RIGHT
+			hWristRetracted = (weaponsController.getPOV() <= POV_RIGHT
 					&& weaponsController.getPOV() >= POV_LEFT);
 
 		} else {
@@ -121,16 +121,16 @@ public class OI {
 		}
 	}
 
-	public void setHGroundLoaderRectracted(boolean retracted) {
-		hGroundLoaderRetracted = retracted;
+	public void setHGLWristRectracted(boolean retracted) {
+		hWristRetracted = retracted;
 	}
 
-	public boolean getHGroundLoaderRectracted() {
-		return hGroundLoaderRetracted;
+	public boolean getHGLWristRectracted() {
+		return hWristRetracted;
 	}
 
-	public double getHGroundLoaderSpeed() {
-		return weaponsController.getRawAxis(H_GROUND_LOADER_IN_AXIS) - weaponsController.getRawAxis(H_GROUND_LOADER_OUT_AXIS);
+	public double getHGLSpeed() {
+		return weaponsController.getRawAxis(HGL_CHAIN_DRIVER_IN_AXIS) - weaponsController.getRawAxis(HGL_CHAIN_DRIVER_OUT_AXIS);
 	}
 
 	// Elevator controls

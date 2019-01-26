@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
 		// Initialize all subsystems
 		drivebase = new DriveBase();
 		elevator = new Elevator();
+		hGroundLoader = new HatchGroundLoader();
 		compressor = new Compressor();
 		oi = new OI();
 		vision = new VisionCoprocessor();
@@ -50,6 +51,7 @@ public class Robot extends TimedRobot {
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivebase);
 		SmartDashboard.putData(elevator);
+		SmartDashboard.putData(hGroundLoader);
 
 		// Disable brakes on talons to make it
 		// easier to push
@@ -147,6 +149,7 @@ public class Robot extends TimedRobot {
 	private void debugLog() {
 		drivebase.log();
 		elevator.log();
+		hGroundLoader.log();
 		oi.log();
 	}
 }
