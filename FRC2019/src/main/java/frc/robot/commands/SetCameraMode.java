@@ -15,11 +15,19 @@ import frc.robot.Robot;
  */
 public class SetCameraMode extends Command {
     private boolean camShouldBeHumanVisible = false;
+
+    /**
+     * Command the camera to enter a mode
+     * @param isHumanVisible true if the camera should be configured for human use, 
+     * or false to configure the camera for machine vision.
+     */
     public SetCameraMode(boolean isHumanVisible) {
         camShouldBeHumanVisible = isHumanVisible;
         requires(Robot.vision);
     }
-    /** chained constructor */
+    /**
+     * Command the coprocessor to configure the camera for machine vision.
+     */
     public SetCameraMode() {
         this(false);
     }
