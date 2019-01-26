@@ -1,17 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.VisionCoprocessor;
-import frc.robot.components.VisionCameraStart;
-import frc.robot.subsystems.DriveBase;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,7 +18,7 @@ import frc.robot.subsystems.DriveBase;
  * directory.
  */
 
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 	/**
 	 * Robot position at match start.
 	 * Robot is assumed to have its bumper flush against the alliance wall
