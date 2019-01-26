@@ -232,7 +232,7 @@ public final class Main {
                 int imgWidth = cameras.get(0).getVideoMode().width;
                 for (HatchVisionTargetsFromImage.HatchVisionTarget hvt : hvts) {
                   ranges[i] = hvt.computeRangeInches(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
-                  bearings[i] = hvt.computeRangeInches(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
+                  bearings[i] = hvt.computeBearingDegrees(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
                   i++;
                 }
                 analysisOutputTable.getEntry("target bearings (deg)").setNumberArray(bearings);
