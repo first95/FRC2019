@@ -2,15 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot.StartPosition;
-import frc.robot.commands.Nothing;
-import frc.robot.commands.drivebase.AnyForward;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
-import frc.robot.oi.MutableSendableChooser;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -57,15 +51,6 @@ public class OI {
 	private Joystick driverController = new Joystick(0);
 	private Joystick weaponsController = new Joystick(1);
 
-	// Setup choosers for automoves
-	SendableChooser<StartPosition> robotStartingPosition = new SendableChooser<>();
-	MutableSendableChooser<Command> selectionOne = new MutableSendableChooser<>();
-	MutableSendableChooser<Command> selectionTwo = new MutableSendableChooser<>();
-	MutableSendableChooser<Command> selectionThree = new MutableSendableChooser<>();
-
-	// The position that was selected last iteration
-	StartPosition lastSelectedPosition = null; 
-
 	public OI() {
 
 		// Create some buttons
@@ -99,23 +84,11 @@ public class OI {
 		// SmartDashboard.putData("Lock Low Gear", new LockGear(false));
 		// SmartDashboard.putData("Unlock Gear", new UnlockGear());
 		// SmartDashboard.putData("LOCK DRIVE UNLOCK", new DriveStraightLockedGears(12*4, true));
-		
-		// For the operators to indicate on which side of the field they placed the
-		// robot
-		robotStartingPosition.addObject("Left", StartPosition.LEFT);
-		robotStartingPosition.addDefault("Center", StartPosition.CENTER);
-		robotStartingPosition.addObject("Right", StartPosition.RIGHT);
-		SmartDashboard.putData("Starting position", robotStartingPosition);
-
-		// Add the move choosers, which will be populated the first call to visit()
-		SmartDashboard.putData("selOne", selectionOne);
-		SmartDashboard.putData("selTwo", selectionTwo);
 	}
 
 	// There are a few things the OI wants to revisit every time around
 	public void visit() {
 		updateWristSettings();
-		updateSmartChoosers();
 	}
 
 	// If anything needs to be posted to the SmartDashboard, place it here
@@ -213,105 +186,5 @@ public class OI {
 
 	public boolean getHighGear() {
 		return driverController.getRawButton(SHIFT_BUTTON);
-	}
-
-	// This feature has been put on hold
-	// It's goal was to allow the driver
-	// to stop the robot from shifting into high gear
-	// public boolean getShiftOverrided() {
-	// return driverController.getRawButton(SHIFT_STATE_BUTTON);
-	// }
-
-	
-	// Other Operations
-	public StartPosition getRobotStartPosition() {
-		return robotStartingPosition.getSelected();
-	}
-	
-	// We've got some SendableChooserse that need updating based on the selected
-	// robot position
-	public void updateSmartChoosers() {
-		StartPosition curPos = robotStartingPosition.getSelected();
-
-		if (curPos != lastSelectedPosition) {
-			System.out.println("Updating auto move choices list");
-			updateS1AutoMoveChooser(curPos);
-			updateS2AutoMoveChooser(curPos);
-			updateS3AutoMoveChooser(curPos);
-		}
-		lastSelectedPosition = curPos;
-	}
-
-	// Get the current selection of commands, possibly change to three selectors?
-	public Command getSelectedCommand() {
-		return new Nothing();
-	}
-	
-	
-	// AUTO MOVE CHOOSERS
-	private void updateS1AutoMoveChooser(StartPosition robotStartPosition) {
-		// Clear chooser before updating
-		selectionOne.clear();
-
-		// Default move || The closest thing we have to a label
-		selectionOne.addDefault("Nothing", new Nothing());
-
-		switch (robotStartPosition) {
-		case LEFT:
-			selectionOne.addObject("Forward to auto line", new AnyForward());
-			break;
-		case CENTER:
-			selectionOne.addObject("Nothing", new Nothing());
-			break;
-		case RIGHT:
-			selectionOne.addObject("Forward to auto line", new AnyForward());
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void updateS2AutoMoveChooser(StartPosition robotStartPosition) {
-		// Clear chooser before updating
-		selectionTwo.clear();
-
-		// Default move || The closest thing we have to a label
-		selectionTwo.addDefault("Nothing", new Nothing());
-
-		switch (robotStartPosition) {
-		case LEFT:
-			selectionTwo.addObject("Forward to auto line", new AnyForward());
-			break;
-		case CENTER:
-			selectionTwo.addObject("Nothing", new Nothing());
-			break;
-		case RIGHT:
-			selectionTwo.addObject("Forward to auto line", new AnyForward());
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void updateS3AutoMoveChooser(StartPosition robotStartPosition) {
-		// Clear chooser before updating
-		selectionThree.clear();
-
-		// Default move || The closest thing we have to a label
-		selectionThree.addDefault("Nothing", new Nothing());
-
-		switch (robotStartPosition) {
-		case LEFT:
-			selectionThree.addObject("Forward to auto line", new AnyForward());
-			break;
-		case CENTER:
-			selectionThree.addObject("Nothing", new Nothing());
-			break;
-		case RIGHT:
-			selectionThree.addObject("Forward to auto line", new AnyForward());
-			break;
-		default:
-			break;
-		}
 	}
 }

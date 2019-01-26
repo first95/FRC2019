@@ -19,24 +19,7 @@ import frc.robot.subsystems.VisionCoprocessor;
  */
 
 public class Robot extends TimedRobot {
-	/**
-	 * Robot position at match start.
-	 * Robot is assumed to have its bumper flush against the alliance wall
-	 * in all these cases.
-	 */
-	
-	public enum StartPosition {
-		LEFT,      // Rear left corner of the bumper touches the diagonal of the left portal
-		CENTER,    // Robot is centered on the field centerline
-		RIGHT,     // Rear right corner of the bumper touches the diagonal of the right portal
-	}
-	
-	/**
-	 * Robot position after scoring on the scale. Robot is assumed to be centered
-	 * on the switch and have it's front bumper 10 inches back from the end of the scale
-	 * plate in all of these cases.
-	 */
-	private StartPosition robotStartSide; // The location where the robot began
+
 	private Command autonomousCommand;
 
 	// Components of the robot
@@ -73,13 +56,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-
-		robotStartSide = oi.getRobotStartPosition();
-		System.out.println("Robot start side: " + robotStartSide);
-		
-		// Setup autonomous command selection not based off switch and scale colors
-		//autonomousCommand = oi.getSelectedCommand(getWhichSideOfTheNearSwitchIsOurColor(), getWhichSideOfTheScaleIsOurColor());
-		
+		// No automoves currently planned, going to use vision during sandstorm
 		autonomousCommand.start();
 	}
 
@@ -167,9 +144,5 @@ public class Robot extends TimedRobot {
 		drivebase.log();
 		elevator.log();
 		oi.log();
-	}
-
-	public Robot.StartPosition getRobotStartSide() {
-		return robotStartSide;
 	}
 }
