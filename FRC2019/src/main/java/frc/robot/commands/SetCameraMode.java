@@ -11,42 +11,28 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * An example command. You can replace me with your own command.
+ * Command to set the main camera into one of its modes
  */
 public class SetCameraMode extends Command {
-
+    private boolean camShouldBeHumanVisible = false;
     public SetCameraMode(boolean isHumanVisible) {
+        camShouldBeHumanVisible = isHumanVisible;
         requires(Robot.vision);
     }
-
+    /** chained constructor */
     public SetCameraMode() {
-        requires(Robot.vision);
-    }
-
-    // Called just before this Command runs the first time
-    @Override
-    protected void initialize() {
+        this(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        Robot.vision.setCameraIsHumanVisible(camShouldBeHumanVisible);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return true;
-    }
-
-    // Called once after isFinished returns true
-    @Override
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
-    protected void interrupted() {
     }
 }

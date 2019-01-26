@@ -62,6 +62,7 @@ public class Robot extends IterativeRobot {
 		elevator = new Elevator();
 		compressor = new Compressor();
 		oi = new OI();
+		vision = new VisionCoprocessor();
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivebase);

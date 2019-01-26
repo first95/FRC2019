@@ -38,7 +38,7 @@ public class VisionCoprocessor extends Subsystem {
         return false;
     }
 
-    public void setCameraIsHumanVisible() {
+    public void setCameraIsHumanVisible(boolean isHumanVisible) {
 
     }
 }
