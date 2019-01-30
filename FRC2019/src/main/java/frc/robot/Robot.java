@@ -45,8 +45,8 @@ public class Robot extends TimedRobot {
 		elevator = new Elevator();
 		hGroundLoader = new HatchGroundLoader();
 		compressor = new Compressor();
-		oi = new OI();
 		vision = new VisionCoprocessor();
+		oi = new OI();
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivebase);
