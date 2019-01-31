@@ -45,11 +45,11 @@ public class Constants
 		
 		// Elevator
 		public static final int LEFT_ELEV_DRIVER = 13;
-		public static final int RIGHT_ELEV_DRIVER = 23;
+		//public static final int RIGHT_ELEV_DRIVER = 23;
 
 		// Hatch Ground Loader
-		public static final int LEFT_HGL_DRIVER = 14;
-		public static final int RIGHT_HGL_DRIVER = 24;
+		//public static final int LEFT_HGL_DRIVER = 14;
+		//public static final int RIGHT_HGL_DRIVER = 24;
 		
 		// Sensors attached via Talon
 		public static final int PIGEON_NUM = 30;		

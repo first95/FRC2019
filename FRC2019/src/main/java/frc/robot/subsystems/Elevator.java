@@ -41,11 +41,11 @@ public class Elevator extends Subsystem {
 		homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
 
 		leftElevDriver = new AdjustedTalon(Constants.LEFT_ELEV_DRIVER);
-		rightElevDriver = new AdjustedTalon(Constants.RIGHT_ELEV_DRIVER);
+		//rightElevDriver = new AdjustedTalon(Constants.RIGHT_ELEV_DRIVER);
 
 		// Configure the left talon to follow the right talon, but backwards
 		leftElevDriver.setInverted(true); // Inverted here refers to the output
-		leftElevDriver.set(ControlMode.Follower, Constants.RIGHT_ELEV_DRIVER);
+		//leftElevDriver.set(ControlMode.Follower, Constants.RIGHT_ELEV_DRIVER);
 		
 		// Configure the right talon for closed loop control
 		rightElevDriver.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_IDX,

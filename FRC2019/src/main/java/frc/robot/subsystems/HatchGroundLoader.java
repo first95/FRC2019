@@ -20,8 +20,8 @@ public class HatchGroundLoader extends Subsystem {
 	public HatchGroundLoader() {
 		super();
 		
-		leftChainDriver  = new AdjustedTalon(Constants.LEFT_HGL_DRIVER);
-		rightChainDriver = new AdjustedTalon(Constants.RIGHT_HGL_DRIVER);
+		//leftChainDriver  = new AdjustedTalon(Constants.LEFT_HGL_DRIVER);
+		//rightChainDriver = new AdjustedTalon(Constants.RIGHT_HGL_DRIVER);
 		
 		// False means the wrist is extended
 		hatchWrist = new SolenoidWrapper(Constants.HGL_WRIST_SOLENOID_NUM);
