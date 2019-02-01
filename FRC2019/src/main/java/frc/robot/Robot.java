@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import frc.robot.subsystems.DriveBase;
+import frc.robot.subsystems.DriveBase;
 //import frc.robot.subsystems.Elevator;
 //import frc.robot.subsystems.HatchGroundLoader;
 //import frc.robot.subsystems.HatchScorer;
@@ -27,12 +27,12 @@ public class Robot extends TimedRobot {
 	private Command autonomousCommand;
 
 	// Components of the robot
-	//public static DriveBase drivebase;
+	public static DriveBase drivebase;
 	//public static Elevator elevator;
 	//public static HatchScorer hScorer;
 	//public static HatchGroundLoader hGroundLoader;
 	//public static Compressor compressor;
-	//public static OI oi;
+	public static OI oi;
 	//public static VisionCoprocessor vision;
 	public static PowerDistributionPanel pdp;
 
@@ -44,23 +44,23 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		// Initialize all subsystems
-		//drivebase = new DriveBase();
+		drivebase = new DriveBase();
 		//elevator = new Elevator();
 		//hGroundLoader = new HatchGroundLoader();
 		//compressor = new Compressor();
 		//vision = new VisionCoprocessor();
-		//oi = new OI();
+		oi = new OI();
 		pdp = new PowerDistributionPanel();
 		pdp.clearStickyFaults();
 
 		// Show what command your subsystem is running on the SmartDashboard
-		//SmartDashboard.putData(drivebase);
+		SmartDashboard.putData(drivebase);
 		//SmartDashboard.putData(elevator);
 		//SmartDashboard.putData(hGroundLoader);
 
 		// Disable brakes on talons to make it
 		// easier to push
-		//drivebase.brake(false);
+		drivebase.brake(false);
 		//elevator.brake(false);
 		
 	}
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
 		// Unlock the auto shifter
 		//Robot.oi.setShiftLockValue(0);
 		
-		//drivebase.brake(true);
+		drivebase.brake(true);
 		//elevator.brake(true);
 
 		// This makes sure that the autonomous stops running when

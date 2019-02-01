@@ -36,12 +36,12 @@ public class Constants
 
 		// Indices for Talons
 		// Drive base
-		public static final int LEFT_LEAD = 10;
-		public static final int LEFT_F1 = 11;
-		public static final int LEFT_F2 = 12;
-		public static final int RIGHT_LEAD = 20;
-		public static final int RIGHT_F1 = 21;
-		public static final int RIGHT_F2 = 22;
+		public static final int LEFT_LEAD = 15;
+		public static final int LEFT_F1 = 15;
+		public static final int LEFT_F2 = 15;
+		public static final int RIGHT_LEAD = 15;
+		public static final int RIGHT_F1 = 15;
+		public static final int RIGHT_F2 = 15;
 		
 		// Elevator
 		//public static final int LEFT_ELEV_DRIVER = 13;
