@@ -63,6 +63,12 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
+	public void robotPeriodic() {
+		double I= pdp.getCurrent(0);
+		System.out.println("Current from PDP: " + I);
+	}
+
+	@Override
 	public void autonomousInit() {
 
 	}
@@ -111,6 +117,8 @@ public class Robot extends TimedRobot {
 		rightLeader.set(ControlMode.PercentOutput, rightSpeed);
 
 		nxTalon.set(ControlMode.PercentOutput, 0);
+
+
 	}
 
 }
