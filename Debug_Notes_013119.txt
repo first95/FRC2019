@@ -1,0 +1,33 @@
+HAL: CAN Receive has Timed Out
+Error at frc.robot.Main.main(Main.java:27): HAL: CAN Receive has Timed Out
+edu.wpi.first.hal.PDPJNI.getPDPTotalCurrent(Native Method)
+edu.wpi.first.wpilibj.PowerDistributionPanel.getTotalCurrent(PowerDistributionPanel.java:79)
+edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl.lambda$addDoubleProperty$3(SendableBuilderImpl.java:242)
+edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl.updateTable(SendableBuilderImpl.java:95)
+edu.wpi.first.wpilibj.livewindow.LiveWindow.updateValues(LiveWindow.java:290)
+edu.wpi.first.wpilibj.IterativeRobotBase.loopFunc(IterativeRobotBase.java:263)
+edu.wpi.first.wpilibj.TimedRobot.startCompetition(TimedRobot.java:81)
+edu.wpi.first.wpilibj.RobotBase.startRobot(RobotBase.java:263)
+frc.robot.Main.main(Main.java:27)
+Watchdog not fed within 0.020000s
+Loop time of 0.02s overrun
+Warning at edu.wpi.first.wpilibj.IterativeRobotBase.printLoopOverrunMessage(IterativeRobotBase.java:273): Loop time of 0.02s overrun
+
+Changes to the code
+Removed all subsystems (and their associated commands) other than drive system and vision co-processor
+Removed shifting functionality
+Commented out LiveWindow
+Deleted the save.xml file
+
+Things checked
+Can see all 6 talons for the drive base, the PCM, and the PDP; they also all have reasonable firmware and distinct device IDs
+Re-flashed firmware of PDP
+Removed drivebase and basically everything else (or start from scratch with simple code that has Athena and PDP) DID BOTH AND NEITHER HAD THIS PDP ERROR BUT NOT SURE IF THEY were just so simple they didn't use the same part of the hardware/firmware
+
+================================================
+
+Connected a different PDP to CAN network and shorted CAN network so it was only RoboRio and that secondary PDP; secondary PDP powered by its own battery, but primary battery still powering everything else, but they're not part of CAN network (confirmed w/ Phoenix)
+Used a recent-ish commit (32361fccc094c7a9c87b0b6b2bb2e1dc5a213aee? not 100% sure) and still had that PDP error (in addition to a bunch of others b/c other items not on CAN)
+Used commit from just after JDW updated codebase for VSCode early this build season (a89e8efdcf726c9181dcd327e06a6f5bf00351a1) and still had that PDP error (in addition to the ones b/c of missing Talons); this commit was from before we switched from IterativeRobot to TimedRobot
+Used debug_galore first commit (where removed basically everything), and DIDN'T see this issue, but nothing else was really happening so hard to say
+Used second commit of debug_galore branch where added back in OI and drivebase where drivebase pointing at a single talon that was connected to the secondary PDP, and DID see the PDP issue
