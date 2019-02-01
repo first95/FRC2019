@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		double I= pdp.getCurrent(0);
-		System.out.println("Current from PDP: " + I);
+		// System.out.println("Current from PDP: " + I);
 	}
 
 	@Override
@@ -116,9 +116,19 @@ public class Robot extends TimedRobot {
 		leftLeader.set(ControlMode.PercentOutput, leftSpeed);
 		rightLeader.set(ControlMode.PercentOutput, rightSpeed);
 
-		nxTalon.set(ControlMode.PercentOutput, 0);
+		// If the B button is pressed
+		if(driverController.getRawButton(2)) {
+			nxTalon.set(ControlMode.PercentOutput, 0);
+		}
 
-
+		// If the A button is pressed
+		if(driverController.getRawButton(1)) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				System.out.println("Caught InterruptedException ");
+			}
+		}
 	}
 
 }
