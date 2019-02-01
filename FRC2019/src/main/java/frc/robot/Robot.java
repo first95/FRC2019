@@ -1,41 +1,31 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.DriveBase;
-//import frc.robot.subsystems.Elevator;
-//import frc.robot.subsystems.HatchGroundLoader;
-//import frc.robot.subsystems.HatchScorer;
-//import frc.robot.subsystems.VisionCoprocessor;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
+	private Joystick driverController = new Joystick(0);
 
-	private Command autonomousCommand;
+	private TalonSRX leftLeader;
+	private TalonSRX leftFollower1;
+	private TalonSRX leftFollower2;
+	private TalonSRX rightLeader;
+	private TalonSRX rightFollower1;
+	private TalonSRX rightFollower2;
 
-	// Components of the robot
-	public static DriveBase drivebase;
-	//public static Elevator elevator;
-	//public static HatchScorer hScorer;
-	//public static HatchGroundLoader hGroundLoader;
-	//public static Compressor compressor;
-	public static OI oi;
-	//public static VisionCoprocessor vision;
-	public static PowerDistributionPanel pdp;
-
+	
+	// Indices for Talons
+	// Drive base
+	public static final int LEFT_LEAD = 10;
+	public static final int LEFT_F1 = 11;
+	public static final int LEFT_F2 = 12;
+	public static final int RIGHT_LEAD = 20;
+	public static final int RIGHT_F1 = 21;
+	public static final int RIGHT_F2 = 22;
+	
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -43,32 +33,27 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
-		// Initialize all subsystems
-		drivebase = new DriveBase();
-		//elevator = new Elevator();
-		//hGroundLoader = new HatchGroundLoader();
-		//compressor = new Compressor();
-		//vision = new VisionCoprocessor();
-		oi = new OI();
-		pdp = new PowerDistributionPanel();
-		pdp.clearStickyFaults();
+		leftLeader = new TalonSRX(LEFT_LEAD);
+		leftFollower1 = new TalonSRX(LEFT_F1);
+		leftFollower2 = new TalonSRX(LEFT_F2);
+		rightLeader = new TalonSRX(RIGHT_LEAD);
+		rightFollower1 = new TalonSRX(RIGHT_F1);
+		rightFollower2 = new TalonSRX(RIGHT_F2);
 
-		// Show what command your subsystem is running on the SmartDashboard
-		SmartDashboard.putData(drivebase);
-		//SmartDashboard.putData(elevator);
-		//SmartDashboard.putData(hGroundLoader);
+		leftLeader.set(ControlMode.PercentOutput, 0);
+		leftFollower1.set(ControlMode.Follower, LEFT_LEAD);
+		leftFollower2.set(ControlMode.Follower, LEFT_LEAD);
+		rightLeader.set(ControlMode.PercentOutput, 0);
+		rightFollower1.set(ControlMode.Follower, RIGHT_LEAD);
+		rightFollower2.set(ControlMode.Follower, RIGHT_LEAD);
 
-		// Disable brakes on talons to make it
-		// easier to push
-		drivebase.brake(false);
-		//elevator.brake(false);
+
 		
 	}
 
 	@Override
 	public void autonomousInit() {
-		// No automoves currently planned, going to use vision during sandstorm
-		autonomousCommand.start();
+
 	}
 
 	/**
@@ -76,7 +61,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		commonPeriodic();
+
 	}
 
 	/**
@@ -85,45 +70,16 @@ public class Robot extends TimedRobot {
 	 * robot is disabled.
 	 */
 	public void disabledInit() {
-		//drivebase.brake(false);
-		//elevator.brake(false);
+
 	}
 
 	public void disabledPeriodic() {	
-		commonPeriodic();
 	}
 	
-	public void commonPeriodic() {
-		SmartDashboard.putNumber("pdp temp",pdp.getTemperature());
-		SmartDashboard.putNumber("pdp power",pdp.getTotalPower());
-		//Scheduler.getInstance().run(); // Runs all active commands
-		//elevator.checkAndApplyHomingSwitch();
-        //drivebase.pullPidConstantsFromSmartDash();
-        //oi.visit();
-        //drivebase.visit();
-        
-        // Depending if you want all output or just limited
-        // use either debugLog() or just log()
-		//debugLog();
-        log();
-	}
 
 	@Override
 	public void teleopInit() {
 		
-		// Unlock the auto shifter
-		//Robot.oi.setShiftLockValue(0);
-		
-		drivebase.brake(true);
-		//elevator.brake(true);
-
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if(autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
 	}
 
 	/**
@@ -131,32 +87,17 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		commonPeriodic();
+		double forward = driverController.getY();
+		double spin = driverController.getRawAxis(4);
+
+		double leftSpeed = forward - spin;
+		double rightSpeed = forward + spin;
+
+		leftSpeed = Math.min(1, Math.max(0, leftSpeed));
+		rightSpeed = Math.min(1, Math.max(0, rightSpeed));
+
+		leftLeader.set(ControlMode.PercentOutput, leftSpeed);
+		rightLeader.set(ControlMode.PercentOutput, rightSpeed);
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
-	@Override
-	public void testPeriodic() {
-		commonPeriodic();
-		//LiveWindow.run();
-	}
-
-	/**
-	 * The log method puts interesting information to the SmartDashboard.
-	 */
-	private void log() {
-		//drivebase.log();
-		//elevator.log();
-		//collector.log();
-		//oi.log();
-	}
-	
-	private void debugLog() {
-		//drivebase.log();
-		//elevator.log();
-		//hGroundLoader.log();
-		//oi.log();
-	}
 }
