@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
@@ -25,6 +26,8 @@ public class Robot extends TimedRobot {
 	public static final int RIGHT_LEAD = 20;
 	public static final int RIGHT_F1 = 21;
 	public static final int RIGHT_F2 = 22;
+
+	private PowerDistributionPanel pdp;
 	
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -47,7 +50,7 @@ public class Robot extends TimedRobot {
 		rightFollower1.set(ControlMode.Follower, RIGHT_LEAD);
 		rightFollower2.set(ControlMode.Follower, RIGHT_LEAD);
 
-
+		pdp = new PowerDistributionPanel();
 		
 	}
 
