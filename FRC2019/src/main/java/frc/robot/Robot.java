@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
 	public static final int RIGHT_F2 = 22;
 
 	private PowerDistributionPanel pdp;
+	private Compressor compressor;
 	
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -51,7 +53,9 @@ public class Robot extends TimedRobot {
 		rightFollower2.set(ControlMode.Follower, RIGHT_LEAD);
 
 		pdp = new PowerDistributionPanel();
-		
+		pdp.clearStickyFaults();
+
+		compressor = new Compressor();
 	}
 
 	@Override
@@ -96,8 +100,8 @@ public class Robot extends TimedRobot {
 		double leftSpeed = forward - spin;
 		double rightSpeed = forward + spin;
 
-		leftSpeed = Math.min(1, Math.max(0, leftSpeed));
-		rightSpeed = Math.min(1, Math.max(0, rightSpeed));
+		leftSpeed = -Math.min(1, Math.max(-1, leftSpeed));
+		rightSpeed = Math.min(1, Math.max(-1, rightSpeed));
 
 		leftLeader.set(ControlMode.PercentOutput, leftSpeed);
 		rightLeader.set(ControlMode.PercentOutput, rightSpeed);
