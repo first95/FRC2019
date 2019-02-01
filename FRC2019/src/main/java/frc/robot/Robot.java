@@ -1,16 +1,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.DriveBase;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.HatchGroundLoader;
-import frc.robot.subsystems.HatchScorer;
-import frc.robot.subsystems.VisionCoprocessor;
+//import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import frc.robot.subsystems.DriveBase;
+//import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.HatchGroundLoader;
+//import frc.robot.subsystems.HatchScorer;
+//import frc.robot.subsystems.VisionCoprocessor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,13 +27,14 @@ public class Robot extends TimedRobot {
 	private Command autonomousCommand;
 
 	// Components of the robot
-	public static DriveBase drivebase;
-	public static Elevator elevator;
-	public static HatchScorer hScorer;
-	public static HatchGroundLoader hGroundLoader;
-	public static Compressor compressor;
-	public static OI oi;
-	public static VisionCoprocessor vision;
+	//public static DriveBase drivebase;
+	//public static Elevator elevator;
+	//public static HatchScorer hScorer;
+	//public static HatchGroundLoader hGroundLoader;
+	//public static Compressor compressor;
+	//public static OI oi;
+	//public static VisionCoprocessor vision;
+	public static PowerDistributionPanel pdp;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -41,22 +44,24 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		// Initialize all subsystems
-		drivebase = new DriveBase();
-		elevator = new Elevator();
-		hGroundLoader = new HatchGroundLoader();
-		compressor = new Compressor();
-		vision = new VisionCoprocessor();
-		oi = new OI();
+		//drivebase = new DriveBase();
+		//elevator = new Elevator();
+		//hGroundLoader = new HatchGroundLoader();
+		//compressor = new Compressor();
+		//vision = new VisionCoprocessor();
+		//oi = new OI();
+		pdp = new PowerDistributionPanel();
+		pdp.clearStickyFaults();
 
 		// Show what command your subsystem is running on the SmartDashboard
-		SmartDashboard.putData(drivebase);
-		SmartDashboard.putData(elevator);
-		SmartDashboard.putData(hGroundLoader);
+		//SmartDashboard.putData(drivebase);
+		//SmartDashboard.putData(elevator);
+		//SmartDashboard.putData(hGroundLoader);
 
 		// Disable brakes on talons to make it
 		// easier to push
-		drivebase.brake(false);
-		elevator.brake(false);
+		//drivebase.brake(false);
+		//elevator.brake(false);
 		
 	}
 
@@ -80,8 +85,8 @@ public class Robot extends TimedRobot {
 	 * robot is disabled.
 	 */
 	public void disabledInit() {
-		drivebase.brake(false);
-		elevator.brake(false);
+		//drivebase.brake(false);
+		//elevator.brake(false);
 	}
 
 	public void disabledPeriodic() {	
@@ -89,11 +94,13 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void commonPeriodic() {
-		Scheduler.getInstance().run(); // Runs all active commands
-		elevator.checkAndApplyHomingSwitch();
-        drivebase.pullPidConstantsFromSmartDash();
-        oi.visit();
-        drivebase.visit();
+		SmartDashboard.putNumber("pdp temp",pdp.getTemperature());
+		SmartDashboard.putNumber("pdp power",pdp.getTotalPower());
+		//Scheduler.getInstance().run(); // Runs all active commands
+		//elevator.checkAndApplyHomingSwitch();
+        //drivebase.pullPidConstantsFromSmartDash();
+        //oi.visit();
+        //drivebase.visit();
         
         // Depending if you want all output or just limited
         // use either debugLog() or just log()
@@ -105,10 +112,10 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		
 		// Unlock the auto shifter
-		Robot.oi.setShiftLockValue(0);
+		//Robot.oi.setShiftLockValue(0);
 		
-		drivebase.brake(true);
-		elevator.brake(true);
+		//drivebase.brake(true);
+		//elevator.brake(true);
 
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
@@ -133,7 +140,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		commonPeriodic();
-		LiveWindow.run();
+		//LiveWindow.run();
 	}
 
 	/**
@@ -147,9 +154,9 @@ public class Robot extends TimedRobot {
 	}
 	
 	private void debugLog() {
-		drivebase.log();
-		elevator.log();
-		hGroundLoader.log();
-		oi.log();
+		//drivebase.log();
+		//elevator.log();
+		//hGroundLoader.log();
+		//oi.log();
 	}
 }

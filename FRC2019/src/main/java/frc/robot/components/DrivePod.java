@@ -87,7 +87,7 @@ public class DrivePod {
 
 	// Constructor used for unit tests
 	public DrivePod(String name, IMotorControllerEnhanced leader, IMotorControllerEnhanced follower1,
-			IMotorControllerEnhanced follower2, SolenoidI shifter) {
+			IMotorControllerEnhanced follower2) {//, SolenoidI shifter) {
 		this.name = name;
 		this.leader = leader;
 		this.follower1 = follower1;
@@ -175,7 +175,7 @@ public class DrivePod {
 	 *            - the target position in inches from current position
 	 */
 	public void setCLPosition(double inches) {
-		if(Robot.drivebase.getGear())
+		if(false)//Robot.drivebase.getGear())
 		{
 			applyHighGearPositionPidConsts();
 			System.out.println("IN HIGH GEAR");

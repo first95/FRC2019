@@ -44,7 +44,7 @@ public class Constants
 		public static final int RIGHT_F2 = 22;
 		
 		// Elevator
-		public static final int LEFT_ELEV_DRIVER = 13;
+		//public static final int LEFT_ELEV_DRIVER = 13;
 		//public static final int RIGHT_ELEV_DRIVER = 23;
 
 		// Hatch Ground Loader
