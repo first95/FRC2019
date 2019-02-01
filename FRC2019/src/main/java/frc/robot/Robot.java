@@ -109,6 +109,8 @@ public class Robot extends TimedRobot {
 
 		leftLeader.set(ControlMode.PercentOutput, leftSpeed);
 		rightLeader.set(ControlMode.PercentOutput, rightSpeed);
+
+		nxTalon.set(ControlMode.PercentOutput, 0);
 	}
 
 }
