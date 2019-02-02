@@ -61,9 +61,9 @@ public final class Main {
   private static JsonObject machineVisibleSettings;
 
   // How far to the right of center is the camera?
-  private final static double CAM_X_OFFSET_IN = 10;
+  private final static double CAM_X_DEFAULT_OFFSET_IN = 10;
   // How far back from the front of the robot is the camera?
-  private final static double CAM_Y_OFFSET_IN = 10;
+  private final static double CAM_Y_DEFAULT_OFFSET_IN = 10;
 
   // @SuppressWarnings("MemberName")
   public static class CameraConfig {
@@ -225,6 +225,9 @@ public static JsonObject readJsonFile(String path) {
     NetworkTable analysisOutputTable = ntinst.getTable("vision_metrics");
     NetworkTable cameraControlTable = ntinst.getTable("camera_control");
     cameraControlTable.getEntry("camera_for_humans").setBoolean(false);
+    // cameraControlTable.getEntry("camera_rightward_from_center_in").setDouble(10);
+    // cameraControlTable.getEntry("camera_forward_from_center_in").setDouble(5);
+    
     // start cameras
     List<VideoSource> cameras = new ArrayList<>();
     for (CameraConfig cameraConfig : cameraConfigs) {
@@ -240,6 +243,9 @@ public static JsonObject readJsonFile(String path) {
                 double[] bearings = new double[hvts.size()];
                 double[] ranges = new double[hvts.size()];
 
+                double dx = cameraControlTable.getEntry("camera_rightward_from_center_in").getDouble(CAM_X_DEFAULT_OFFSET_IN);
+                double dy = cameraControlTable.getEntry("camera_forward_from_center_in").getDouble(CAM_Y_DEFAULT_OFFSET_IN);
+            
                 double[] bearingsRelRobot = new double[hvts.size()];
                 double[] rangesRelRobot = new double[hvts.size()];
                 
@@ -254,8 +260,8 @@ public static JsonObject readJsonFile(String path) {
                   double xc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
                   double yc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
                   // Shift from being camera-relative to being robot-relative
-                  double xr = xc - CAM_X_OFFSET_IN;
-                  double yr = yc - CAM_Y_OFFSET_IN;
+                  double xr = xc - dx;
+                  double yr = yc - dy;
                   // Convert back to polar for delivery
                   bearingsRelRobot[i] = Math.atan2(yr, xr);
                   rangesRelRobot[i] = Math.sqrt(xr * xr + yr * yr);
