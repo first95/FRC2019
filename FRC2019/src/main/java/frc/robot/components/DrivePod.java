@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DrivePod {
 	// Measured 2/13/18 on practice robot on "field" carpet
 	private static final double ENCODER_TICKS_PER_INCH = 23840.0 / (4*12); //25560.0 / (4 * 12);
-	private static final double ROBOT_MAX_SPEED_TICKS_PER_100MS = Constants.ROBOT_TOP_SPEED_LOW_GEAR_FPS * 12.0 * ENCODER_TICKS_PER_INCH / 10.0;
+	//private static final double ROBOT_MAX_SPEED_TICKS_PER_100MS = Constants.ROBOT_TOP_SPEED_LOW_GEAR_FPS * 12.0 * ENCODER_TICKS_PER_INCH / 10.0;
 	private static final double K_F_POSITION_MODE = 0.0; // Not used in position mode
 	private static final double K_P_POSITION_MODE = 0.4;// 0.6 * 1023.0 / (6*ENCODER_TICKS_PER_INCH); // Respond to an error of 6" with 60% throttle
 	private static final double K_I_POSITION_MODE = 0.0; //0.01 * K_P;
@@ -65,8 +66,8 @@ public class DrivePod {
 
 		if(realHardware) {
 			this.leader = new AdjustedTalon(leaderCanNum);
-			this.follower1 = new AdjustedTalon(follower1CanNum);
-			this.follower2 = new AdjustedTalon(follower2CanNum);
+			this.follower1 = new TalonSRX(follower1CanNum);
+			this.follower2 = new TalonSRX(follower2CanNum);
 		} else {
 			this.leader = new FakeTalon();
 			this.follower1 = new FakeTalon();
@@ -253,7 +254,7 @@ public class DrivePod {
 
 	public double getTargetPositionInches() {
 		if (getControlMode() == ControlMode.Position) {
-			return ((TalonSrxWrapper) leader).getClosedLoopTarget(Constants.PID_IDX) / ENCODER_TICKS_PER_INCH;
+			return leader.getClosedLoopTarget(Constants.PID_IDX) / ENCODER_TICKS_PER_INCH;
 		} else if (getControlMode() == ControlMode.Velocity) {
 			return targetDistanceAtSpeed;
 		} else {
@@ -263,19 +264,15 @@ public class DrivePod {
 	
 	public double getTargetVelocityInchesPerSecond() {
 		if (getControlMode() == ControlMode.Velocity) {
-			double speedTicksPer100ms = ((TalonSrxWrapper) leader).getClosedLoopTarget(Constants.PID_IDX);
+			double speedTicksPer100ms = leader.getClosedLoopTarget(Constants.PID_IDX);
 			return (speedTicksPer100ms / ENCODER_TICKS_PER_INCH) * 10.0;
 		} else {
 			return 0;
 		}
 	}
 	
-	public ControlMode getControlMode() {
-		if(leader instanceof TalonSrxWrapper) {
-			return ((TalonSrxWrapper) leader).getControlMode();
-		} else {
-			return ControlMode.PercentOutput; // Return something somewhat reasonable
-		}
+	private ControlMode getControlMode() {
+		return leader.getControlMode();
 	}
 	
 	public void log() {
@@ -370,10 +367,4 @@ public class DrivePod {
 		mc.configPeakCurrentDuration(Constants.DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS, Constants.CAN_TIMEOUT_MS);
 	}
 
-	public void voltageCurrentComp() {
-		// Notes of GitHub
-		// leader.setControlMode(TalonControlMode.Voltage);
-		// leader.setVoltageCompensationRampRate(rampRate);
-		// leader.set(rate);
-	}
 }

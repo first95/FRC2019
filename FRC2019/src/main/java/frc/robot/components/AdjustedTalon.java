@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class AdjustedTalon extends TalonSrxWrapper
+public class AdjustedTalon extends TalonSRX
 	{
 		private PowerDistributionPanelI panel;
 		public static final int NUM_RECENT_SAMPLES = 3;
@@ -29,10 +29,6 @@ public class AdjustedTalon extends TalonSrxWrapper
 		public AdjustedTalon(int deviceNumber) {
 			super(deviceNumber);
 			panel = PowerDistributionPanelWrapper.Instance();
-		}
-		public AdjustedTalon(IMotorControllerEnhanced wrapped, PowerDistributionPanelI panel) {
-			super(wrapped);
-			this.panel = panel;
 		}
 
 		@Override
