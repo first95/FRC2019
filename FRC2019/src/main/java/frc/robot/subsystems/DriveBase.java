@@ -80,20 +80,6 @@ public class DriveBase extends Subsystem {
 	}
 
 	/**
-	 * Tank style driving for the DriveTrain.
-	 * 
-	 * @param left
-	 *            Speed in range [-1,1]
-	 * @param right
-	 *            Speed in range [-1,1]
-	 */
-	public void drive(double left, double right) {
-
-		tank(left, right);
-	}
-	
-
-	/**
 	 * @return The robots heading in degrees.
 	 */
 	public double getHeading() {
@@ -216,25 +202,42 @@ public class DriveBase extends Subsystem {
 		rightPod.driveForDistanceAtSpeed(-rightSpeedInchesPerSecond, -rightDistanceInches);
 	}
 
-	// Corresponded to the Drive class in the 2017 code
-	public void tank(double leftsp, double rightsp) {
-		leftPod.setThrottle(leftsp);
-		rightPod.setThrottle(-rightsp);
+	/** 
+	 * Stop moving
+	 */
+	public void stop() {
+
 	}
 
+	/**
+	 * Drive at the commanded throttle values
+	 * @param leftThrottle between -1 and +1
+	 * @param rightThrottle between -1 and +1
+	 */
+	public void tank(double leftThrottle, double rightThrottle) {
+		leftPod.setThrottle(leftThrottle);
+		rightPod.setThrottle(-rightThrottle);
+	}
+
+	/**
+	 * Drive with the given forward and turn values
+	 * @param forward between -1 and +1
+	 * @param spin between -1 and +1
+	 */
 	public void arcade(double forward, double spin) {
 		tank(forward - spin, forward + spin);
 	}
-
+	/**
+	 * Drive with the forward and turn values from the joysticks
+	 */
 	public void arcade() {
 		setMaxSpeed(1);
 		double y = Robot.oi.getForwardAxis();
 		double x = Robot.oi.getTurnAxis();
 
-		// "Exponential" drive, where the movements are more sensitive during
-		// slow
-		// movement,
-		// permitting easier fine control
+		/* "Exponential" drive, where the movements are more sensitive during
+		 * slow movement, permitting easier fine control
+		 */
 		x = Math.pow(x, 3);
 		y = Math.pow(y, 3);
 		arcade(y, x);

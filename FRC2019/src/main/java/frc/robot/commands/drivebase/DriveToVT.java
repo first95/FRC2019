@@ -92,6 +92,6 @@ public class DriveToVT extends Command {
 	@Override
 	protected void end() {
 		System.out.println("Ending DriveToVT");
-		Robot.drivebase.drive(0, 0);
+		Robot.drivebase.arcade(0, 0);
 	}
 }

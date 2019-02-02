@@ -119,6 +119,6 @@ public class Pivot extends Command {
 	protected void end() {
 		clp.disable();
 		System.out.println("Ending Pivot (" + degreesCw + " degrees)");
-		Robot.drivebase.drive(0, 0);
+		Robot.drivebase.stop();
 	}
 }

@@ -44,6 +44,6 @@ public class DriveStraightAtSpeed extends Command {
 	@Override
 	protected void end() {
 		System.out.println("Ending DriveStraight (" + distanceInches + " inches)");
-		Robot.drivebase.drive(0, 0);
+		Robot.drivebase.stop();
 	}
 }
