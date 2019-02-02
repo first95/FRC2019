@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
 		// Initialize all subsystems
 		drivebase = new DriveBase(true);
 		elevator = new Elevator(false);
+		hScorer = new HatchScorer();
 		hGroundLoader = new HatchGroundLoader(false);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();

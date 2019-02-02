@@ -30,32 +30,40 @@ public class HatchScorer extends Subsystem {
 
   public void openHS(boolean open) {
     if (open) {
+      System.out.println("Opening hatch scorer");
       openA.set(true);
     } else {
+      System.out.println("Closing hatch scorer");
       openA.set(false);
     }
   }
 
   public void toggleOpenHS() {
     if (openA.get()) {
+      System.out.println("CLosing hatch scorer");
       openA.set(false);
     } else {
+      System.out.println("Opening hatch scorer");
       openA.set(true);
     }
   }
 
   public void pushHS(boolean push) {
     if (push) {
+      System.out.println("Pushing hatch scorer");
       pushA.set(true);
     } else {
+      System.out.println("Retracting hatch scorer");
       pushA.set(false);
     }
   }
 
   public void togglePushHS() {
     if (pushA.get()) {
+      System.out.println("Retracting hatch scorer");
       pushA.set(false);
     } else {
+      System.out.println("Pushing hatch scorer");
       pushA.set(true);
     }
   }

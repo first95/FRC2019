@@ -11,15 +11,8 @@ public class ManuallyControlHatchScorer extends Command {
 
 	@Override
 	protected void execute() {
-		// First priority: Is the user holding down the OPEN button?
-		if (Robot.oi.isToggleHSOpenButtonPressed()) {
-			Robot.hScorer.toggleOpenHS();
-		} 
-			
-		// Next priority: Is the user holding down the PUSH button?
-		if (Robot.oi.isToggleHSPushButtonPressed()) {
-			Robot.hScorer.togglePushHS();
-		} 		
+		Robot.hScorer.openHS(Robot.oi.isToggleHSOpenButtonPressed());
+		Robot.hScorer.pushHS(Robot.oi.isToggleHSPushButtonPressed());
 	}
 	
 	@Override
