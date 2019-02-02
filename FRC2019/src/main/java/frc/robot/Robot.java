@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		commonPeriodic();
+
 	}
 
 	/**
@@ -85,10 +85,10 @@ public class Robot extends TimedRobot {
 	}
 
 	public void disabledPeriodic() {	
-		commonPeriodic();
 	}
 	
-	public void commonPeriodic() {
+	@Override
+	public void robotPeriodic() {
 		Scheduler.getInstance().run(); // Runs all active commands
 		elevator.checkAndApplyHomingSwitch();
         drivebase.pullPidConstantsFromSmartDash();
@@ -124,7 +124,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		commonPeriodic();
+
 	}
 
 	/**
@@ -132,18 +132,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		commonPeriodic();
-		LiveWindow.run();
+
 	}
 
 	/**
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
 	private void log() {
-		//drivebase.log();
-		//elevator.log();
-		//collector.log();
-		//oi.log();
+		//debugLog();
 	}
 	
 	private void debugLog() {
