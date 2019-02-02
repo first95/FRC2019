@@ -128,8 +128,8 @@ public class DriveBase extends Subsystem {
 		leftPod.setMaxSpeed(0.9);
 		rightPod.setMaxSpeed(0.9);
 
-		leftPod.setCLPosition(-inchesToTravel);
-		rightPod.setCLPosition(inchesToTravel);
+		leftPod.setCLPosition(inchesToTravel);
+		rightPod.setCLPosition(-inchesToTravel);
 	}
 
 	/**
