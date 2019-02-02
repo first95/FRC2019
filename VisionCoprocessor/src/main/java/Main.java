@@ -60,6 +60,11 @@ public final class Main {
   private final static String machineVisibleSettingsFile = "/home/pi/machineSettings.json";
   private static JsonObject machineVisibleSettings;
 
+  // How far to the right of center is the camera?
+  private final static double CAM_X_OFFSET_IN = 10;
+  // How far back from the front of the robot is the camera?
+  private final static double CAM_Y_OFFSET_IN = 10;
+
   // @SuppressWarnings("MemberName")
   public static class CameraConfig {
     public String name;
@@ -234,15 +239,31 @@ public static JsonObject readJsonFile(String path) {
                 List<HatchVisionTargetsFromImage.HatchVisionTarget> hvts = pipeline.getDetectedTargets();
                 double[] bearings = new double[hvts.size()];
                 double[] ranges = new double[hvts.size()];
+
+                double[] bearingsRelRobot = new double[hvts.size()];
+                double[] rangesRelRobot = new double[hvts.size()];
+                
                 int i = 0;
                 int imgWidth = cameras.get(0).getVideoMode().width;
                 for (HatchVisionTargetsFromImage.HatchVisionTarget hvt : hvts) {
+                  // Get bearing and range, relative to the camera
                   ranges[i] = hvt.computeRangeInches(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
                   bearings[i] = hvt.computeBearingDegrees(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
+
+                  // Convert to cartesian coordinates.  Y+ is ahead of the robot, X+ is rightwards.
+                  double xc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
+                  double yc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
+                  // Shift from being camera-relative to being robot-relative
+                  double xr = xc - CAM_X_OFFSET_IN;
+                  double yr = yc - CAM_Y_OFFSET_IN;
+                  // Convert back to polar for delivery
+                  bearingsRelRobot[i] = Math.atan2(yr, xr);
+                  rangesRelRobot[i] = Math.sqrt(xr * xr + yr * yr);
+
                   i++;
                 }
-                analysisOutputTable.getEntry("target bearings (deg)").setDoubleArray(bearings);
-                analysisOutputTable.getEntry("target ranges (in)").setDoubleArray(ranges);
+                analysisOutputTable.getEntry("target bearings (deg)").setDoubleArray(bearingsRelRobot);
+                analysisOutputTable.getEntry("target ranges (in)").setDoubleArray(rangesRelRobot);
                 analysisOutputTable.getEntry("target count").setNumber(hvts.size());
       });
       visionThread.start();
