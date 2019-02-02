@@ -60,12 +60,18 @@ public class DrivePod {
 	// (This is to account for the way the drive pods are mounted in a rotationally
 	// symmetric way.)
 	// Name is for feedback on the SmartDashboard - likely "left" or "right"
-	public DrivePod(String name, int leaderCanNum, int follower1CanNum, int follower2CanNum, boolean reverse) {
+	public DrivePod(String name, int leaderCanNum, int follower1CanNum, int follower2CanNum, boolean reverse, boolean realHardware) {
 		this.name = name;
-		this.leader = new AdjustedTalon(leaderCanNum);
-		this.follower1 = new AdjustedTalon(follower1CanNum);
-		this.follower2 = new AdjustedTalon(follower2CanNum);
 
+		if(realHardware) {
+			this.leader = new AdjustedTalon(leaderCanNum);
+			this.follower1 = new AdjustedTalon(follower1CanNum);
+			this.follower2 = new AdjustedTalon(follower2CanNum);
+		} else {
+			this.leader = new FakeTalon();
+			this.follower1 = new FakeTalon();
+			this.follower2 = new FakeTalon();
+		}
 		// Tell the followers to follow the leader
 		follower1.set(ControlMode.Follower, leaderCanNum);
 		follower2.set(ControlMode.Follower, leaderCanNum);
@@ -78,11 +84,6 @@ public class DrivePod {
 		applyCurrentLimitSettings(follower2);
 
 		init();
-	}
-
-	// Provide a default value for reverse parameter
-	public DrivePod(String name, int leaderCanNum, int follower1CanNum, int follower2CanNum) {
-		this(name, leaderCanNum, follower1CanNum, follower2CanNum, false);
 	}
 
 	// Constructor used for unit tests

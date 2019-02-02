@@ -37,7 +37,7 @@ public class DriveBase extends Subsystem {
 	private double leftSpeed;
 	private double rightSpeed;
 	
-	private PigeonWrapper imu;
+	// private PigeonWrapper imu;
 
 	private Timer shiftTimer = new Timer();
 	private boolean allowShift = true;
@@ -45,14 +45,14 @@ public class DriveBase extends Subsystem {
 	private boolean hasAlreadyShifted = false;
 	private boolean shiftOverrideToggled = false;
 
-	public DriveBase() {
+	public DriveBase(boolean realHardware) {
 		super();
 
-		leftPod = new DrivePod("Left", Constants.LEFT_LEAD, Constants.LEFT_F1, Constants.LEFT_F2);
-		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2);
+		leftPod = new DrivePod("Left", Constants.LEFT_LEAD, Constants.LEFT_F1, Constants.LEFT_F2, false, realHardware);
+		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, false, realHardware);
 		shifter = new SolenoidWrapper(Constants.SHIFTER_SOLENOID_NUM);
 		
-		imu = new PigeonWrapper(Constants.PIGEON_NUM);
+		// imu = new PigeonWrapper(Constants.PIGEON_NUM);
 	}
 
 	/**
@@ -75,10 +75,10 @@ public class DriveBase extends Subsystem {
 		SmartDashboard.putNumber("rightDriveEncoder Value:", rightPod.getQuadEncPos());
 		SmartDashboard.putNumber("leftDriveCurrent:", leftPod.getLeadCurrent());
 		SmartDashboard.putNumber("RightDriveCurrent:", rightPod.getLeadCurrent());
-		SmartDashboard.putNumber("IMU Yaw",   imu.getYawPitchRoll()[0]);
-		SmartDashboard.putNumber("IMU Pitch", imu.getYawPitchRoll()[1]);
-		SmartDashboard.putNumber("IMU Roll",  imu.getYawPitchRoll()[2]);
-		SmartDashboard.putNumber("IMU Fused heading", imu.getFusedHeading());
+		// SmartDashboard.putNumber("IMU Yaw",   imu.getYawPitchRoll()[0]);
+		// SmartDashboard.putNumber("IMU Pitch", imu.getYawPitchRoll()[1]);
+		// SmartDashboard.putNumber("IMU Roll",  imu.getYawPitchRoll()[2]);
+		// SmartDashboard.putNumber("IMU Fused heading", imu.getFusedHeading());
 		SmartDashboard.putBoolean("In High Gear", getGear());
 	}
 
@@ -267,7 +267,8 @@ public class DriveBase extends Subsystem {
 	}
 	
 	public double getRobotHeadingDegrees() {
-		return imu.getYawPitchRoll()[0];
+		// return imu.getYawPitchRoll()[0];
+		return 0;
 	}
 
 	public void setGear(boolean isHighGear) {
