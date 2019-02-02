@@ -10,6 +10,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchGroundLoader;
 import frc.robot.subsystems.HatchScorer;
 import frc.robot.subsystems.VisionCoprocessor;
+import frc.robot.subsystems.DriveBase.GearShiftMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -104,7 +105,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 
 		// Unlock the auto shifter
-		Robot.oi.setShiftLockValue(0);
+		drivebase.setShiftMode(GearShiftMode.AUTOSHIFT);
 
 		drivebase.brake(true);
 		elevator.brake(true);
@@ -141,10 +142,10 @@ public class Robot extends TimedRobot {
 		// debugLog();
 	}
 
-	private void debugLog() {
-		drivebase.log();
-		elevator.log();
-		hGroundLoader.log();
-		oi.log();
-	}
+	// private void debugLog() {
+	// 	drivebase.log();
+	// 	elevator.log();
+	// 	hGroundLoader.log();
+	// 	oi.log();
+	// }
 }
