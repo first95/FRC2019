@@ -33,6 +33,8 @@ public class OI {
 	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = 2; // B
 	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = 3; // X
 	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = 4; // Y
+	public static final int HS_OPEN_TOGGLE = 5; // ?
+	public static final int HS_PUSH_TOGGLE = 6; // ?
 
 	// POV/DPAD on the weapons controller || IT IS IN DEGREES!
 	public static final int POV_NONE = -1; // No DPAD button pressed
@@ -104,6 +106,15 @@ public class OI {
 	public void setShiftLockValue(int shifterValue) {
 		shiftLockValue = shifterValue;
 	}
+
+	// Hatch scorer
+	public boolean isToggleHSOpenButtonPressed() {
+		return weaponsController.getRawButton(HS_OPEN_TOGGLE);
+	}
+
+	public boolean isToggleHSPushButtonPressed() {
+		return weaponsController.getRawButton(HS_PUSH_TOGGLE);
+	}	
 
 	// Hatch loader controls
 	// We support 2 positions:
