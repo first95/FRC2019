@@ -81,6 +81,8 @@ public class DrivePod {
 		// Only set the leader to backwards.
 		// TODO: Confirm this is the case
 		leader.setInverted(reverse);
+		follower1.setInverted(reverse);
+		follower2.setInverted(reverse);
 
 		// Apply current limit settings to each AdjustedTalon
 		applyCurrentLimitSettings(leader);
