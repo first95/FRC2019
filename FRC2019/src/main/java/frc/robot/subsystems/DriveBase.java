@@ -221,8 +221,8 @@ public class DriveBase extends Subsystem {
 
 	// Corresponded to the Drive class in the 2017 code
 	public void tank(double leftsp, double rightsp) {
-		leftPod.setThrottle(-leftsp);
-		rightPod.setThrottle(rightsp);
+		leftPod.setThrottle(leftsp);
+		rightPod.setThrottle(-rightsp);
 	}
 
 	public void arcade(double forward, double spin) {
