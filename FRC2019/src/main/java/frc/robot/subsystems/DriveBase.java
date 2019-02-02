@@ -272,6 +272,7 @@ public class DriveBase extends Subsystem {
 	}
 
 	private void setGear(boolean isHighGear) {
+		//System.out.println("Shifting to " + (isHighGear? "high":"low") + " gear");
 		shifter.set(isHighGear);
 	}
 	
@@ -288,7 +289,7 @@ public class DriveBase extends Subsystem {
 		// Autoshift framework based off speed
 		if (allowShift) {
 			if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN)) {
-				Robot.drivebase.setGear(false);
+				setGear(false);
 
 				if (hasAlreadyShifted) {
 					allowDeshift = true;
@@ -300,7 +301,7 @@ public class DriveBase extends Subsystem {
 					shiftTimer.reset();
 					shiftTimer.start();
 					allowShift = false;
-					Robot.drivebase.setGear(true);
+					setGear(true);
 				}
 			}
 		} else if (shiftTimer.get() > 1.0) {
@@ -311,6 +312,7 @@ public class DriveBase extends Subsystem {
 			hasAlreadyShifted = true;
 		}
 
+		// System.out.println("leftSpeed: " + leftSpeed + ", allowShift: " + allowShift);
 		// SmartDashboard.putBoolean("Allow Shift:", allowShift);
 		// SmartDashboard.putBoolean("Allow Deshift:", allowDeshift);
 		// SmartDashboard.putBoolean("Has Already Shifted:", hasAlreadyShifted);
