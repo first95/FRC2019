@@ -32,6 +32,6 @@ public class ManuallyControlDrivebase extends Command {
 	// Called once after isFinished returns true
 	@Override
 	protected void end() {
-		Robot.drivebase.drive(0, 0);
+		Robot.drivebase.stop();
 	}
 }

@@ -4,10 +4,10 @@ import frc.robot.Constants;
 import frc.robot.commands.hgroundloader.ManuallyControlHatchGroundLoader;
 import frc.robot.components.AdjustedTalon;
 import frc.robot.components.FakeTalon;
-import frc.robot.components.SolenoidI;
-import frc.robot.components.SolenoidWrapper;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchGroundLoader extends Subsystem {
@@ -16,7 +16,7 @@ public class HatchGroundLoader extends Subsystem {
 	private IMotorControllerEnhanced leftChainDriver, rightChainDriver;
 	
 	// The solenoids for the cylinder that operates wrist action
-	private SolenoidI hatchWrist;
+	private Solenoid hatchWrist;
 	
 	public HatchGroundLoader(boolean realHardware) {
 		super();
@@ -30,7 +30,7 @@ public class HatchGroundLoader extends Subsystem {
 		}
 		
 		// False means the wrist is extended
-		hatchWrist = new SolenoidWrapper(Constants.HGL_WRIST_SOLENOID_NUM);
+		hatchWrist = new Solenoid(Constants.HGL_WRIST_SOLENOID_NUM);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,16 +11,12 @@ import frc.robot.Robot;
 import frc.robot.commands.drivebase.ManuallyControlDrivebase;
 import frc.robot.components.DrivePod;
 import frc.robot.components.PigeonWrapper;
-import frc.robot.components.SolenoidI;
-import frc.robot.components.SolenoidWrapper;
 
 /**
  * The DriveBase subsystem incorporates the sensors and actuators attached to
  * the robot's chassis. These include two 3-motor drive pods.
  */
 public class DriveBase extends Subsystem {
-	// This is how much extra we command the pods to move to account for slippage
-	private final double PIVOT_FUDGE_FACTOR = 1.5;
 	// in inches
 	private final double DISTANCE_FROM_OUTER_TO_INNER_WHEEL = 13.5;
 	// in inches
@@ -32,7 +29,7 @@ public class DriveBase extends Subsystem {
 	
 	private final double SWEEPER_TURN_SPEED_INCHES_PER_SECOND = 24;
 	private DrivePod leftPod, rightPod;
-	private SolenoidI shifter;
+	private Solenoid shifter;
 
 	private double leftSpeed;
 	private double rightSpeed;
@@ -43,14 +40,14 @@ public class DriveBase extends Subsystem {
 	private boolean allowShift = true;
 	private boolean allowDeshift = true;
 	private boolean hasAlreadyShifted = false;
-	private boolean shiftOverrideToggled = false;
-
+	
 	public DriveBase(boolean realHardware) {
 		super();
 
+		// Note that one pod must be inverted, since the gearbox assemblies are rotationally symmetrical
 		leftPod = new DrivePod("Left", Constants.LEFT_LEAD, Constants.LEFT_F1, Constants.LEFT_F2, false, realHardware);
-		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, false, realHardware);
-		shifter = new SolenoidWrapper(Constants.SHIFTER_SOLENOID_NUM);
+		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, true, realHardware);
+		shifter = new Solenoid(Constants.SHIFTER_SOLENOID_NUM);
 		
 		// imu = new PigeonWrapper(Constants.PIGEON_NUM);
 	}
@@ -81,20 +78,6 @@ public class DriveBase extends Subsystem {
 		// SmartDashboard.putNumber("IMU Fused heading", imu.getFusedHeading());
 		SmartDashboard.putBoolean("In High Gear", getGear());
 	}
-
-	/**
-	 * Tank style driving for the DriveTrain.
-	 * 
-	 * @param left
-	 *            Speed in range [-1,1]
-	 * @param right
-	 *            Speed in range [-1,1]
-	 */
-	public void drive(double left, double right) {
-
-		tank(left, right);
-	}
-	
 
 	/**
 	 * @return The robots heading in degrees.
@@ -131,7 +114,7 @@ public class DriveBase extends Subsystem {
 		leftPod.setMaxSpeed(0.9);
 		rightPod.setMaxSpeed(0.9);
 
-		leftPod.setCLPosition(-inchesToTravel);
+		leftPod.setCLPosition(inchesToTravel);
 		rightPod.setCLPosition(inchesToTravel);
 	}
 
@@ -146,7 +129,7 @@ public class DriveBase extends Subsystem {
 	 *            - speed at which to travel
 	 */
 	public void travelStraight(double inchesPerSecond, double inchesToTravel) {
-		leftPod.driveForDistanceAtSpeed(-inchesPerSecond, -inchesToTravel);
+		leftPod.driveForDistanceAtSpeed(inchesPerSecond, inchesToTravel);
 		rightPod.driveForDistanceAtSpeed(inchesPerSecond, inchesToTravel);
 	}
 
@@ -161,7 +144,7 @@ public class DriveBase extends Subsystem {
 		double rightDistanceInches = leftDistanceInches;
 		double turnSign = (degreesToPivotCw > 0)? 1.0 : -1.0;
 		leftPod.driveForDistanceAtSpeed( turnSign * inchesPerSecond, -leftDistanceInches);
-		rightPod.driveForDistanceAtSpeed(turnSign * inchesPerSecond, -rightDistanceInches);		
+		rightPod.driveForDistanceAtSpeed(turnSign * inchesPerSecond, rightDistanceInches);		
 	}
 	
 	// Do not use this for turning! Use setPivotRate
@@ -173,7 +156,7 @@ public class DriveBase extends Subsystem {
 		//rightDistanceInches *= PIVOT_FUDGE_FACTOR;
 		double turnSign = (degreesToPivotCw > 0)? 1.0 : -1.0;
 		leftPod.driveForDistanceAtSpeed( turnSign * TURN_SPEED_INCHES_PER_SECOND, -leftDistanceInches);
-		rightPod.driveForDistanceAtSpeed(turnSign * TURN_SPEED_INCHES_PER_SECOND, -rightDistanceInches);
+		rightPod.driveForDistanceAtSpeed(turnSign * TURN_SPEED_INCHES_PER_SECOND, rightDistanceInches);
 	}
 
 	public void setPivotRate(double inchesPerSecond) {
@@ -216,28 +199,45 @@ public class DriveBase extends Subsystem {
 		double rightSpeedInchesPerSecond = rightDistanceInches / sweepTimeS;
 
 		leftPod.driveForDistanceAtSpeed(leftSpeedInchesPerSecond, leftDistanceInches);
-		rightPod.driveForDistanceAtSpeed(-rightSpeedInchesPerSecond, -rightDistanceInches);
+		rightPod.driveForDistanceAtSpeed(rightSpeedInchesPerSecond, rightDistanceInches);
 	}
 
-	// Corresponded to the Drive class in the 2017 code
-	public void tank(double leftsp, double rightsp) {
-		leftPod.setThrottle(leftsp);
-		rightPod.setThrottle(-rightsp);
+	/** 
+	 * Stop moving
+	 */
+	public void stop() {
+
 	}
 
+	/**
+	 * Drive at the commanded throttle values
+	 * @param leftThrottle between -1 and +1
+	 * @param rightThrottle between -1 and +1
+	 */
+	public void tank(double leftThrottle, double rightThrottle) {
+		leftPod.setThrottle(leftThrottle);
+		rightPod.setThrottle(rightThrottle);
+	}
+
+	/**
+	 * Drive with the given forward and turn values
+	 * @param forward between -1 and +1
+	 * @param spin between -1 and +1
+	 */
 	public void arcade(double forward, double spin) {
 		tank(forward - spin, forward + spin);
 	}
-
+	/**
+	 * Drive with the forward and turn values from the joysticks
+	 */
 	public void arcade() {
 		setMaxSpeed(1);
 		double y = Robot.oi.getForwardAxis();
 		double x = Robot.oi.getTurnAxis();
 
-		// "Exponential" drive, where the movements are more sensitive during
-		// slow
-		// movement,
-		// permitting easier fine control
+		/* "Exponential" drive, where the movements are more sensitive during
+		 * slow movement, permitting easier fine control
+		 */
 		x = Math.pow(x, 3);
 		y = Math.pow(y, 3);
 		arcade(y, x);
@@ -271,7 +271,8 @@ public class DriveBase extends Subsystem {
 		return 0;
 	}
 
-	public void setGear(boolean isHighGear) {
+	private void setGear(boolean isHighGear) {
+		//System.out.println("Shifting to " + (isHighGear? "high":"low") + " gear");
 		shifter.set(isHighGear);
 	}
 	
@@ -281,14 +282,14 @@ public class DriveBase extends Subsystem {
 		return shifter.get();
 	}
 
-	public void autoShift() {
+	private void autoShift() {
 		leftSpeed = Math.abs(Robot.drivebase.getLeftSpeed());
 		rightSpeed = Math.abs(Robot.drivebase.getRightSpeed());
 
 		// Autoshift framework based off speed
 		if (allowShift) {
 			if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN)) {
-				Robot.drivebase.setGear(false);
+				setGear(false);
 
 				if (hasAlreadyShifted) {
 					allowDeshift = true;
@@ -300,7 +301,7 @@ public class DriveBase extends Subsystem {
 					shiftTimer.reset();
 					shiftTimer.start();
 					allowShift = false;
-					Robot.drivebase.setGear(true);
+					setGear(true);
 				}
 			}
 		} else if (shiftTimer.get() > 1.0) {
@@ -311,42 +312,27 @@ public class DriveBase extends Subsystem {
 			hasAlreadyShifted = true;
 		}
 
+		// System.out.println("leftSpeed: " + leftSpeed + ", allowShift: " + allowShift);
 		// SmartDashboard.putBoolean("Allow Shift:", allowShift);
 		// SmartDashboard.putBoolean("Allow Deshift:", allowDeshift);
 		// SmartDashboard.putBoolean("Has Already Shifted:", hasAlreadyShifted);
 	}
 	
 	public void visit() {
-//		if (Robot.oi.getShiftOverrided()) {
-//
-//			allowShift = false;
-//			setGear(false);
-//			shiftOverrideToggled = true;
-//			
-//		} else {
-//
-//			if(shiftOverrideToggled) {
-//				allowShift = true;
-//				shiftOverrideToggled = false;
-//			}
-//
-//		}
-
 		lockGear(Robot.oi.getShiftLockValue());
-
 	}
 	
 	// If true it locks into high gear, if false locks into low gear
-	public void lockGear(int lockGear) {
+	private void lockGear(int lockGear) {
 		if(lockGear > 1) lockGear = 0;
 		else if(lockGear < -1) lockGear = 0;
 		else if(lockGear > 0 && lockGear < 1) lockGear = 1;
 		else if(lockGear < 0 && lockGear > -1) lockGear = -1;
 		
 		if (lockGear == 1) {
-			Robot.drivebase.setGear(true);
+			setGear(true);
 		}else if (lockGear == -1) {
-			Robot.drivebase.setGear(false);
+			setGear(false);
 		}
 		else {
 			autoShift();

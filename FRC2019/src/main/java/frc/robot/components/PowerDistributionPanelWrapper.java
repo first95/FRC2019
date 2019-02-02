@@ -1,20 +1,24 @@
 /*
  * PowerDistributionPanelWrapper
  * 
- * This class wraps the PowerDistributionPanel class, but also implements the PowerDistributionPanelI
- * interface. 
+ * This class wraps the PowerDistributionPanel class, and offers singleton functionality
  */
 package frc.robot.components;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
-public class PowerDistributionPanelWrapper implements PowerDistributionPanelI {
-	private static PowerDistributionPanel wrapped;
-	
+public class PowerDistributionPanelWrapper extends PowerDistributionPanel {
+
+	/**
+	 * Make the constructor private
+	 */
 	private PowerDistributionPanelWrapper() {
-		wrapped = new PowerDistributionPanel();
+		super();
 	}
-	
+
+	/** 
+	 * Enforce singleton behavior
+	 */
 	private static PowerDistributionPanelWrapper instance;
 	public static PowerDistributionPanelWrapper Instance() {
 		if(instance == null) {
@@ -22,29 +26,4 @@ public class PowerDistributionPanelWrapper implements PowerDistributionPanelI {
 		}
 		return instance;
 	}
-
-	@Override
-	public double getVoltage() { return wrapped.getVoltage(); }
-
-	@Override
-	public double getTemperature() { return wrapped.getTemperature(); }
-
-	@Override
-	public double getCurrent(int channel) {  return wrapped.getCurrent(channel); }
-
-	@Override
-	public double getTotalCurrent() { return wrapped.getTotalCurrent(); }
-
-	@Override
-	public double getTotalPower() { return wrapped.getTotalPower(); }
-
-	@Override
-	public double getTotalEnergy() { return wrapped.getTotalEnergy(); }
-
-	@Override
-	public void resetTotalEnergy() { wrapped.resetTotalEnergy(); }
-
-	@Override
-	public void clearStickyFaults() { wrapped.clearStickyFaults(); }
-
 }

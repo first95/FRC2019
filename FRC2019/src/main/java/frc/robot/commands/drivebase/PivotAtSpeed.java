@@ -44,6 +44,6 @@ public class PivotAtSpeed extends Command {
 	@Override
 	protected void end() {
 		System.out.println("Ending Pivot (" + degreesCw + " degrees)");
-		Robot.drivebase.drive(0, 0);
+		Robot.drivebase.stop();
 	}
 }

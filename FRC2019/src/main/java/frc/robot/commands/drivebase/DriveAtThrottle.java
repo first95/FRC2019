@@ -28,7 +28,7 @@ public class DriveAtThrottle extends Command {
 		System.out.println("Starting DriveAtThrottle (" + throttleFwd + ")");
 		
 		// Command the movement
-		Robot.drivebase.drive(throttleFwd, throttleFwd);
+		Robot.drivebase.arcade(throttleFwd, 0);
 		
 	}
 
@@ -42,6 +42,6 @@ public class DriveAtThrottle extends Command {
 	@Override
 	protected void end() {
 		System.out.println("Ending DriveAtThrottle (" + throttleFwd + ")");
-		Robot.drivebase.drive(0, 0);
+		Robot.drivebase.stop();
 	}
 }

@@ -44,6 +44,6 @@ public class SweepTurn extends Command {
 	@Override
 	protected void end() {
 		System.out.println("Ending SweepTurn (" + degreesCw + " degrees at " + turnRadiusInches + " inches radius)");
-		Robot.drivebase.drive(0, 0);
+		Robot.drivebase.stop();
 	}
 }
