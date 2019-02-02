@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
-
 import frc.robot.Constants;
-import frc.robot.commands.LoadHatch;
+import frc.robot.commands.hscorer.ManuallyControlHatchScorer;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -18,14 +18,14 @@ public class HatchScorer extends Subsystem {
     // False means closed and true means open so default is closed when robot off
     openA = new Solenoid(Constants.HS_OPEN_A);
 
-    // 00 means ?; 01 means ?; 10 means ?; and 11 means?
+    // False means retracted, and true means extended
     pushA = new Solenoid(Constants.HS_PUSH_A);
 
   }
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new LoadHatch());
+    setDefaultCommand(new ManuallyControlHatchScorer());
   }
 
   public void openHS(boolean open) {
@@ -36,11 +36,27 @@ public class HatchScorer extends Subsystem {
     }
   }
 
+  public void toggleOpenHS() {
+    if (openA.get()) {
+      openA.set(false);
+    } else {
+      openA.set(true);
+    }
+  }
+
   public void pushHS(boolean push) {
     if (push) {
       pushA.set(true);
     } else {
       pushA.set(false);
+    }
+  }
+
+  public void togglePushHS() {
+    if (pushA.get()) {
+      pushA.set(false);
+    } else {
+      pushA.set(true);
     }
   }
 }
