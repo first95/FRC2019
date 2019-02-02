@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,8 +11,6 @@ import frc.robot.Robot;
 import frc.robot.commands.drivebase.ManuallyControlDrivebase;
 import frc.robot.components.DrivePod;
 import frc.robot.components.PigeonWrapper;
-import frc.robot.components.SolenoidI;
-import frc.robot.components.SolenoidWrapper;
 
 /**
  * The DriveBase subsystem incorporates the sensors and actuators attached to
@@ -30,7 +29,7 @@ public class DriveBase extends Subsystem {
 	
 	private final double SWEEPER_TURN_SPEED_INCHES_PER_SECOND = 24;
 	private DrivePod leftPod, rightPod;
-	private SolenoidI shifter;
+	private Solenoid shifter;
 
 	private double leftSpeed;
 	private double rightSpeed;
@@ -48,7 +47,7 @@ public class DriveBase extends Subsystem {
 		// Note that one pod must be inverted, since the gearbox assemblies are rotationally symmetrical
 		leftPod = new DrivePod("Left", Constants.LEFT_LEAD, Constants.LEFT_F1, Constants.LEFT_F2, false, realHardware);
 		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, true, realHardware);
-		shifter = new SolenoidWrapper(Constants.SHIFTER_SOLENOID_NUM);
+		shifter = new Solenoid(Constants.SHIFTER_SOLENOID_NUM);
 		
 		// imu = new PigeonWrapper(Constants.PIGEON_NUM);
 	}
@@ -329,9 +328,9 @@ public class DriveBase extends Subsystem {
 		else if(lockGear < 0 && lockGear > -1) lockGear = -1;
 		
 		if (lockGear == 1) {
-			Robot.drivebase.setGear(true);
+			setGear(true);
 		}else if (lockGear == -1) {
-			Robot.drivebase.setGear(false);
+			setGear(false);
 		}
 		else {
 			autoShift();

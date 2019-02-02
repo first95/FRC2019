@@ -1,10 +1,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.components.SolenoidI;
-import frc.robot.components.SolenoidWrapper;
 import frc.robot.commands.LoadHatch;
-
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -14,14 +12,14 @@ public class HatchScorer extends Subsystem {
 
   // The solenoids for the cylinders that open the scorer and that push the scorer
   // Named to allow for future possibility of adding one more solenoid per motion to have slow/fast options
-	private SolenoidI openA, pushA;
+	private Solenoid openA, pushA;
 
   public HatchScorer() {
     // False means closed and true means open so default is closed when robot off
-    openA = new SolenoidWrapper(Constants.HS_OPEN_A);
+    openA = new Solenoid(Constants.HS_OPEN_A);
 
     // 00 means ?; 01 means ?; 10 means ?; and 11 means?
-    pushA = new SolenoidWrapper(Constants.HS_PUSH_A);
+    pushA = new Solenoid(Constants.HS_PUSH_A);
 
   }
 
