@@ -5,12 +5,10 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.drivebase.ManuallyControlDrivebase;
 import frc.robot.components.DrivePod;
-import frc.robot.components.PigeonWrapper;
 
 /**
  * The DriveBase subsystem incorporates the sensors and actuators attached to
@@ -34,7 +32,16 @@ public class DriveBase extends Subsystem {
 	private double leftSpeed;
 	private double rightSpeed;
 	
-	// private PigeonWrapper imu;
+	// private Pigeon imu;
+
+	
+	// Mode for the gearshift, as set by the auto moves
+	public enum GearShiftMode {
+		LOCK_HIGH_GEAR ,
+		LOCK_LOW_GEAR, 
+		AUTOSHIFT  ,
+	}
+	private GearShiftMode gearShiftMode = GearShiftMode.AUTOSHIFT;
 
 	private Timer shiftTimer = new Timer();
 	private boolean allowShift = true;
@@ -85,16 +92,6 @@ public class DriveBase extends Subsystem {
 	public double getHeading() {
 		// return gyro.getAngle();
 		return 0;
-	}
-
-	/**
-	 * @return The distance driven (average of left and right encoders).
-	 */
-	public double getDistance() {
-		// TODO: Some of the commands call this in order to travel a set
-		// distance.
-		// We want to move that functionality into this class instead.
-		return (leftPod.getQuadEncPos() + rightPod.getQuadEncPos()) / 2;
 	}
 
 	public boolean onTarget() {
@@ -318,24 +315,39 @@ public class DriveBase extends Subsystem {
 		// SmartDashboard.putBoolean("Has Already Shifted:", hasAlreadyShifted);
 	}
 	
+
+	/**
+	 * Ask if an autonomous move has asked the robot to
+	 * remain in a particular gear
+	 * @return 0 for "choose gear automatically", -1 for low gear, 1 for high gear.
+	 */
+	public GearShiftMode getShiftMode() {
+		return gearShiftMode;	
+	}
+	
+	public void setShiftMode(GearShiftMode shiftMode) {
+		gearShiftMode = shiftMode;
+	}
+
 	public void visit() {
-		lockGear(Robot.oi.getShiftLockValue());
+		handleGear();
 	}
 	
 	// If true it locks into high gear, if false locks into low gear
-	private void lockGear(int lockGear) {
-		if(lockGear > 1) lockGear = 0;
-		else if(lockGear < -1) lockGear = 0;
-		else if(lockGear > 0 && lockGear < 1) lockGear = 1;
-		else if(lockGear < 0 && lockGear > -1) lockGear = -1;
-		
-		if (lockGear == 1) {
+	private void handleGear() {
+		// Driver commanded override?
+		if(Robot.oi.getHighGear()) {
 			setGear(true);
-		}else if (lockGear == -1) {
+		} else if (Robot.oi.getLowGear()) {
 			setGear(false);
-		}
-		else {
-			autoShift();
+		} else {
+			// No override from driver.  Auto move commanded override?
+			switch(gearShiftMode) {
+				case LOCK_HIGH_GEAR: setGear(true); break;
+				case LOCK_LOW_GEAR: setGear(false); break;
+				// No override commanded; handle automatic gear shifting.
+				case AUTOSHIFT: autoShift(); break;
+			}
 		}
 	}
 	

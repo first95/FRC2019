@@ -27,8 +27,8 @@ public class Constants
 		
 		// Indices for solenoids
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
-		public static final int HS_OPEN_A = 4;
-		public static final int HS_PUSH_A = 5;
+		public static final int HS_OPEN_A = 6;
+		public static final int HS_PUSH_A = 7;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
@@ -43,8 +43,8 @@ public class Constants
 		public static final int RIGHT_F2 = 22;
 		
 		// Elevator
-		public static final int LEFT_ELEV_DRIVER = 13;
-		public static final int RIGHT_ELEV_DRIVER = 23;
+		public static final int LEFT_ELEV_DRIVER = 31;
+		public static final int RIGHT_ELEV_DRIVER = 35;
 
 		// Hatch Ground Loader
 		public static final int ROLLER_HGL_DRIVER = 33;

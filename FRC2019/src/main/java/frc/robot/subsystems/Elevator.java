@@ -50,7 +50,7 @@ public class Elevator extends Subsystem {
 		}
 
 		// Configure the left talon to follow the right talon, but backwards
-		leftElevDriver.setInverted(true); // Inverted here refers to the output
+		leftElevDriver.setInverted(false); // Inverted here refers to the output
 		leftElevDriver.set(ControlMode.Follower, Constants.RIGHT_ELEV_DRIVER);
 		
 		// Configure the right talon for closed loop control
