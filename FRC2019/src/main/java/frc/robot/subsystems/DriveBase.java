@@ -272,7 +272,7 @@ public class DriveBase extends Subsystem {
 		return 0;
 	}
 
-	public void setGear(boolean isHighGear) {
+	private void setGear(boolean isHighGear) {
 		shifter.set(isHighGear);
 	}
 	
