@@ -18,8 +18,6 @@ import frc.robot.components.SolenoidWrapper;
  * the robot's chassis. These include two 3-motor drive pods.
  */
 public class DriveBase extends Subsystem {
-	// This is how much extra we command the pods to move to account for slippage
-	private final double PIVOT_FUDGE_FACTOR = 1.5;
 	// in inches
 	private final double DISTANCE_FROM_OUTER_TO_INNER_WHEEL = 13.5;
 	// in inches
@@ -43,8 +41,7 @@ public class DriveBase extends Subsystem {
 	private boolean allowShift = true;
 	private boolean allowDeshift = true;
 	private boolean hasAlreadyShifted = false;
-	private boolean shiftOverrideToggled = false;
-
+	
 	public DriveBase(boolean realHardware) {
 		super();
 
@@ -281,7 +278,7 @@ public class DriveBase extends Subsystem {
 		return shifter.get();
 	}
 
-	public void autoShift() {
+	private void autoShift() {
 		leftSpeed = Math.abs(Robot.drivebase.getLeftSpeed());
 		rightSpeed = Math.abs(Robot.drivebase.getRightSpeed());
 
@@ -317,27 +314,11 @@ public class DriveBase extends Subsystem {
 	}
 	
 	public void visit() {
-//		if (Robot.oi.getShiftOverrided()) {
-//
-//			allowShift = false;
-//			setGear(false);
-//			shiftOverrideToggled = true;
-//			
-//		} else {
-//
-//			if(shiftOverrideToggled) {
-//				allowShift = true;
-//				shiftOverrideToggled = false;
-//			}
-//
-//		}
-
 		lockGear(Robot.oi.getShiftLockValue());
-
 	}
 	
 	// If true it locks into high gear, if false locks into low gear
-	public void lockGear(int lockGear) {
+	private void lockGear(int lockGear) {
 		if(lockGear > 1) lockGear = 0;
 		else if(lockGear < -1) lockGear = 0;
 		else if(lockGear > 0 && lockGear < 1) lockGear = 1;
