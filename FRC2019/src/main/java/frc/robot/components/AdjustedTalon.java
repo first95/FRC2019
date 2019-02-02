@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class AdjustedTalon extends TalonSRX
 	{
-		private PowerDistributionPanelI panel;
+		private PowerDistributionPanelWrapper panel;
 		public static final int NUM_RECENT_SAMPLES = 3;
 		public static final double BACKWARDS_MULTIPLIER = 1.0 / 0.92; // Main CIMs run about 8% less efficiently going backwards. Reverse that.
 		public static final double MIN_CURRENT = 40.0;
