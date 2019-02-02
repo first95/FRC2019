@@ -59,12 +59,6 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;
 		
-		// Mode for the gearshift, as set by the auto moves
-		public enum GearShiftMode {
-			LOCK_HIGH_GEAR ,
-			LOCK_LOW_GEAR, 
-			AUTOSHIFT  ,
-		}
 		
 		public static double RFVoltsToFt(double voltage)
 			{

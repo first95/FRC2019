@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.Constants.GearShiftMode;
 import frc.robot.commands.drivebase.LockGear;
 import frc.robot.commands.drivebase.ManuallyControlDrivebase;
 import frc.robot.components.DrivePod;
@@ -37,6 +36,15 @@ public class DriveBase extends Subsystem {
 	private double rightSpeed;
 	
 	// private PigeonWrapper imu;
+
+	
+	// Mode for the gearshift, as set by the auto moves
+	public enum GearShiftMode {
+		LOCK_HIGH_GEAR ,
+		LOCK_LOW_GEAR, 
+		AUTOSHIFT  ,
+	}
+	private GearShiftMode gearShiftMode = GearShiftMode.AUTOSHIFT;
 
 	private Timer shiftTimer = new Timer();
 	private boolean allowShift = true;
@@ -320,16 +328,39 @@ public class DriveBase extends Subsystem {
 		// SmartDashboard.putBoolean("Has Already Shifted:", hasAlreadyShifted);
 	}
 	
+
+	/**
+	 * Ask if an autonomous move has asked the robot to
+	 * remain in a particular gear
+	 * @return 0 for "choose gear automatically", -1 for low gear, 1 for high gear.
+	 */
+	public GearShiftMode getShiftMode() {
+		return gearShiftMode;	
+	}
+	
+	public void setShiftMode(GearShiftMode shiftMode) {
+		gearShiftMode = shiftMode;
+	}
+
 	public void visit() {
-		handleGear(Robot.oi.getShiftMode());
+		handleGear();
 	}
 	
 	// If true it locks into high gear, if false locks into low gear
-	private void handleGear(GearShiftMode lockGear) {
-		switch(lockGear) {
-			case LOCK_HIGH_GEAR: setGear(true); break;
-			case LOCK_LOW_GEAR: setGear(false); break;
-			case AUTOSHIFT: autoShift(); break;
+	private void handleGear() {
+		// Driver commanded override?
+		if(Robot.oi.getHighGear()) {
+			setGear(true);
+		} else if (Robot.oi.getLowGear()) {
+			setGear(false);
+		} else {
+			// No override from driver.  Auto move commanded override?
+			switch(gearShiftMode) {
+				case LOCK_HIGH_GEAR: setGear(true); break;
+				case LOCK_LOW_GEAR: setGear(false); break;
+				// No override commanded; handle automatic gear shifting.
+				case AUTOSHIFT: autoShift(); break;
+			}
 		}
 	}
 	

@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.GearShiftMode;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 
@@ -14,10 +13,6 @@ import frc.robot.commands.drivebase.Pivot;
  * to which controls.
  */
 public class OI {
-
-	// Shifter Lock (Used to know what gear to lock the shifter in)
-	// Default is 0, THIS MEANS ALLOW AUTOSHIFT!
-	private GearShiftMode gearShiftMode = GearShiftMode.AUTOSHIFT;
 	
 	// Axes on weapons controller
 	public static final int HGL_CHAIN_DRIVER_IN_AXIS = 2;
@@ -98,18 +93,6 @@ public class OI {
 		
 	}
 
-	/**
-	 * Ask if an autonomous move has asked the robot to
-	 * remain in a particular gear
-	 * @return 0 for "choose gear automatically", -1 for low gear, 1 for high gear.
-	 */
-	public GearShiftMode getShiftMode() {
-		return gearShiftMode;	
-	}
-	
-	public void setShiftMode(GearShiftMode shiftMode) {
-		gearShiftMode = shiftMode;
-	}
 
 	// Hatch loader controls
 	// We support 2 positions:

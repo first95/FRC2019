@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.GearShiftMode;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchGroundLoader;
 import frc.robot.subsystems.HatchScorer;
 import frc.robot.subsystems.VisionCoprocessor;
+import frc.robot.subsystems.DriveBase.GearShiftMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 
 		// Unlock the auto shifter
-		Robot.oi.setShiftMode(GearShiftMode.AUTOSHIFT);
+		drivebase.setShiftMode(GearShiftMode.AUTOSHIFT);
 
 		drivebase.brake(true);
 		elevator.brake(true);

@@ -1,7 +1,7 @@
 package frc.robot.commands.drivebase;
 
 import frc.robot.Robot;
-import frc.robot.Constants.GearShiftMode;
+import frc.robot.subsystems.DriveBase.GearShiftMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LockGear extends Command {
@@ -18,9 +18,9 @@ public class LockGear extends Command {
 		super.initialize();
 
 		if (m_lockGear) {
-			Robot.oi.setShiftMode(GearShiftMode.LOCK_HIGH_GEAR);
+			Robot.drivebase.setShiftMode(GearShiftMode.LOCK_HIGH_GEAR);
 		} else {
-			Robot.oi.setShiftMode(GearShiftMode.LOCK_LOW_GEAR);
+			Robot.drivebase.setShiftMode(GearShiftMode.LOCK_LOW_GEAR);
 		}
 
 	}
