@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
 		// easier to push
 		drivebase.brake(false);
 		elevator.brake(false);
-		
+
 	}
 
 	@Override
@@ -83,29 +83,29 @@ public class Robot extends TimedRobot {
 		elevator.brake(false);
 	}
 
-	public void disabledPeriodic() {	
+	public void disabledPeriodic() {
 	}
-	
+
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run(); // Runs all active commands
 		elevator.checkAndApplyHomingSwitch();
-        drivebase.pullPidConstantsFromSmartDash();
-        oi.visit();
-        drivebase.visit();
-        
-        // Depending if you want all output or just limited
-        // use either debugLog() or just log()
-		//debugLog();
-        log();
+		drivebase.pullPidConstantsFromSmartDash();
+		oi.visit();
+		drivebase.visit();
+
+		// Depending if you want all output or just limited
+		// use either debugLog() or just log()
+		// debugLog();
+		log();
 	}
 
 	@Override
 	public void teleopInit() {
-		
+
 		// Unlock the auto shifter
 		Robot.oi.setShiftLockValue(0);
-		
+
 		drivebase.brake(true);
 		elevator.brake(true);
 
@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if(autonomousCommand != null) {
+		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
 	}
@@ -138,9 +138,9 @@ public class Robot extends TimedRobot {
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
 	private void log() {
-		//debugLog();
+		// debugLog();
 	}
-	
+
 	private void debugLog() {
 		drivebase.log();
 		elevator.log();
