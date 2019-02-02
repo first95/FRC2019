@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.GearShiftMode;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchGroundLoader;
@@ -104,7 +105,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 
 		// Unlock the auto shifter
-		Robot.oi.setShiftLockValue(0);
+		Robot.oi.setShiftMode(GearShiftMode.AUTOSHIFT);
 
 		drivebase.brake(true);
 		elevator.brake(true);

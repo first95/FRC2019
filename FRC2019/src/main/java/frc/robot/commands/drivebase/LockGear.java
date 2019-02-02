@@ -1,14 +1,12 @@
 package frc.robot.commands.drivebase;
 
 import frc.robot.Robot;
-
+import frc.robot.Constants.GearShiftMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class LockGear extends Command {
 
 	private boolean m_lockGear;
-	private static final int LOCK_LOW_GEAR = -1;
-	private static final int LOCK_HIGH_GEAR = 1;
 
 	public LockGear(boolean lockHighGear) {
 		requires(Robot.drivebase);
@@ -20,9 +18,9 @@ public class LockGear extends Command {
 		super.initialize();
 
 		if (m_lockGear) {
-			Robot.oi.setShiftLockValue(LOCK_HIGH_GEAR);
+			Robot.oi.setShiftMode(GearShiftMode.LOCK_HIGH_GEAR);
 		} else {
-			Robot.oi.setShiftLockValue(LOCK_LOW_GEAR);
+			Robot.oi.setShiftMode(GearShiftMode.LOCK_LOW_GEAR);
 		}
 
 	}

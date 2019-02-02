@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.Constants.GearShiftMode;
+import frc.robot.commands.drivebase.LockGear;
 import frc.robot.commands.drivebase.ManuallyControlDrivebase;
 import frc.robot.components.DrivePod;
 import frc.robot.components.PigeonWrapper;
@@ -319,23 +321,15 @@ public class DriveBase extends Subsystem {
 	}
 	
 	public void visit() {
-		lockGear(Robot.oi.getShiftLockValue());
+		handleGear(Robot.oi.getShiftMode());
 	}
 	
 	// If true it locks into high gear, if false locks into low gear
-	private void lockGear(int lockGear) {
-		if(lockGear > 1) lockGear = 0;
-		else if(lockGear < -1) lockGear = 0;
-		else if(lockGear > 0 && lockGear < 1) lockGear = 1;
-		else if(lockGear < 0 && lockGear > -1) lockGear = -1;
-		
-		if (lockGear == 1) {
-			setGear(true);
-		}else if (lockGear == -1) {
-			setGear(false);
-		}
-		else {
-			autoShift();
+	private void handleGear(GearShiftMode lockGear) {
+		switch(lockGear) {
+			case LOCK_HIGH_GEAR: setGear(true); break;
+			case LOCK_LOW_GEAR: setGear(false); break;
+			case AUTOSHIFT: autoShift(); break;
 		}
 	}
 	

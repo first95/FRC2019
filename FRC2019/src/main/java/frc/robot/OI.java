@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.GearShiftMode;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 
@@ -16,7 +17,7 @@ public class OI {
 
 	// Shifter Lock (Used to know what gear to lock the shifter in)
 	// Default is 0, THIS MEANS ALLOW AUTOSHIFT!
-	private int shiftLockValue = 0;
+	private GearShiftMode gearShiftMode = GearShiftMode.AUTOSHIFT;
 	
 	// Axes on weapons controller
 	public static final int HGL_CHAIN_DRIVER_IN_AXIS = 2;
@@ -24,8 +25,8 @@ public class OI {
 	public static final int ELEVATOR_AXIS = 5; // Right stick Y
 
 	// Buttons on drive controller
-	public static final int SHIFT_BUTTON = 5; // Left bumper
-	public static final int SHIFT_STATE_BUTTON = 6; // Right bumper
+	public static final int BUTTON_FORCE_LOW_GEAR = 5; // Left bumper
+	public static final int BUTTON_FORCE_HIGH_GEAR = 6; // Right bumper
 	
 	// Buttons on weapons controller
 	public static final int ELEV_SEEK_FLOOR_BUTTON = 1; // A
@@ -55,7 +56,7 @@ public class OI {
 	public OI() {
 
 		// Create some buttons
-		JoystickButton joy_A = new JoystickButton(driverController, 1);
+		// JoystickButton joy_A = new JoystickButton(driverController, 1);
 
 		// Connect the buttons to commands
 
@@ -97,12 +98,17 @@ public class OI {
 		
 	}
 
-	public int getShiftLockValue() {
-		return shiftLockValue;	
+	/**
+	 * Ask if an autonomous move has asked the robot to
+	 * remain in a particular gear
+	 * @return 0 for "choose gear automatically", -1 for low gear, 1 for high gear.
+	 */
+	public GearShiftMode getShiftMode() {
+		return gearShiftMode;	
 	}
 	
-	public void setShiftLockValue(int shifterValue) {
-		shiftLockValue = shifterValue;
+	public void setShiftMode(GearShiftMode shiftMode) {
+		gearShiftMode = shiftMode;
 	}
 
 	// Hatch loader controls
@@ -177,7 +183,19 @@ public class OI {
 		return driverController.getRawAxis(4);
 	}
 
+	/**
+	 * Ask if the driver wants the robot to be in high gear
+	 * @return
+	 */
 	public boolean getHighGear() {
-		return driverController.getRawButton(SHIFT_BUTTON);
+		return driverController.getRawButton(BUTTON_FORCE_HIGH_GEAR);
+	}
+
+	/**
+	 * Ask if the driver wants the robot to be in low gear
+	 * @return
+	 */
+	public boolean getLowGear() {
+		return driverController.getRawButton(BUTTON_FORCE_LOW_GEAR);
 	}
 }
