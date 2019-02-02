@@ -142,10 +142,10 @@ public class Robot extends TimedRobot {
 		// debugLog();
 	}
 
-	private void debugLog() {
-		drivebase.log();
-		elevator.log();
-		hGroundLoader.log();
-		oi.log();
-	}
+	// private void debugLog() {
+	// 	drivebase.log();
+	// 	elevator.log();
+	// 	hGroundLoader.log();
+	// 	oi.log();
+	// }
 }

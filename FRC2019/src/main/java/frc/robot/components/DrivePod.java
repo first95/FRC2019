@@ -79,7 +79,6 @@ public class DrivePod {
 		follower2.set(ControlMode.Follower, leaderCanNum);
 
 		// Only set the leader to backwards.
-		// TODO: Confirm this is the case
 		leader.setInverted(reverse);
 		follower1.setInverted(reverse);
 		follower2.setInverted(reverse);
@@ -111,8 +110,6 @@ public class DrivePod {
 		// SmartDashboard.putNumber(dLabel, K_D_SPEED_MODE);
 
 	}
-	// TODO: How do we tell the CANTalon how many ticks per rev? Or do we?
-	// Are all the speeds and distances expressed in ticks (/per second)?
 
 	/**
 	 * Apply the PID+F constants that are used during closed-loop position mode

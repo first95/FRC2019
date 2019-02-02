@@ -5,13 +5,10 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.commands.drivebase.LockGear;
 import frc.robot.commands.drivebase.ManuallyControlDrivebase;
 import frc.robot.components.DrivePod;
-import frc.robot.components.PigeonWrapper;
 
 /**
  * The DriveBase subsystem incorporates the sensors and actuators attached to
@@ -35,7 +32,7 @@ public class DriveBase extends Subsystem {
 	private double leftSpeed;
 	private double rightSpeed;
 	
-	// private PigeonWrapper imu;
+	// private Pigeon imu;
 
 	
 	// Mode for the gearshift, as set by the auto moves
@@ -95,16 +92,6 @@ public class DriveBase extends Subsystem {
 	public double getHeading() {
 		// return gyro.getAngle();
 		return 0;
-	}
-
-	/**
-	 * @return The distance driven (average of left and right encoders).
-	 */
-	public double getDistance() {
-		// TODO: Some of the commands call this in order to travel a set
-		// distance.
-		// We want to move that functionality into this class instead.
-		return (leftPod.getQuadEncPos() + rightPod.getQuadEncPos()) / 2;
 	}
 
 	public boolean onTarget() {
