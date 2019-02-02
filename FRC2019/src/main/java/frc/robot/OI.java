@@ -15,7 +15,6 @@ public class OI {
 	
 	// Axes on weapons controller
 	public static final int HGL_ROLLER_DRIVER_AXIS = 2;
-	public static final int HGL_WRIST_DRIVER_AXIS = 3;
 	public static final int ELEVATOR_AXIS = 5; // Right stick Y
 
 	// Buttons on drive controller
@@ -28,8 +27,8 @@ public class OI {
 	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = 2; // B
 	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = 3; // X
 	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = 4; // Y
-	public static final int HS_OPEN_TOGGLE = 5; // ?
-	public static final int HS_PUSH_TOGGLE = 6; // ?
+	public static final int HS_OPEN_TOGGLE = 5; // Left bumper
+	public static final int HS_PUSH_TOGGLE = 6; // Right bumper
 
 	// POV/DPAD on the weapons controller || IT IS IN DEGREES!
 	public static final int POV_NONE = -1; // No DPAD button pressed
@@ -43,7 +42,7 @@ public class OI {
 	public static final int POV_LEFT_UP = 315;
 
 	// Hatch loader positions
-	private boolean hWristRetracted = false;
+	private boolean hWristUp = false;
 
 	// Controllers
 	private Joystick driverController = new Joystick(0);
