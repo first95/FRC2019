@@ -19,8 +19,8 @@ public class OI {
 	private int shiftLockValue = 0;
 	
 	// Axes on weapons controller
-	public static final int HGL_CHAIN_DRIVER_IN_AXIS = 2;
-	public static final int HGL_CHAIN_DRIVER_OUT_AXIS = 3;
+	public static final int HGL_ROLLER_DRIVER_AXIS = 2;
+	public static final int HGL_WRIST_DRIVER_AXIS = 3;
 	public static final int ELEVATOR_AXIS = 5; // Right stick Y
 
 	// Buttons on drive controller
@@ -91,7 +91,6 @@ public class OI {
 
 	// There are a few things the OI wants to revisit every time around
 	public void visit() {
-		updateWristSettings();
 	}
 
 	// If anything needs to be posted to the SmartDashboard, place it here
@@ -116,32 +115,13 @@ public class OI {
 		return weaponsController.getRawButton(HS_PUSH_TOGGLE);
 	}	
 
-	// Hatch loader controls
-	// We support 2 positions:
-	// Full up - extended Up
-	// Full down - retracted Down
-	public void updateWristSettings() {
-		if (weaponsController.getPOV() != POV_NONE) {
 
-			// Retract the Hatch Ground Loader if the POV hat is UP
-			hWristRetracted = (weaponsController.getPOV() <= POV_RIGHT
-					&& weaponsController.getPOV() >= POV_LEFT);
-
-		} else {
-			// When no D-Pad button is pressed, don't change the angle
-		}
+	public double getHGLRollerSpeed() {
+		return weaponsController.getRawAxis(HGL_ROLLER_DRIVER_AXIS);
 	}
 
-	public void setHGLWristRectracted(boolean retracted) {
-		hWristRetracted = retracted;
-	}
-
-	public boolean getHGLWristRectracted() {
-		return hWristRetracted;
-	}
-
-	public double getHGLSpeed() {
-		return weaponsController.getRawAxis(HGL_CHAIN_DRIVER_IN_AXIS) - weaponsController.getRawAxis(HGL_CHAIN_DRIVER_OUT_AXIS);
+	public double getHGLWristSpeed() {
+		return weaponsController.getRawAxis(HGL_WRIST_DRIVER_AXIS);
 	}
 
 	// Elevator controls

@@ -11,8 +11,8 @@ public class ManuallyControlHatchGroundLoader extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.hGroundLoader.setIntakeSpeed(Robot.oi.getHGLSpeed());
-		Robot.hGroundLoader.setRetracted(Robot.oi.getHGLWristRectracted());
+		Robot.hGroundLoader.setRollerSpeed(Robot.oi.getHGLRollerSpeed());
+		Robot.hGroundLoader.setWristSpeed(Robot.oi.getHGLWristSpeed());
 	}
 	
 	@Override

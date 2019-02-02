@@ -27,7 +27,6 @@ public class Constants
 		
 		// Indices for solenoids
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
-		public static final int HGL_WRIST_SOLENOID_NUM = 3;
 		public static final int HS_OPEN_A = 4;
 		public static final int HS_PUSH_A = 5;
 		
@@ -48,8 +47,8 @@ public class Constants
 		public static final int RIGHT_ELEV_DRIVER = 23;
 
 		// Hatch Ground Loader
-		public static final int LEFT_HGL_DRIVER = 14;
-		public static final int RIGHT_HGL_DRIVER = 24;
+		public static final int ROLLER_HGL_DRIVER = 33;
+		public static final int WRIST_HGL_DRIVER = 34;
 		
 		// Sensors attached via Talon
 		public static final int PIGEON_NUM = 30;		
@@ -57,7 +56,8 @@ public class Constants
 		// Current limiting parameters
 		public static final int DRIVEPOD_MAX_CURRENT_CONTINUAL_AMPS = 10;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
-		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;		
+		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
+		public static final int HGL_MAX_WRIST_CURRENT_AMPS = 1;	
 		
 		public static double RFVoltsToFt(double voltage)
 			{
