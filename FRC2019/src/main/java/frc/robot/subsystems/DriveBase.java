@@ -45,8 +45,9 @@ public class DriveBase extends Subsystem {
 	public DriveBase(boolean realHardware) {
 		super();
 
+		// Note that one pod must be inverted, since the gearbox assemblies are rotationally symmetrical
 		leftPod = new DrivePod("Left", Constants.LEFT_LEAD, Constants.LEFT_F1, Constants.LEFT_F2, false, realHardware);
-		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, false, realHardware);
+		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, true, realHardware);
 		shifter = new SolenoidWrapper(Constants.SHIFTER_SOLENOID_NUM);
 		
 		// imu = new PigeonWrapper(Constants.PIGEON_NUM);
@@ -115,7 +116,7 @@ public class DriveBase extends Subsystem {
 		rightPod.setMaxSpeed(0.9);
 
 		leftPod.setCLPosition(inchesToTravel);
-		rightPod.setCLPosition(-inchesToTravel);
+		rightPod.setCLPosition(inchesToTravel);
 	}
 
 	/**
@@ -129,7 +130,7 @@ public class DriveBase extends Subsystem {
 	 *            - speed at which to travel
 	 */
 	public void travelStraight(double inchesPerSecond, double inchesToTravel) {
-		leftPod.driveForDistanceAtSpeed(-inchesPerSecond, -inchesToTravel);
+		leftPod.driveForDistanceAtSpeed(inchesPerSecond, inchesToTravel);
 		rightPod.driveForDistanceAtSpeed(inchesPerSecond, inchesToTravel);
 	}
 
@@ -144,7 +145,7 @@ public class DriveBase extends Subsystem {
 		double rightDistanceInches = leftDistanceInches;
 		double turnSign = (degreesToPivotCw > 0)? 1.0 : -1.0;
 		leftPod.driveForDistanceAtSpeed( turnSign * inchesPerSecond, -leftDistanceInches);
-		rightPod.driveForDistanceAtSpeed(turnSign * inchesPerSecond, -rightDistanceInches);		
+		rightPod.driveForDistanceAtSpeed(turnSign * inchesPerSecond, rightDistanceInches);		
 	}
 	
 	// Do not use this for turning! Use setPivotRate
@@ -156,7 +157,7 @@ public class DriveBase extends Subsystem {
 		//rightDistanceInches *= PIVOT_FUDGE_FACTOR;
 		double turnSign = (degreesToPivotCw > 0)? 1.0 : -1.0;
 		leftPod.driveForDistanceAtSpeed( turnSign * TURN_SPEED_INCHES_PER_SECOND, -leftDistanceInches);
-		rightPod.driveForDistanceAtSpeed(turnSign * TURN_SPEED_INCHES_PER_SECOND, -rightDistanceInches);
+		rightPod.driveForDistanceAtSpeed(turnSign * TURN_SPEED_INCHES_PER_SECOND, rightDistanceInches);
 	}
 
 	public void setPivotRate(double inchesPerSecond) {
@@ -199,7 +200,7 @@ public class DriveBase extends Subsystem {
 		double rightSpeedInchesPerSecond = rightDistanceInches / sweepTimeS;
 
 		leftPod.driveForDistanceAtSpeed(leftSpeedInchesPerSecond, leftDistanceInches);
-		rightPod.driveForDistanceAtSpeed(-rightSpeedInchesPerSecond, -rightDistanceInches);
+		rightPod.driveForDistanceAtSpeed(rightSpeedInchesPerSecond, rightDistanceInches);
 	}
 
 	/** 
@@ -216,7 +217,7 @@ public class DriveBase extends Subsystem {
 	 */
 	public void tank(double leftThrottle, double rightThrottle) {
 		leftPod.setThrottle(leftThrottle);
-		rightPod.setThrottle(-rightThrottle);
+		rightPod.setThrottle(rightThrottle);
 	}
 
 	/**

@@ -78,23 +78,14 @@ public class DrivePod {
 		follower1.set(ControlMode.Follower, leaderCanNum);
 		follower2.set(ControlMode.Follower, leaderCanNum);
 
-		// TODO: figure out what to do with 'reverse' and do it here
+		// Only set the leader to backwards.
+		// TODO: Confirm this is the case
+		leader.setInverted(reverse);
 
 		// Apply current limit settings to each AdjustedTalon
 		applyCurrentLimitSettings(leader);
 		applyCurrentLimitSettings(follower1);
 		applyCurrentLimitSettings(follower2);
-
-		init();
-	}
-
-	// Constructor used for unit tests
-	public DrivePod(String name, IMotorControllerEnhanced leader, IMotorControllerEnhanced follower1,
-			IMotorControllerEnhanced follower2, SolenoidI shifter) {
-		this.name = name;
-		this.leader = leader;
-		this.follower1 = follower1;
-		this.follower2 = follower2;
 
 		init();
 	}
