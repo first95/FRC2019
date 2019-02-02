@@ -20,9 +20,9 @@ public class LockGear extends Command {
 		super.initialize();
 
 		if (m_lockGear) {
-			Robot.oi.setShiftLockValue(1);
+			Robot.oi.setShiftLockValue(LOCK_HIGH_GEAR);
 		} else {
-			Robot.oi.setShiftLockValue(-1);
+			Robot.oi.setShiftLockValue(LOCK_LOW_GEAR);
 		}
 
 	}

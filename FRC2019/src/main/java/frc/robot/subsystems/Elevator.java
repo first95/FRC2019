@@ -31,7 +31,7 @@ public class Elevator extends Subsystem {
 	public static final double ENCODER_TICKS_FULL_RANGE = 78400.0; // How many encoder ticks the elevator can move.
 																	// Measured 2018-2-3 on practice robot
 	private static final double TICKS_PER_FOOT = ENCODER_TICKS_FULL_RANGE / FEET_FULL_RANGE;
-	private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
+	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
 
 	private IMotorControllerEnhanced leftElevDriver, rightElevDriver;
 	private DigitalInput homeSwitch;
