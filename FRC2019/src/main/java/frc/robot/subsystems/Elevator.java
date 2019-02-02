@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.elevator.ManuallyControlElevator;
+import frc.robot.components.FakeTalon;
 import frc.robot.components.AdjustedTalon;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -35,13 +36,18 @@ public class Elevator extends Subsystem {
 	private IMotorControllerEnhanced leftElevDriver, rightElevDriver;
 	private DigitalInput homeSwitch;
 
-	public Elevator() {
+	public Elevator(boolean realHardware) {
 		super();
 		// Set up the digital IO object to read the home switch
 		homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
 
-		leftElevDriver = new AdjustedTalon(Constants.LEFT_ELEV_DRIVER);
-		rightElevDriver = new AdjustedTalon(Constants.RIGHT_ELEV_DRIVER);
+		if(realHardware) {
+			leftElevDriver = new AdjustedTalon(Constants.LEFT_ELEV_DRIVER);
+			rightElevDriver = new AdjustedTalon(Constants.RIGHT_ELEV_DRIVER);
+		} else {
+			leftElevDriver = new FakeTalon();
+			rightElevDriver = new FakeTalon();
+		}
 
 		// Configure the left talon to follow the right talon, but backwards
 		leftElevDriver.setInverted(true); // Inverted here refers to the output

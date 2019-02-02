@@ -42,8 +42,8 @@ public class Robot extends TimedRobot {
 
 		// Initialize all subsystems
 		drivebase = new DriveBase();
-		elevator = new Elevator();
-		hGroundLoader = new HatchGroundLoader();
+		elevator = new Elevator(false);
+		hGroundLoader = new HatchGroundLoader(false);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
