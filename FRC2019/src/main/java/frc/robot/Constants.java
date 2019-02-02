@@ -28,8 +28,8 @@ public class Constants
 		// Indices for solenoids
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
 		public static final int HGL_WRIST_SOLENOID_NUM = 3;
-		public static final int HS_OPEN_A = 4;
-		public static final int HS_PUSH_A = 5;
+		public static final int HS_OPEN_A = 6;
+		public static final int HS_PUSH_A = 7;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
