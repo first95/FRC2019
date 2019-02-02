@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+//import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,15 +31,15 @@ public class Elevator extends Subsystem {
 	public static final double ENCODER_TICKS_FULL_RANGE = 78400.0; // How many encoder ticks the elevator can move.
 																	// Measured 2018-2-3 on practice robot
 	private static final double TICKS_PER_FOOT = ENCODER_TICKS_FULL_RANGE / FEET_FULL_RANGE;
-	private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
+	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
 
 	private IMotorControllerEnhanced leftElevDriver, rightElevDriver;
-	private DigitalInput homeSwitch;
+	//private DigitalInput homeSwitch;
 
 	public Elevator(boolean realHardware) {
 		super();
 		// Set up the digital IO object to read the home switch
-		homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
+		//homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
 
 		if(realHardware) {
 			leftElevDriver = new AdjustedTalon(Constants.LEFT_ELEV_DRIVER);
@@ -90,7 +90,12 @@ public class Elevator extends Subsystem {
 	}
 	
 	private boolean elevatorIsHome() {
-		return !homeSwitch.get();
+		// THIS IS A RISKY TEMPORARY CHANGE
+		// Without a homing switch, we have to assume a) that elevator is at
+		// the bottom (home) when this method is called upon robot init, and
+		// b) that this method is only called by checkAndApplyHomingSwitch
+		// during robot init
+		return true; //!homeSwitch.get();
 	}
 
 	/**
@@ -125,7 +130,7 @@ public class Elevator extends Subsystem {
 
 	public void log() {
 		SmartDashboard.putNumber("Elevator Speed", Robot.oi.getElevatorSpeed());
-		SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
+		//SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
 		SmartDashboard.putNumber("leftElevEncoder Value:", leftElevDriver.getSelectedSensorPosition(Constants.PID_IDX));
 		SmartDashboard.putNumber("rightElevEncoder Value:",
 				rightElevDriver.getSelectedSensorPosition(Constants.PID_IDX));
@@ -140,15 +145,20 @@ public class Elevator extends Subsystem {
 	 *            - the throttle value to apply to the motors, between -1 and +1
 	 */
 	public void setElevatorSpeed(double value) {
-		if(!elevatorIsHome() || value > 0) {
-			// Either the elevator is above the deck, or being driven upward.
-			// This is the normal state
-			rightElevDriver.set(ControlMode.PercentOutput, value);
-		} else {
-			// The elevator is on the deck and they're trying to drive down.
-			// Don't do that.
-			rightElevDriver.set(ControlMode.PercentOutput, 0);
-		}
+		// W/out the homing switch, we can't check if trying to drive elevator
+		// down into deck so just have to rely on driver not to do that
+		rightElevDriver.set(ControlMode.PercentOutput, value);
+		// When get homing switch back in, should remove line above and comment
+		// back in lines below.
+		// if(!elevatorIsHome() || value > 0) {
+		// 	// Either the elevator is above the deck, or being driven upward.
+		// 	// This is the normal state
+		// 	rightElevDriver.set(ControlMode.PercentOutput, value);
+		// } else {
+		// 	// The elevator is on the deck and they're trying to drive down.
+		// 	// Don't do that.
+		// 	rightElevDriver.set(ControlMode.PercentOutput, 0);
+		// }
 	}
 
 	/**
