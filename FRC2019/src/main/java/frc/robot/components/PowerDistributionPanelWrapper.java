@@ -9,12 +9,20 @@ package frc.robot.components;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class PowerDistributionPanelWrapper implements PowerDistributionPanelI {
-	private PowerDistributionPanel wrapped;
+	private static PowerDistributionPanel wrapped;
 	
-	public PowerDistributionPanelWrapper() {
+	private PowerDistributionPanelWrapper() {
 		wrapped = new PowerDistributionPanel();
 	}
 	
+	private static PowerDistributionPanelWrapper instance;
+	public static PowerDistributionPanelWrapper Instance() {
+		if(instance == null) {
+			instance = new PowerDistributionPanelWrapper();
+		}
+		return instance;
+	}
+
 	@Override
 	public double getVoltage() { return wrapped.getVoltage(); }
 

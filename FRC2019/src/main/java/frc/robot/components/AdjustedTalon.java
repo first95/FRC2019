@@ -28,7 +28,7 @@ public class AdjustedTalon extends TalonSrxWrapper
 
 		public AdjustedTalon(int deviceNumber) {
 			super(deviceNumber);
-			panel = new PowerDistributionPanelWrapper();
+			panel = PowerDistributionPanelWrapper.Instance();
 		}
 		public AdjustedTalon(IMotorControllerEnhanced wrapped, PowerDistributionPanelI panel) {
 			super(wrapped);
