@@ -28,8 +28,8 @@ public class OI {
 	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = 2; // B
 	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = 3; // X
 	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = 4; // Y
-	public static final int HS_OPEN_TOGGLE = 5; // Left bumper
-	public static final int HS_PUSH_TOGGLE = 6; // Right bumper
+	public static final int HS_OPEN_HOLD = 5; // Left bumper
+	public static final int HS_PUSH_HOLD = 6; // Right bumper
 
 	// POV/DPAD on the weapons controller || IT IS IN DEGREES!
 	public static final int POV_NONE = -1; // No DPAD button pressed
@@ -96,12 +96,12 @@ public class OI {
 
 
 	// Hatch scorer
-	public boolean isToggleHSOpenButtonPressed() {
-		return weaponsController.getRawButton(HS_OPEN_TOGGLE);
+	public boolean isGrabHatchButtonPressed() {
+		return weaponsController.getRawButton(HS_OPEN_HOLD);
 	}
 
-	public boolean isToggleHSPushButtonPressed() {
-		return weaponsController.getRawButton(HS_PUSH_TOGGLE);
+	public boolean isPushHatchButtonPressed() {
+		return weaponsController.getRawButton(HS_PUSH_HOLD);
 	}	
 
 	// Hatch loader controls
