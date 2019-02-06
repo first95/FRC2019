@@ -41,28 +41,28 @@ public class ManuallyControlElevator extends Command {
 		// This method is called every iteration
 
 		final String ELEV_MODE = "Elevator mode";
-		// First priority: Is the user holding down one of the seek buttons?
-		if (Robot.oi.isElevatorFloorButtonPressed()) {
-			// SmartDashboard.putString(ELEV_MODE, "Seek floor");
-			seekHoldPoint(ElevatorHoldPoint.FLOOR);
-			wasHoldingPresentPositionLastIteration = false;
-		} else if (Robot.oi.isElevatorSwitchScoreButtonPressed()) {
-			// SmartDashboard.putString(ELEV_MODE, "Seek switch scoring position");
-			seekHoldPoint(ElevatorHoldPoint.SWITCH_SCORE);
-			wasHoldingPresentPositionLastIteration = false;
-		} else if (Robot.oi.isElevatorScaleScoreLowButtonPressed()) {
-			// SmartDashboard.putString(ELEV_MODE, "Seek scale scoring position (low)");
-			seekHoldPoint(ElevatorHoldPoint.SCALE_SCORE_LOW);
-			wasHoldingPresentPositionLastIteration = false;
-		} else if (Robot.oi.isElevatorScaleScoreMedButtonPressed()) {
-			// SmartDashboard.putString(ELEV_MODE, "Seek scale scoring position (med)");
-			seekHoldPoint(ElevatorHoldPoint.SCALE_SCORE_MED);
-			wasHoldingPresentPositionLastIteration = false;
-		} else if (Robot.oi.isElevatorScaleScoreHighButtonPressed()) {
-			// SmartDashboard.putString(ELEV_MODE, "Seek scale scoring position (high)");
-			seekHoldPoint(ElevatorHoldPoint.SCALE_SCORE_HIGH);
-			wasHoldingPresentPositionLastIteration = false;
-		} else {
+		// // First priority: Is the user holding down one of the seek buttons?
+		// if (Robot.oi.isElevatorFloorButtonPressed()) {
+		// 	// SmartDashboard.putString(ELEV_MODE, "Seek floor");
+		// 	seekHoldPoint(ElevatorHoldPoint.FLOOR);
+		// 	wasHoldingPresentPositionLastIteration = false;
+		// } else if (Robot.oi.isElevatorSwitchScoreButtonPressed()) {
+		// 	// SmartDashboard.putString(ELEV_MODE, "Seek switch scoring position");
+		// 	seekHoldPoint(ElevatorHoldPoint.SWITCH_SCORE);
+		// 	wasHoldingPresentPositionLastIteration = false;
+		// } else if (Robot.oi.isElevatorScaleScoreLowButtonPressed()) {
+		// 	// SmartDashboard.putString(ELEV_MODE, "Seek scale scoring position (low)");
+		// 	seekHoldPoint(ElevatorHoldPoint.SCALE_SCORE_LOW);
+		// 	wasHoldingPresentPositionLastIteration = false;
+		// } else if (Robot.oi.isElevatorScaleScoreMedButtonPressed()) {
+		// 	// SmartDashboard.putString(ELEV_MODE, "Seek scale scoring position (med)");
+		// 	seekHoldPoint(ElevatorHoldPoint.SCALE_SCORE_MED);
+		// 	wasHoldingPresentPositionLastIteration = false;
+		// } else if (Robot.oi.isElevatorScaleScoreHighButtonPressed()) {
+		// 	// SmartDashboard.putString(ELEV_MODE, "Seek scale scoring position (high)");
+		// 	seekHoldPoint(ElevatorHoldPoint.SCALE_SCORE_HIGH);
+		// 	wasHoldingPresentPositionLastIteration = false;
+		// } else {
 			// Second priority: Is the stick outside the deadband?
 			if (Math.abs(Robot.oi.getElevatorSpeed()) > 0) {
 				SmartDashboard.putString(ELEV_MODE, "Set speed");
@@ -72,8 +72,7 @@ public class ManuallyControlElevator extends Command {
 				// Third priority: hold the present position
 				if (!wasHoldingPresentPositionLastIteration) {
 					seekHoldPoint(ElevatorHoldPoint.HERE);
-					// System.out.println("TEST THE ELEVATOR HOLD POINT IS: " +
-					// ElevatorHoldPoint.HERE);
+					// System.out.println("TEST THE ELEVATOR HOLD POINT IS: " + ElevatorHoldPoint.HERE);
 					wasHoldingPresentPositionLastIteration = true;
 				} else {
 					// We already commanded the elevator to hold its present
@@ -81,7 +80,7 @@ public class ManuallyControlElevator extends Command {
 				}
 				SmartDashboard.putString(ELEV_MODE, "Hold present position");
 			}
-		}
+		// }
 	}
 
 	@Override
