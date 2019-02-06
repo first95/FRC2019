@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchGroundLoader extends Subsystem {
 	
-	// Motor controllers for the roller and the wrist
-	private IMotorControllerEnhanced rollerDriver, wristDriver;
+	// Motor controller for the intake rollers
+	private IMotorControllerEnhanced intakeDriver;
+	// Pitch up/down motor
+	private IMotorControllerEnhanced wristDriver;
 	
 	// Encoder and position info for wristDriver
 	private static final double DEGREES_FULL_RANGE = 90; // How many degrees the wrist can move; needs to be measured
@@ -25,12 +27,13 @@ public class HatchGroundLoader extends Subsystem {
 		super();
 		
 		if(realHardware) {
-			rollerDriver  = new AdjustedTalon(Constants.ROLLER_HGL_DRIVER);
-			wristDriver = new AdjustedTalon(Constants.WRIST_HGL_DRIVER);
+			intakeDriver = new AdjustedTalon(Constants.HGL_INTAKE);
+			wristDriver  = new AdjustedTalon(Constants.HGL_WRIST);
 		} else {
-			rollerDriver  = new FakeTalon();
-			wristDriver = new FakeTalon();
+			intakeDriver = new FakeTalon();
+			wristDriver  = new FakeTalon();
 		}
+		
 	}
 
 	@Override
@@ -42,18 +45,41 @@ public class HatchGroundLoader extends Subsystem {
 	
 	}	
 	
-	public void setRollerSpeed(double outwardThrottle) {
-		rollerDriver.set(ControlMode.PercentOutput, outwardThrottle);
+
+	/**
+	 * Set speed of the intake rollers
+	 * @param inwardThrottle 1.0 for fully inward, -1.0 for fully outward, 0.0 for stationary
+	 */
+	public void setIntakeSpeed(double inwardThrottle) {
+		intakeDriver.set(ControlMode.PercentOutput, inwardThrottle);
+	}
+
+	/**
+	 * Set speed of the wrist movement
+	 * @param upwardSpeed 1.0 for fully upward, -1.0 for fully downward, 0.0 for stationary
+	 */
+	public void setWristPitchSpeed(double upwardSpeed) {
+		// Slow it way the hell down for starters
+		wristDriver.set(ControlMode.PercentOutput, upwardSpeed * 0.1);	
 	}
 	
+	/**
+	 * Lower the wrist to the wristDown position using position control
+	 */	
 	public void lowerWrist() {
-		wristDriver.set(ControlMode.PercentOutput, wristDown*TICKS_PER_DEG);
+		wristDriver.set(ControlMode.Position, wristDown*TICKS_PER_DEG);
 	}
 
+	/**
+	 * Raise the wrist to the wristUp position using position control
+	 */	
 	public void raiseWrist() {
-		wristDriver.set(ControlMode.PercentOutput, wristUp*TICKS_PER_DEG);
+		wristDriver.set(ControlMode.Position, wristUp*TICKS_PER_DEG);
 	}
 
+	/**
+	 * Check if the wrist is at its limit based on the current being sufficiently large
+	 */		
 	public Boolean wristAtLimit() {
 		return wristDriver.getOutputCurrent() >= Constants.HGL_MAX_WRIST_CURRENT_AMPS;
 	}

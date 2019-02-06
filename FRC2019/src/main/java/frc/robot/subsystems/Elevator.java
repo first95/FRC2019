@@ -50,7 +50,7 @@ public class Elevator extends Subsystem {
 		}
 
 		// Configure the left talon to follow the right talon, but backwards
-		leftElevDriver.setInverted(false); // Inverted here refers to the output
+		leftElevDriver.setInverted(false); // Inverted here refers to the output.  It flips the voltage
 		leftElevDriver.set(ControlMode.Follower, Constants.RIGHT_ELEV_DRIVER);
 		
 		// Configure the right talon for closed loop control
@@ -78,6 +78,7 @@ public class Elevator extends Subsystem {
 		// SmartDashboard.putNumber(pLabel, K_P);
 		// SmartDashboard.putNumber(iLabel, K_I);
 		// SmartDashboard.putNumber(dLabel, K_D);
+		rightElevDriver.set(ControlMode.PercentOutput, 0);
 	}
 
 	public void checkAndApplyHomingSwitch() {
@@ -91,11 +92,9 @@ public class Elevator extends Subsystem {
 	
 	private boolean elevatorIsHome() {
 		// THIS IS A RISKY TEMPORARY CHANGE
-		// Without a homing switch, we have to assume a) that elevator is at
-		// the bottom (home) when this method is called upon robot init, and
-		// b) that this method is only called by checkAndApplyHomingSwitch
-		// during robot init
-		return true; //!homeSwitch.get();
+		// Without a homing switch, we have to assume that elevator is at
+		// the bottom (home) when this class is initialized
+		return false; //!homeSwitch.get();
 	}
 
 	/**
@@ -106,7 +105,7 @@ public class Elevator extends Subsystem {
 	 * zillion times, and the talon is counting each and every one of those
 	 * revolutions.
 	 * 
-	 * If you then command the motor to see position 0, it will make all haste to
+	 * If you then command the motor to seek position 0, it will make all haste to
 	 * turn it back as many revolutions as you've turned the shaft since power-on.
 	 * 
 	 * This method needs to be called at the beginning of a match when the elevator
@@ -168,7 +167,7 @@ public class Elevator extends Subsystem {
 	 *            - the target height in feet up from lowest possible position
 	 */
 	public void setElevatorHeight(double feet) {
-		rightElevDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
+		// rightElevDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
 	}
 
 	/**

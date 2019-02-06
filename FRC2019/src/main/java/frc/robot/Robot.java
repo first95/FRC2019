@@ -42,11 +42,16 @@ public class Robot extends TimedRobot {
 
 		// Initialize all subsystems
 		drivebase = new DriveBase(true);
-		elevator = new Elevator(false);
+		elevator = new Elevator(true);
+		hScorer = new HatchScorer();
 		hGroundLoader = new HatchGroundLoader(false);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
+
+		// For now, make the elevator assume it starts out at zero
+		// TODO: when we have a homing switch, delete this
+		elevator.setCurrentPosToZero();
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivebase);

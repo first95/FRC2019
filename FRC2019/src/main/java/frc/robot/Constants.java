@@ -47,10 +47,10 @@ public class Constants
 		public static final int RIGHT_ELEV_DRIVER = 35;
 
 		// Hatch Ground Loader
-		public static final int ROLLER_HGL_DRIVER = 33;
-		public static final int WRIST_HGL_DRIVER = 34;
+		public static final int HGL_INTAKE = 14;
+		public static final int HGL_WRIST = 24;
 		
-		// Sensors attached via Talon
+		// Sensors attached via CAN
 		public static final int PIGEON_NUM = 30;		
 
 		// Current limiting parameters
