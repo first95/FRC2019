@@ -45,5 +45,18 @@ public class XBox360Controller {
             return buttonNumber;
         }
     }
+
+    // POV/DPAD on the weapons controller || IT IS IN DEGREES!
+	public static final int POV_NONE = -1; // No DPAD button pressed
+	public static final int POV_UP = 0;
+	public static final int POV_UP_RIGHT = 45;
+	public static final int POV_RIGHT = 90;
+	public static final int POV_RIGHT_DOWN = 135;
+	public static final int POV_DOWN = 180;
+	public static final int POV_DOWN_LEFT = 225;
+	public static final int POV_LEFT = 270;
+	public static final int POV_LEFT_UP = 315;
+
+
     
 }

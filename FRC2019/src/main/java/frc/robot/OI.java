@@ -16,6 +16,9 @@ import frc.robot.oi.XBox360Controller;
 public class OI {
 
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
+	// Axes on drive controller
+	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
 	
 	// Axes on weapons controller
 	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
@@ -28,24 +31,13 @@ public class OI {
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	
 	// Buttons on weapons controller
-	public static final int ELEV_SEEK_FLOOR_BUTTON = 1; // A
-	public static final int ELEV_SEEK_SWITCH_SCORE_BUTTON = 0;// 2; // B
-	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = 2; // B
-	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = 3; // X
-	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = 4; // Y
+	public static final int ELEV_SEEK_FLOOR_BUTTON = XBox360Controller.Button.A.Number();
+	public static final int ELEV_SEEK_SWITCH_SCORE_BUTTON = 0;
+	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = XBox360Controller.Button.A.Number(); 
+	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = XBox360Controller.Button.X.Number();
+	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = XBox360Controller.Button.Y.Number();
 	public static final int HS_OPEN_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
-
-	// POV/DPAD on the weapons controller || IT IS IN DEGREES!
-	public static final int POV_NONE = -1; // No DPAD button pressed
-	public static final int POV_UP = 0;
-	public static final int POV_UP_RIGHT = 45;
-	public static final int POV_RIGHT = 90;
-	public static final int POV_RIGHT_DOWN = 135;
-	public static final int POV_DOWN = 180;
-	public static final int POV_DOWN_LEFT = 225;
-	public static final int POV_LEFT = 270;
-	public static final int POV_LEFT_UP = 315;
 
 	// Controllers
 	private Joystick driverController = new Joystick(0);
@@ -158,11 +150,11 @@ public class OI {
 
 	// Drive base controls
 	public double getForwardAxis() {
-		return driverController.getY();
+		return driverController.getRawAxis(DRIVE_FORWARD_AXIS);
 	}
 
 	public double getTurnAxis() {
-		return driverController.getRawAxis(4);
+		return driverController.getRawAxis(DRIVE_TURN_AXIS);
 	}
 
 	/**
