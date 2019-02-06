@@ -1,9 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
+import frc.robot.oi.XBox360Controller;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,14 +18,14 @@ public class OI {
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
 	
 	// Axes on weapons controller
-	public static final int HGL_INTAKE_AXIS = 2; // Left trigger.  At rest = 0.0,  Full trigger pull = 1.0.  
-	public static final int HGL_OUTSPIT_AXIS = 3; // Right trigger.  At rest = 0.0,  Full trigger pull = 1.0.  
-	public static final int HGL_WRIST_AXIS = 1;// Left stick Y, rest=0.0, forward = -1.0, backward=1.0
-	public static final int ELEVATOR_AXIS = 5; // Right stick Y, rest=0.0, forward = -1.0, backward=1.0
+	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int ELEVATOR_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
 
 	// Buttons on drive controller
-	public static final int BUTTON_FORCE_LOW_GEAR = 5; // Left bumper
-	public static final int BUTTON_FORCE_HIGH_GEAR = 6; // Right bumper
+	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	
 	// Buttons on weapons controller
 	public static final int ELEV_SEEK_FLOOR_BUTTON = 1; // A
@@ -31,8 +33,8 @@ public class OI {
 	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = 2; // B
 	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = 3; // X
 	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = 4; // Y
-	public static final int HS_OPEN_HOLD = 5; // Left bumper
-	public static final int HS_PUSH_HOLD = 6; // Right bumper
+	public static final int HS_OPEN_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
 
 	// POV/DPAD on the weapons controller || IT IS IN DEGREES!
 	public static final int POV_NONE = -1; // No DPAD button pressed
