@@ -12,11 +12,14 @@ import frc.robot.commands.drivebase.Pivot;
  * to which controls.
  */
 public class OI {
+
+	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
 	
 	// Axes on weapons controller
-	public static final int HGL_CHAIN_DRIVER_IN_AXIS = 2;
-	public static final int HGL_CHAIN_DRIVER_OUT_AXIS = 3;
-	public static final int ELEVATOR_AXIS = 5; // Right stick Y
+	public static final int HGL_INTAKE_AXIS = 2; // Left trigger.  At rest = 0.0,  Full trigger pull = 1.0.  
+	public static final int HGL_OUTSPIT_AXIS = 3; // Right trigger.  At rest = 0.0,  Full trigger pull = 1.0.  
+	public static final int HGL_WRIST_AXIS = 1;// Left stick Y, rest=0.0, forward = -1.0, backward=1.0
+	public static final int ELEVATOR_AXIS = 5; // Right stick Y, rest=0.0, forward = -1.0, backward=1.0
 
 	// Buttons on drive controller
 	public static final int BUTTON_FORCE_LOW_GEAR = 5; // Left bumper
@@ -41,9 +44,6 @@ public class OI {
 	public static final int POV_DOWN_LEFT = 225;
 	public static final int POV_LEFT = 270;
 	public static final int POV_LEFT_UP = 315;
-
-	// Hatch loader positions
-	private boolean hWristRetracted = false;
 
 	// Controllers
 	private Joystick driverController = new Joystick(0);
@@ -86,7 +86,7 @@ public class OI {
 
 	// There are a few things the OI wants to revisit every time around
 	public void visit() {
-		updateWristSettings();
+		
 	}
 
 	// If anything needs to be posted to the SmartDashboard, place it here
@@ -104,32 +104,20 @@ public class OI {
 		return weaponsController.getRawButton(HS_PUSH_HOLD);
 	}	
 
-	// Hatch loader controls
-	// We support 2 positions:
-	// Full up - extended Up
-	// Full down - retracted Down
-	public void updateWristSettings() {
-		if (weaponsController.getPOV() != POV_NONE) {
-
-			// Retract the Hatch Ground Loader if the POV hat is UP
-			hWristRetracted = (weaponsController.getPOV() <= POV_RIGHT
-					&& weaponsController.getPOV() >= POV_LEFT);
-
-		} else {
-			// When no D-Pad button is pressed, don't change the angle
-		}
+	/**
+	 * Get speed at which the intake rollers of the hatch ground loader should run
+	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
+	 */
+	public double getHGLIntakeSpeed() {
+		return weaponsController.getRawAxis(HGL_INTAKE_AXIS) - weaponsController.getRawAxis(HGL_OUTSPIT_AXIS);
 	}
 
-	public void setHGLWristRectracted(boolean retracted) {
-		hWristRetracted = retracted;
-	}
-
-	public boolean getHGLWristRectracted() {
-		return hWristRetracted;
-	}
-
-	public double getHGLSpeed() {
-		return weaponsController.getRawAxis(HGL_CHAIN_DRIVER_IN_AXIS) - weaponsController.getRawAxis(HGL_CHAIN_DRIVER_OUT_AXIS);
+	/**
+	 * Get speed at which the wrist of of the hatch ground loader should turn
+	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
+	 */
+	public double getHGLWristSpeed() {
+		return weaponsController.getRawAxis(HGL_WRIST_AXIS);
 	}
 
 	// Elevator controls
@@ -137,12 +125,12 @@ public class OI {
 
 		double elevatorSpeed = 0;
 
-		if ((weaponsController.getRawAxis(ELEVATOR_AXIS) > .18)
-				|| (weaponsController.getRawAxis(ELEVATOR_AXIS) < -.18)) {
+		if ((weaponsController.getRawAxis(ELEVATOR_AXIS) > ELEVATOR_UPDOWN_DEADBAND)
+				|| (weaponsController.getRawAxis(ELEVATOR_AXIS) < -ELEVATOR_UPDOWN_DEADBAND)) {
 			elevatorSpeed = weaponsController.getRawAxis(ELEVATOR_AXIS);
 		}
 
-		// The Y axis is reversed, so that positive is down
+		// The Y axis on thet controller is reversed, so that positive is down
 		return -elevatorSpeed;
 	}
 
@@ -151,8 +139,7 @@ public class OI {
 	}
 
 	public boolean isElevatorSwitchScoreButtonPressed() {
-		return false; // Not currently in use
-		// return weaponsController.getRawButton(ELEV_SEEK_SWITCH_SCORE_BUTTON);
+		return weaponsController.getRawButton(ELEV_SEEK_SWITCH_SCORE_BUTTON);
 	}
 
 	public boolean isElevatorScaleScoreLowButtonPressed() {

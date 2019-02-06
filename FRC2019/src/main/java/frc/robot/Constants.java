@@ -27,7 +27,6 @@ public class Constants
 		
 		// Indices for solenoids
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
-		public static final int HGL_WRIST_SOLENOID_NUM = 3;
 		public static final int HS_OPEN_A = 6;
 		public static final int HS_PUSH_A = 7;
 		
@@ -48,10 +47,10 @@ public class Constants
 		public static final int RIGHT_ELEV_DRIVER = 35;
 
 		// Hatch Ground Loader
-		public static final int LEFT_HGL_DRIVER = 14;
-		public static final int RIGHT_HGL_DRIVER = 24;
+		public static final int HGL_INTAKE = 14;
+		public static final int HGL_WRIST = 24;
 		
-		// Sensors attached via Talon
+		// Sensors attached via CAN
 		public static final int PIGEON_NUM = 30;		
 
 		// Current limiting parameters

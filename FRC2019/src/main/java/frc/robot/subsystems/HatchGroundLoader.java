@@ -7,30 +7,27 @@ import frc.robot.components.FakeTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchGroundLoader extends Subsystem {
 	
-	// Motor controllers for the intake/expel chains
-	private IMotorControllerEnhanced leftChainDriver, rightChainDriver;
+	// Motor controller for the intake rollers
+	private IMotorControllerEnhanced intakeDriver;
+	// Pitch up/down motor
+	private IMotorControllerEnhanced wristDriver;
 	
-	// The solenoids for the cylinder that operates wrist action
-	private Solenoid hatchWrist;
 	
 	public HatchGroundLoader(boolean realHardware) {
 		super();
 		
 		if(realHardware) {
-			leftChainDriver  = new AdjustedTalon(Constants.LEFT_HGL_DRIVER);
-			rightChainDriver = new AdjustedTalon(Constants.RIGHT_HGL_DRIVER);
+			intakeDriver = new AdjustedTalon(Constants.HGL_INTAKE);
+			wristDriver  = new AdjustedTalon(Constants.HGL_WRIST);
 		} else {
-			leftChainDriver  = new FakeTalon();
-			rightChainDriver = new FakeTalon();
+			intakeDriver = new FakeTalon();
+			wristDriver  = new FakeTalon();
 		}
 		
-		// False means the wrist is extended
-		hatchWrist = new Solenoid(Constants.HGL_WRIST_SOLENOID_NUM);
 	}
 
 	@Override
@@ -42,16 +39,20 @@ public class HatchGroundLoader extends Subsystem {
 	
 	}
 	
-	public void setRetracted(boolean retracted) {
-		hatchWrist.set(retracted);
-	}
-	
-	public void setIntakeSpeed(double outwardThrottle) {
-		leftChainDriver.set(ControlMode.PercentOutput, -outwardThrottle);
-		rightChainDriver.set(ControlMode.PercentOutput, outwardThrottle);
+	/**
+	 * Set speed of the intake rollers
+	 * @param inwardThrottle 1.0 for fully inward, -1.0 for fully outward, 0.0 for stationary
+	 */
+	public void setIntakeSpeed(double inwardThrottle) {
+		intakeDriver.set(ControlMode.PercentOutput, inwardThrottle);
 	}
 
-	public boolean getRetracted() {
-		return hatchWrist.get();
-	}	
+	/**
+	 * Set speed of the wrist movement
+	 * @param upwardSpeed 1.0 for fully upward, -1.0 for fully downward, 0.0 for stationary
+	 */
+	public void setWristPitchSpeed(double upwardSpeed) {
+		// Slow it way the hell down for starters
+		wristDriver.set(ControlMode.PercentOutput, upwardSpeed * 0.1);	
+	}
 }
