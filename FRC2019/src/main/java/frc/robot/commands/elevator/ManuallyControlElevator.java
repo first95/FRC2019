@@ -32,7 +32,7 @@ public class ManuallyControlElevator extends Command {
 	@Override
 	public synchronized void start() {
 		// This method is called once when the command is activated
-		seekHoldPoint(ElevatorHoldPoint.HERE);
+		// seekHoldPoint(ElevatorHoldPoint.HERE);
 		wasHoldingPresentPositionLastIteration = true;
 	}
 
@@ -68,17 +68,17 @@ public class ManuallyControlElevator extends Command {
 				SmartDashboard.putString(ELEV_MODE, "Set speed");
 				Robot.elevator.setElevatorSpeed(Robot.oi.getElevatorSpeed());
 				wasHoldingPresentPositionLastIteration = false;
-			} else {
-				// Third priority: hold the present position
-				if (!wasHoldingPresentPositionLastIteration) {
-					seekHoldPoint(ElevatorHoldPoint.HERE);
-					// System.out.println("TEST THE ELEVATOR HOLD POINT IS: " + ElevatorHoldPoint.HERE);
-					wasHoldingPresentPositionLastIteration = true;
-				} else {
-					// We already commanded the elevator to hold its present
-					// position, so we don't need to command it to do so again.
-				}
-				SmartDashboard.putString(ELEV_MODE, "Hold present position");
+			// } else {
+			// 	// Third priority: hold the present position
+			// 	if (!wasHoldingPresentPositionLastIteration) {
+			// 		seekHoldPoint(ElevatorHoldPoint.HERE);
+			// 		// System.out.println("TEST THE ELEVATOR HOLD POINT IS: " + ElevatorHoldPoint.HERE);
+			// 		wasHoldingPresentPositionLastIteration = true;
+			// 	} else {
+			// 		// We already commanded the elevator to hold its present
+			// 		// position, so we don't need to command it to do so again.
+			// 	}
+			// 	SmartDashboard.putString(ELEV_MODE, "Hold present position");
 			}
 		// }
 	}
