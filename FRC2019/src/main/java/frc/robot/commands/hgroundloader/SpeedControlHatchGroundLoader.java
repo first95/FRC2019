@@ -3,9 +3,9 @@ package frc.robot.commands.hgroundloader;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ManuallyControlHatchGroundLoader extends Command {
+public class SpeedControlHatchGroundLoader extends Command {
 	
-	public ManuallyControlHatchGroundLoader() {
+	public SpeedControlHatchGroundLoader() {
 		requires(Robot.hGroundLoader);
 	}
 

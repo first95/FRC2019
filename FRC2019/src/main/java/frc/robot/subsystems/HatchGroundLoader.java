@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.commands.hgroundloader.ManuallyControlHatchGroundLoader;
+import frc.robot.commands.hgroundloader.SpeedControlHatchGroundLoader;
 import frc.robot.components.AdjustedTalon;
 import frc.robot.components.FakeTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -38,7 +38,7 @@ public class HatchGroundLoader extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new ManuallyControlHatchGroundLoader());
+		setDefaultCommand(new SpeedControlHatchGroundLoader());
 	}
 	
 	public void log() {
