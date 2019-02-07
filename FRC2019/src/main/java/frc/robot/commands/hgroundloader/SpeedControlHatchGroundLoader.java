@@ -2,8 +2,10 @@ package frc.robot.commands.hgroundloader;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpeedControlHatchGroundLoader extends Command {
+	private double wristSpeed;
 	
 	public SpeedControlHatchGroundLoader() {
 		requires(Robot.hGroundLoader);
@@ -12,7 +14,9 @@ public class SpeedControlHatchGroundLoader extends Command {
 	@Override
 	protected void execute() {
 		Robot.hGroundLoader.setIntakeSpeed(Robot.oi.getHGLIntakeSpeed());
-		Robot.hGroundLoader.setWristPitchSpeed(Robot.oi.getHGLWristSpeed());
+		wristSpeed = Robot.oi.getHGLWristSpeed();
+		Robot.hGroundLoader.setWristPitchSpeed(wristSpeed);
+		SmartDashboard.putNumber("HGL Wrist Input", wristSpeed);
 	}
 	
 	@Override

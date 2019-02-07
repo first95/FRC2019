@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 		drivebase = new DriveBase(true);
 		elevator = new Elevator(true);
 		hScorer = new HatchScorer();
-		hGroundLoader = new HatchGroundLoader(false);
+		hGroundLoader = new HatchGroundLoader(true);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
