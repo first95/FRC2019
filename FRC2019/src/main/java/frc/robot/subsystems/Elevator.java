@@ -167,7 +167,7 @@ public class Elevator extends Subsystem {
 	 *            - the target height in feet up from lowest possible position
 	 */
 	public void setElevatorHeight(double feet) {
-		// rightElevDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
+		rightElevDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
 	}
 
 	/**
