@@ -16,6 +16,7 @@ import frc.robot.oi.XBox360Controller;
 public class OI {
 
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
+
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
@@ -117,14 +118,17 @@ public class OI {
 	// Elevator controls
 	public double getElevatorSpeed() {
 
+		double elevatorCtrl = weaponsController.getRawAxis(ELEVATOR_AXIS);
 		double elevatorSpeed = 0;
 
-		if ((weaponsController.getRawAxis(ELEVATOR_AXIS) > ELEVATOR_UPDOWN_DEADBAND)
-				|| (weaponsController.getRawAxis(ELEVATOR_AXIS) < -ELEVATOR_UPDOWN_DEADBAND)) {
-			elevatorSpeed = weaponsController.getRawAxis(ELEVATOR_AXIS);
+		if ((elevatorCtrl > ELEVATOR_UPDOWN_DEADBAND)
+				|| (elevatorCtrl < -ELEVATOR_UPDOWN_DEADBAND)) {
+			elevatorSpeed = elevatorCtrl;
 		}
 
 		// The Y axis on thet controller is reversed, so that positive is down
+		SmartDashboard.putNumber("Elevator axis value",elevatorCtrl);
+		SmartDashboard.putNumber("Elevator speed throttle",-elevatorSpeed);
 		return -elevatorSpeed;
 	}
 
