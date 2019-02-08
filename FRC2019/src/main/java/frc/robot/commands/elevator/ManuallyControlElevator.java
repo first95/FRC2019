@@ -64,7 +64,7 @@ public class ManuallyControlElevator extends Command {
 		// 	wasHoldingPresentPositionLastIteration = false;
 		// } else {
 			// Second priority: Is the stick outside the deadband?
-			if (Math.abs(Robot.oi.getElevatorSpeed()) > 0) {
+			// if (Math.abs(Robot.oi.getElevatorSpeed()) > 0) {
 				SmartDashboard.putString(ELEV_MODE, "Set speed");
 				Robot.elevator.setElevatorSpeed(Robot.oi.getElevatorSpeed());
 				wasHoldingPresentPositionLastIteration = false;
@@ -79,7 +79,7 @@ public class ManuallyControlElevator extends Command {
 			// 		// position, so we don't need to command it to do so again.
 			// 	}
 			// 	SmartDashboard.putString(ELEV_MODE, "Hold present position");
-			}
+			// }
 		// }
 	}
 
