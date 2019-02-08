@@ -144,13 +144,13 @@ public class Robot extends TimedRobot {
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
 	private void log() {
-		// debugLog();
+		debugLog();
 	}
 
-	// private void debugLog() {
-	// 	drivebase.log();
-	// 	elevator.log();
-	// 	hGroundLoader.log();
-	// 	oi.log();
-	// }
+	private void debugLog() {
+		// drivebase.log();
+		elevator.log();
+		// hGroundLoader.log();
+		// oi.log();
+	}
 }

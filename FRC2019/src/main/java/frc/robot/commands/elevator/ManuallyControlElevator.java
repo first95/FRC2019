@@ -32,7 +32,7 @@ public class ManuallyControlElevator extends Command {
 	@Override
 	public synchronized void start() {
 		// This method is called once when the command is activated
-		// seekHoldPoint(ElevatorHoldPoint.HERE);
+		seekHoldPoint(ElevatorHoldPoint.HERE);
 		wasHoldingPresentPositionLastIteration = true;
 	}
 

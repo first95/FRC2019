@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,12 +35,12 @@ public class Elevator extends Subsystem {
 	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
 
 	private IMotorControllerEnhanced leftElevDriver, rightElevDriver;
-	//private DigitalInput homeSwitch;
+	private DigitalInput homeSwitch;
 
 	public Elevator(boolean realHardware) {
 		super();
 		// Set up the digital IO object to read the home switch
-		//homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
+		homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
 
 		if(realHardware) {
 			leftElevDriver = new AdjustedTalon(Constants.LEFT_ELEV_DRIVER);
@@ -129,7 +130,7 @@ public class Elevator extends Subsystem {
 
 	public void log() {
 		SmartDashboard.putNumber("Elevator Speed", Robot.oi.getElevatorSpeed());
-		//SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
+		SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
 		SmartDashboard.putNumber("leftElevEncoder Value:", leftElevDriver.getSelectedSensorPosition(Constants.PID_IDX));
 		SmartDashboard.putNumber("rightElevEncoder Value:",
 				rightElevDriver.getSelectedSensorPosition(Constants.PID_IDX));
