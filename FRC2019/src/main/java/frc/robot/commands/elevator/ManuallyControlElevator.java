@@ -32,7 +32,7 @@ public class ManuallyControlElevator extends Command {
 	@Override
 	public synchronized void start() {
 		// This method is called once when the command is activated
-		// seekHoldPoint(ElevatorHoldPoint.HERE);
+		seekHoldPoint(ElevatorHoldPoint.HERE);
 		wasHoldingPresentPositionLastIteration = true;
 	}
 
@@ -68,17 +68,17 @@ public class ManuallyControlElevator extends Command {
 				SmartDashboard.putString(ELEV_MODE, "Set speed");
 				Robot.elevator.setElevatorSpeed(Robot.oi.getElevatorSpeed());
 				wasHoldingPresentPositionLastIteration = false;
-			// } else {
-			// 	// Third priority: hold the present position
-			// 	if (!wasHoldingPresentPositionLastIteration) {
-			// 		seekHoldPoint(ElevatorHoldPoint.HERE);
-			// 		// System.out.println("TEST THE ELEVATOR HOLD POINT IS: " + ElevatorHoldPoint.HERE);
-			// 		wasHoldingPresentPositionLastIteration = true;
-			// 	} else {
-			// 		// We already commanded the elevator to hold its present
-			// 		// position, so we don't need to command it to do so again.
-			// 	}
-			// 	SmartDashboard.putString(ELEV_MODE, "Hold present position");
+			} else {
+				// Third priority: hold the present position
+				if (!wasHoldingPresentPositionLastIteration) {
+					seekHoldPoint(ElevatorHoldPoint.HERE);
+					// System.out.println("TEST THE ELEVATOR HOLD POINT IS: " + ElevatorHoldPoint.HERE);
+					wasHoldingPresentPositionLastIteration = true;
+				} else {
+					// We already commanded the elevator to hold its present
+					// position, so we don't need to command it to do so again.
+				}
+				SmartDashboard.putString(ELEV_MODE, "Hold present position");
 			}
 		// }
 	}
@@ -105,21 +105,21 @@ public class ManuallyControlElevator extends Command {
 	private void seekHoldPoint(ElevatorHoldPoint point) {
 		double desiredHeightFeet = 0;
 		switch (point) {
-		case FLOOR:
-			desiredHeightFeet = FLOOR_HEIGHT_FEET;
-			break;
-		case SCALE_SCORE_HIGH:
-			desiredHeightFeet = SCALE_SCORE_HIGH_HEIGHT_FEET;
-			break;
-		case SCALE_SCORE_MED:
-			desiredHeightFeet = SCALE_SCORE_MED_HEIGHT_FEET;
-			break;
-		case SCALE_SCORE_LOW:
-			desiredHeightFeet = SCALE_SCORE_LOW_HEIGHT_FEET;
-			break;
-		case SWITCH_SCORE:
-			desiredHeightFeet = SWITCH_SCORE_HEIGHT_FEET;
-			break;
+		// case FLOOR:
+		// 	desiredHeightFeet = FLOOR_HEIGHT_FEET;
+		// 	break;
+		// case SCALE_SCORE_HIGH:
+		// 	desiredHeightFeet = SCALE_SCORE_HIGH_HEIGHT_FEET;
+		// 	break;
+		// case SCALE_SCORE_MED:
+		// 	desiredHeightFeet = SCALE_SCORE_MED_HEIGHT_FEET;
+		// 	break;
+		// case SCALE_SCORE_LOW:
+		// 	desiredHeightFeet = SCALE_SCORE_LOW_HEIGHT_FEET;
+		// 	break;
+		// case SWITCH_SCORE:
+		// 	desiredHeightFeet = SWITCH_SCORE_HEIGHT_FEET;
+		// 	break;
 		case HERE: // Fallthrough - the HERE and default cases have the same action
 		default:
 			desiredHeightFeet = Robot.elevator.getElevatorHeightFeet();
