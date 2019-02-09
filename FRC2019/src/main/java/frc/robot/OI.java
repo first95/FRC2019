@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivebase.DriveToVT;
@@ -53,6 +54,30 @@ public class OI {
 	private Joystick driverController = new Joystick(0);
 	private Joystick weaponsController = new Joystick(1);
 
+	// XBox controllers have both high-frequency and low-frequency vibrator motors.
+	// The Joystick class calls these "left" and "right".  This is our adapter between the two.
+	public enum RumbleType {
+		LOW_PITCH(Joystick.RumbleType.kLeftRumble),
+		HIGH_PITCH(Joystick.RumbleType.kRightRumble),
+		;
+		
+        private final Joystick.RumbleType rumbleType;
+
+        private RumbleType(Joystick.RumbleType value) {
+            this.rumbleType = value;
+        }
+
+        public Joystick.RumbleType JoystickType() {
+            return rumbleType;
+        }
+	}
+
+	// System timestamps after which we want each rumbler to be turned off
+	private double driverLowRumbleStopTime = 0;
+	private double driverHighRumbleStopTime = 0;
+	private double weaponsLowRumbleStopTime = 0;
+	private double weaponsHighRumbleStopTime = 0;
+
 	public OI() {
 
 		// Create some buttons
@@ -91,6 +116,19 @@ public class OI {
 	// There are a few things the OI wants to revisit every time around
 	public void visit() {
 
+		// Cancel joystick rumble if necessary
+		if(Timer.getFPGATimestamp() > driverLowRumbleStopTime) {
+			driverController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
+		}
+		if(Timer.getFPGATimestamp() > driverHighRumbleStopTime) {
+			driverController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
+		}
+		if(Timer.getFPGATimestamp() > weaponsLowRumbleStopTime) {
+			weaponsController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
+		}
+		if(Timer.getFPGATimestamp() > weaponsHighRumbleStopTime) {
+			weaponsController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
+		}
 	}
 
 	// If anything needs to be posted to the SmartDashboard, place it here
@@ -200,5 +238,62 @@ public class OI {
 	 */
 	public boolean getLowGear() {
 		return driverController.getRawButton(BUTTON_FORCE_LOW_GEAR);
+	}
+
+	/**
+	 * Rumble the weapons controller.
+	 * Note that you may have overlapping low- and high-pitched rumbles
+	 * @param pitch low-pitched or high-pitched rumbler
+	 * @param severity how strongly to rumble, between 0.0 and 1.0
+	 * @param duration how long, in seconds, the rumble should last
+	 */
+	public void RumbleWeapons(RumbleType pitch, double severity, double duration) {
+		switch(pitch) {
+			case HIGH_PITCH:
+				weaponsHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
+				break;
+			case LOW_PITCH:
+				weaponsLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
+				break;
+		}
+		weaponsController.setRumble(RumbleType.LOW_PITCH.JoystickType(), severity);
+	}
+
+	/**
+	 * Cease all rumbling on the weapons controller
+	 */
+	public void CancelWeaponsRumble() {
+		weaponsHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
+		weaponsLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
+		weaponsController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
+		weaponsController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
+	}
+	/**
+	 * Rumble the driver controller.
+	 * Note that you may have overlapping low- and high-pitched rumbles
+	 * @param pitch low-pitched or high-pitched rumbler
+	 * @param severity how strongly to rumble, between 0.0 and 1.0
+	 * @param duration how long, in seconds, the rumble should last
+	 */
+	public void RumbleDriver(RumbleType pitch, double severity, double duration) {
+		switch(pitch) {
+			case HIGH_PITCH:
+				driverHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
+				break;
+			case LOW_PITCH:
+				driverLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
+				break;
+		}
+		driverController.setRumble(RumbleType.LOW_PITCH.JoystickType(), severity);
+	}
+
+	/**
+	 * Cease all rumbling on the driver controller
+	 */
+	public void CancelDriverRumble() {
+		driverHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
+		driverLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
+		driverController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
+		driverController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
 	}
 }
