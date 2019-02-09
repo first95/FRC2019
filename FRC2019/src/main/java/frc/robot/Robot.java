@@ -42,11 +42,16 @@ public class Robot extends TimedRobot {
 
 		// Initialize all subsystems
 		drivebase = new DriveBase(true);
-		elevator = new Elevator(false);
-		hGroundLoader = new HatchGroundLoader(false);
+		elevator = new Elevator(true);
+		hScorer = new HatchScorer();
+		hGroundLoader = new HatchGroundLoader(true);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
+
+		// For now, make the elevator assume it starts out at zero
+		// TODO: when we have a homing switch, delete this
+		elevator.setCurrentPosToZero();
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivebase);
@@ -139,13 +144,13 @@ public class Robot extends TimedRobot {
 	 * The log method puts interesting information to the SmartDashboard.
 	 */
 	private void log() {
-		// debugLog();
+		debugLog();
 	}
 
-	// private void debugLog() {
-	// 	drivebase.log();
-	// 	elevator.log();
-	// 	hGroundLoader.log();
-	// 	oi.log();
-	// }
+	private void debugLog() {
+		// drivebase.log();
+		elevator.log();
+		// hGroundLoader.log();
+		// oi.log();
+	}
 }

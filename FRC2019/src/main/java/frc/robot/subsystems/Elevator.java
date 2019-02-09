@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,51 +34,52 @@ public class Elevator extends Subsystem {
 	private static final double TICKS_PER_FOOT = ENCODER_TICKS_FULL_RANGE / FEET_FULL_RANGE;
 	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
 
-	private IMotorControllerEnhanced leftElevDriver, rightElevDriver;
-	//private DigitalInput homeSwitch;
+	private IMotorControllerEnhanced followerDriver, leaderDriver;
+	private DigitalInput homeSwitch;
 
 	public Elevator(boolean realHardware) {
 		super();
 		// Set up the digital IO object to read the home switch
-		//homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
+		homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
 
 		if(realHardware) {
-			leftElevDriver = new AdjustedTalon(Constants.LEFT_ELEV_DRIVER);
-			rightElevDriver = new AdjustedTalon(Constants.RIGHT_ELEV_DRIVER);
+			followerDriver = new AdjustedTalon(Constants.ELEV_FOLLOWER_DRIVER);
+			leaderDriver = new AdjustedTalon(Constants.ELEV_LEADER_DRIVER);
 		} else {
-			leftElevDriver = new FakeTalon();
-			rightElevDriver = new FakeTalon();
+			followerDriver = new FakeTalon();
+			leaderDriver = new FakeTalon();
 		}
 
 		// Configure the left talon to follow the right talon, but backwards
-		leftElevDriver.setInverted(true); // Inverted here refers to the output
-		leftElevDriver.set(ControlMode.Follower, Constants.RIGHT_ELEV_DRIVER);
+		followerDriver.setInverted(false); // Inverted here refers to the output.  It flips the voltage
+		followerDriver.set(ControlMode.Follower, Constants.ELEV_LEADER_DRIVER);
 		
 		// Configure the right talon for closed loop control
-		rightElevDriver.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_IDX,
+		leaderDriver.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_IDX,
 				Constants.CAN_TIMEOUT_MS);
-		rightElevDriver.setSensorPhase(true);
-		rightElevDriver.config_kF(Constants.PID_IDX, K_F, Constants.CAN_TIMEOUT_MS);
-		rightElevDriver.config_kP(Constants.PID_IDX, K_P, Constants.CAN_TIMEOUT_MS);
-		rightElevDriver.config_kI(Constants.PID_IDX, K_I, Constants.CAN_TIMEOUT_MS);
-		rightElevDriver.config_kD(Constants.PID_IDX, K_D, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.setSensorPhase(true);
+		leaderDriver.config_kF(Constants.PID_IDX, K_F, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.config_kP(Constants.PID_IDX, K_P, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.config_kI(Constants.PID_IDX, K_I, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.config_kD(Constants.PID_IDX, K_D, Constants.CAN_TIMEOUT_MS);
 		// Prevent Integral Windup.
 		// Whenever the control loop error is outside this zone, zero out the I term
 		// accumulator.
-		rightElevDriver.config_IntegralZone(Constants.PID_IDX, I_ZONE, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.config_IntegralZone(Constants.PID_IDX, I_ZONE, Constants.CAN_TIMEOUT_MS);
 
 		// Configure soft limit at top
-		//rightElevDriver.configForwardSoftLimitEnable(true, Constants.CAN_TIMEOUT_MS);
-		//rightElevDriver.configForwardSoftLimitThreshold((int) SOFT_FWD_LIMIT, Constants.CAN_TIMEOUT_MS);
-		//rightElevDriver.configReverseSoftLimitEnable(false, Constants.CAN_TIMEOUT_MS);
+		//leaderDriver.configForwardSoftLimitEnable(true, Constants.CAN_TIMEOUT_MS);
+		//leaderDriver.configForwardSoftLimitThreshold((int) SOFT_FWD_LIMIT, Constants.CAN_TIMEOUT_MS);
+		//leaderDriver.configReverseSoftLimitEnable(false, Constants.CAN_TIMEOUT_MS);
 		
 		//Tell talon a limit switch is connected
-		rightElevDriver.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
 
 		// Send the initial PID constant values to the smartdash
 		// SmartDashboard.putNumber(pLabel, K_P);
 		// SmartDashboard.putNumber(iLabel, K_I);
 		// SmartDashboard.putNumber(dLabel, K_D);
+		leaderDriver.set(ControlMode.PercentOutput, 0);
 	}
 
 	public void checkAndApplyHomingSwitch() {
@@ -91,11 +93,9 @@ public class Elevator extends Subsystem {
 	
 	private boolean elevatorIsHome() {
 		// THIS IS A RISKY TEMPORARY CHANGE
-		// Without a homing switch, we have to assume a) that elevator is at
-		// the bottom (home) when this method is called upon robot init, and
-		// b) that this method is only called by checkAndApplyHomingSwitch
-		// during robot init
-		return true; //!homeSwitch.get();
+		// Without a homing switch, we have to assume that elevator is at
+		// the bottom (home) when this class is initialized
+		return false; //!homeSwitch.get();
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class Elevator extends Subsystem {
 	 * zillion times, and the talon is counting each and every one of those
 	 * revolutions.
 	 * 
-	 * If you then command the motor to see position 0, it will make all haste to
+	 * If you then command the motor to seek position 0, it will make all haste to
 	 * turn it back as many revolutions as you've turned the shaft since power-on.
 	 * 
 	 * This method needs to be called at the beginning of a match when the elevator
@@ -115,12 +115,12 @@ public class Elevator extends Subsystem {
 	 * 
 	 */
 	public void setCurrentPosToZero() {
-		rightElevDriver.setSelectedSensorPosition(0, Constants.PID_IDX, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.setSelectedSensorPosition(0, Constants.PID_IDX, Constants.CAN_TIMEOUT_MS);
 	}
 	
 	public void brake(boolean isEnabled) {
-		rightElevDriver.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
-		leftElevDriver.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
+		leaderDriver.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
+		followerDriver.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
 		}
 
 	@Override
@@ -130,10 +130,9 @@ public class Elevator extends Subsystem {
 
 	public void log() {
 		SmartDashboard.putNumber("Elevator Speed", Robot.oi.getElevatorSpeed());
-		//SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
-		SmartDashboard.putNumber("leftElevEncoder Value:", leftElevDriver.getSelectedSensorPosition(Constants.PID_IDX));
-		SmartDashboard.putNumber("rightElevEncoder Value:",
-				rightElevDriver.getSelectedSensorPosition(Constants.PID_IDX));
+		SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
+		SmartDashboard.putNumber("Elevator encoder value:",
+				leaderDriver.getSelectedSensorPosition(Constants.PID_IDX));
 		SmartDashboard.putNumber("Elevator height in feet:", getElevatorHeightFeet());
 	}
 
@@ -147,17 +146,17 @@ public class Elevator extends Subsystem {
 	public void setElevatorSpeed(double value) {
 		// W/out the homing switch, we can't check if trying to drive elevator
 		// down into deck so just have to rely on driver not to do that
-		rightElevDriver.set(ControlMode.PercentOutput, value);
+		leaderDriver.set(ControlMode.PercentOutput, value);
 		// When get homing switch back in, should remove line above and comment
 		// back in lines below.
 		// if(!elevatorIsHome() || value > 0) {
 		// 	// Either the elevator is above the deck, or being driven upward.
 		// 	// This is the normal state
-		// 	rightElevDriver.set(ControlMode.PercentOutput, value);
+		// 	leaderDriver.set(ControlMode.PercentOutput, value);
 		// } else {
 		// 	// The elevator is on the deck and they're trying to drive down.
 		// 	// Don't do that.
-		// 	rightElevDriver.set(ControlMode.PercentOutput, 0);
+		// 	leaderDriver.set(ControlMode.PercentOutput, 0);
 		// }
 	}
 
@@ -168,7 +167,7 @@ public class Elevator extends Subsystem {
 	 *            - the target height in feet up from lowest possible position
 	 */
 	public void setElevatorHeight(double feet) {
-		rightElevDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
+		leaderDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
 	}
 
 	/**
@@ -178,7 +177,7 @@ public class Elevator extends Subsystem {
 	 * @return 0 for against the floor, about 5.91 for its highest extent.
 	 */
 	public double getElevatorHeightFeet() {
-		return rightElevDriver.getSelectedSensorPosition(Constants.PID_IDX) / TICKS_PER_FOOT;
+		return leaderDriver.getSelectedSensorPosition(Constants.PID_IDX) / TICKS_PER_FOOT;
 	}
 
 	/**
@@ -188,8 +187,8 @@ public class Elevator extends Subsystem {
 	 * @return 0 for against the floor, about 5.91 for its highest extent.
 	 */
 	public double getTargetHeightFeet() {
-		if (rightElevDriver instanceof AdjustedTalon) {
-			return ((AdjustedTalon) rightElevDriver).getClosedLoopTarget(Constants.PID_IDX) / TICKS_PER_FOOT;
+		if (leaderDriver instanceof AdjustedTalon) {
+			return ((AdjustedTalon) leaderDriver).getClosedLoopTarget(Constants.PID_IDX) / TICKS_PER_FOOT;
 		} else {
 			return 0;
 		}
@@ -200,7 +199,7 @@ public class Elevator extends Subsystem {
 	 * closed-loop control completely.
 	 */
 	public void stopMotor() {
-		rightElevDriver.set(ControlMode.PercentOutput, 0.0);
+		leaderDriver.set(ControlMode.PercentOutput, 0.0);
 	}
 
 	/**
@@ -214,9 +213,9 @@ public class Elevator extends Subsystem {
 		K_D = SmartDashboard.getNumber(dLabel, K_D);
 
 		// Apply
-		rightElevDriver.config_kP(Constants.PID_IDX, K_P, Constants.CAN_TIMEOUT_MS);
-		rightElevDriver.config_kI(Constants.PID_IDX, K_I, Constants.CAN_TIMEOUT_MS);
-		rightElevDriver.config_kD(Constants.PID_IDX, K_D, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.config_kP(Constants.PID_IDX, K_P, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.config_kI(Constants.PID_IDX, K_I, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.config_kD(Constants.PID_IDX, K_D, Constants.CAN_TIMEOUT_MS);
 	}
 
 	public boolean isOnTarget() {

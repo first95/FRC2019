@@ -1,57 +1,87 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.commands.hgroundloader.ManuallyControlHatchGroundLoader;
+import frc.robot.commands.hgroundloader.SpeedControlHatchGroundLoader;
 import frc.robot.components.AdjustedTalon;
 import frc.robot.components.FakeTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchGroundLoader extends Subsystem {
 	
-	// Motor controllers for the intake/expel chains
-	private IMotorControllerEnhanced leftChainDriver, rightChainDriver;
+	// Motor controller for the intake rollers
+	private IMotorControllerEnhanced intakeDriver;
+	// Pitch up/down motor
+	private IMotorControllerEnhanced wristDriver;
 	
-	// The solenoids for the cylinder that operates wrist action
-	private Solenoid hatchWrist;
-	
+	// Encoder and position info for wristDriver
+	private static final double DEGREES_FULL_RANGE = 90; // How many degrees the wrist can move; needs to be measured
+	private static final double ENCODER_TICKS_FULL_RANGE = 78400.0; // How many encoder ticks the wrist can move; needs to be measured
+	private static final double TICKS_PER_DEG = ENCODER_TICKS_FULL_RANGE / DEGREES_FULL_RANGE;
+	private static double wristUp = 90;
+	private static double wristDown = 0;
+
 	public HatchGroundLoader(boolean realHardware) {
 		super();
 		
 		if(realHardware) {
-			leftChainDriver  = new AdjustedTalon(Constants.LEFT_HGL_DRIVER);
-			rightChainDriver = new AdjustedTalon(Constants.RIGHT_HGL_DRIVER);
+			intakeDriver = new AdjustedTalon(Constants.HGL_INTAKE);
+			wristDriver  = new AdjustedTalon(Constants.HGL_WRIST);
 		} else {
-			leftChainDriver  = new FakeTalon();
-			rightChainDriver = new FakeTalon();
+			intakeDriver = new FakeTalon();
+			wristDriver  = new FakeTalon();
 		}
 		
-		// False means the wrist is extended
-		hatchWrist = new Solenoid(Constants.HGL_WRIST_SOLENOID_NUM);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new ManuallyControlHatchGroundLoader());
+		setDefaultCommand(new SpeedControlHatchGroundLoader());
 	}
 	
 	public void log() {
 	
-	}
+	}	
 	
-	public void setRetracted(boolean retracted) {
-		hatchWrist.set(retracted);
-	}
-	
-	public void setIntakeSpeed(double outwardThrottle) {
-		leftChainDriver.set(ControlMode.PercentOutput, -outwardThrottle);
-		rightChainDriver.set(ControlMode.PercentOutput, outwardThrottle);
+
+	/**
+	 * Set speed of the intake rollers
+	 * @param inwardThrottle 1.0 for fully inward, -1.0 for fully outward, 0.0 for stationary
+	 */
+	public void setIntakeSpeed(double inwardThrottle) {
+		intakeDriver.set(ControlMode.PercentOutput, inwardThrottle);
 	}
 
-	public boolean getRetracted() {
-		return hatchWrist.get();
-	}	
+	/**
+	 * Set speed of the wrist movement
+	 * @param upwardSpeed 1.0 for fully upward, -1.0 for fully downward, 0.0 for stationary
+	 */
+	public void setWristPitchSpeed(double upwardSpeed) {
+		// Slow it way the hell down for starters
+		// and reverse the direction so up is up and down is down
+		wristDriver.set(ControlMode.PercentOutput, -upwardSpeed * 0.2);	
+	}
+	
+	/**
+	 * Lower the wrist to the wristDown position using position control
+	 */	
+	public void lowerWrist() {
+		wristDriver.set(ControlMode.Position, wristDown*TICKS_PER_DEG);
+	}
+
+	/**
+	 * Raise the wrist to the wristUp position using position control
+	 */	
+	public void raiseWrist() {
+		wristDriver.set(ControlMode.Position, wristUp*TICKS_PER_DEG);
+	}
+
+	/**
+	 * Check if the wrist is at its limit based on the current being sufficiently large
+	 */		
+	public Boolean wristAtLimit() {
+		return wristDriver.getOutputCurrent() >= Constants.HGL_MAX_WRIST_CURRENT_AMPS;
+	}
 }

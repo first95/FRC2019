@@ -1,9 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
+import frc.robot.oi.XBox360Controller;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -12,38 +14,37 @@ import frc.robot.commands.drivebase.Pivot;
  * to which controls.
  */
 public class OI {
+
+	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
+
+	// Axes on drive controller
+	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
 	
 	// Axes on weapons controller
-	public static final int HGL_CHAIN_DRIVER_IN_AXIS = 2;
-	public static final int HGL_CHAIN_DRIVER_OUT_AXIS = 3;
-	public static final int ELEVATOR_AXIS = 5; // Right stick Y
+	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int ELEVATOR_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
 
 	// Buttons on drive controller
-	public static final int BUTTON_FORCE_LOW_GEAR = 5; // Left bumper
-	public static final int BUTTON_FORCE_HIGH_GEAR = 6; // Right bumper
+	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
+	// Likely put control for climber as buttons on driver controller
 	
 	// Buttons on weapons controller
-	public static final int ELEV_SEEK_FLOOR_BUTTON = 1; // A
-	public static final int ELEV_SEEK_SWITCH_SCORE_BUTTON = 0;// 2; // B
-	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = 2; // B
-	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = 3; // X
-	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = 4; // Y
-	public static final int HS_OPEN_TOGGLE = 5; // ?
-	public static final int HS_PUSH_TOGGLE = 6; // ?
-
-	// POV/DPAD on the weapons controller || IT IS IN DEGREES!
-	public static final int POV_NONE = -1; // No DPAD button pressed
-	public static final int POV_UP = 0;
-	public static final int POV_UP_RIGHT = 45;
-	public static final int POV_RIGHT = 90;
-	public static final int POV_RIGHT_DOWN = 135;
-	public static final int POV_DOWN = 180;
-	public static final int POV_DOWN_LEFT = 225;
-	public static final int POV_LEFT = 270;
-	public static final int POV_LEFT_UP = 315;
-
-	// Hatch loader positions
-	private boolean hWristRetracted = false;
+	public static final int ELEV_SEEK_FLOOR_BUTTON = XBox360Controller.Button.A.Number();
+	public static final int ELEV_SEEK_SWITCH_SCORE_BUTTON = 0;
+	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = XBox360Controller.Button.A.Number(); 
+	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = XBox360Controller.Button.X.Number();
+	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = XBox360Controller.Button.Y.Number();
+	public static final int HS_OPEN_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
+	// Quickly running out of buttons and axes on weapons controller...
+	// Use one direction of POV (e.g. UP) for HGL auto-collect and the other direction of POV
+	// (e.g. DOWN) for CL auto-collect; then ignore other primary directions (LEFT and RIGHT) and treat
+	// the intermediate directions as (e.g. UP-RIGHT, DOWN-LEFT) as the primary direction we're using
+	// i.e. UP-LEFT, UP, and UP-RIGHT would all map to one UP behavior
 
 	// Controllers
 	private Joystick driverController = new Joystick(0);
@@ -86,7 +87,7 @@ public class OI {
 
 	// There are a few things the OI wants to revisit every time around
 	public void visit() {
-		updateWristSettings();
+
 	}
 
 	// If anything needs to be posted to the SmartDashboard, place it here
@@ -96,53 +97,44 @@ public class OI {
 
 
 	// Hatch scorer
-	public boolean isToggleHSOpenButtonPressed() {
-		return weaponsController.getRawButton(HS_OPEN_TOGGLE);
+	public boolean isGrabHatchButtonPressed() {
+		return weaponsController.getRawButton(HS_OPEN_HOLD);
 	}
 
-	public boolean isToggleHSPushButtonPressed() {
-		return weaponsController.getRawButton(HS_PUSH_TOGGLE);
+	public boolean isPushHatchButtonPressed() {
+		return weaponsController.getRawButton(HS_PUSH_HOLD);
 	}	
 
-	// Hatch loader controls
-	// We support 2 positions:
-	// Full up - extended Up
-	// Full down - retracted Down
-	public void updateWristSettings() {
-		if (weaponsController.getPOV() != POV_NONE) {
-
-			// Retract the Hatch Ground Loader if the POV hat is UP
-			hWristRetracted = (weaponsController.getPOV() <= POV_RIGHT
-					&& weaponsController.getPOV() >= POV_LEFT);
-
-		} else {
-			// When no D-Pad button is pressed, don't change the angle
-		}
+	/**
+	 * Get speed at which the intake rollers of the hatch ground loader should run
+	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
+	 */
+	public double getHGLIntakeSpeed() {
+		return weaponsController.getRawAxis(HGL_INTAKE_AXIS) - weaponsController.getRawAxis(HGL_OUTSPIT_AXIS);
 	}
 
-	public void setHGLWristRectracted(boolean retracted) {
-		hWristRetracted = retracted;
-	}
-
-	public boolean getHGLWristRectracted() {
-		return hWristRetracted;
-	}
-
-	public double getHGLSpeed() {
-		return weaponsController.getRawAxis(HGL_CHAIN_DRIVER_IN_AXIS) - weaponsController.getRawAxis(HGL_CHAIN_DRIVER_OUT_AXIS);
+	/**
+	 * Get speed at which the wrist of of the hatch ground loader should turn
+	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
+	 */
+	public double getHGLWristSpeed() {
+		return weaponsController.getRawAxis(HGL_WRIST_AXIS);
 	}
 
 	// Elevator controls
 	public double getElevatorSpeed() {
 
+		double elevatorCtrl = weaponsController.getRawAxis(ELEVATOR_AXIS);
 		double elevatorSpeed = 0;
 
-		if ((weaponsController.getRawAxis(ELEVATOR_AXIS) > .18)
-				|| (weaponsController.getRawAxis(ELEVATOR_AXIS) < -.18)) {
-			elevatorSpeed = weaponsController.getRawAxis(ELEVATOR_AXIS);
+		if ((elevatorCtrl > ELEVATOR_UPDOWN_DEADBAND)
+				|| (elevatorCtrl < -ELEVATOR_UPDOWN_DEADBAND)) {
+			elevatorSpeed = elevatorCtrl;
 		}
 
-		// The Y axis is reversed, so that positive is down
+		// The Y axis on thet controller is reversed, so that positive is down
+		SmartDashboard.putNumber("Elevator axis value",elevatorCtrl);
+		SmartDashboard.putNumber("Elevator speed throttle",-elevatorSpeed);
 		return -elevatorSpeed;
 	}
 
@@ -151,8 +143,7 @@ public class OI {
 	}
 
 	public boolean isElevatorSwitchScoreButtonPressed() {
-		return false; // Not currently in use
-		// return weaponsController.getRawButton(ELEV_SEEK_SWITCH_SCORE_BUTTON);
+		return weaponsController.getRawButton(ELEV_SEEK_SWITCH_SCORE_BUTTON);
 	}
 
 	public boolean isElevatorScaleScoreLowButtonPressed() {
@@ -169,11 +160,11 @@ public class OI {
 
 	// Drive base controls
 	public double getForwardAxis() {
-		return driverController.getY();
+		return driverController.getRawAxis(DRIVE_FORWARD_AXIS);
 	}
 
 	public double getTurnAxis() {
-		return driverController.getRawAxis(4);
+		return driverController.getRawAxis(DRIVE_TURN_AXIS);
 	}
 
 	/**
