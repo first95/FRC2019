@@ -57,7 +57,7 @@ public class Elevator extends Subsystem {
 		// Configure the right talon for closed loop control
 		leaderDriver.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_IDX,
 				Constants.CAN_TIMEOUT_MS);
-		leaderDriver.setSensorPhase(true);
+		leaderDriver.setSensorPhase(false);
 		leaderDriver.config_kF(Constants.PID_IDX, K_F, Constants.CAN_TIMEOUT_MS);
 		leaderDriver.config_kP(Constants.PID_IDX, K_P, Constants.CAN_TIMEOUT_MS);
 		leaderDriver.config_kI(Constants.PID_IDX, K_I, Constants.CAN_TIMEOUT_MS);
