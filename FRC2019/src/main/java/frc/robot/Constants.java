@@ -59,7 +59,8 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_CONTINUAL_AMPS = 10;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
-		public static final int HGL_MAX_WRIST_CURRENT_AMPS = 1;	
+		public static final double HGL_MAX_WRIST_CURRENT_AMPS = 0.75;	
+		public static final int HGL_MAX_WRIST_CURRENT_DURATION_MS = 50;
 		
 		public static double RFVoltsToFt(double voltage)
 			{

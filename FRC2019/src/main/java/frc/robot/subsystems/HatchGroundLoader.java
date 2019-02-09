@@ -7,6 +7,7 @@ import frc.robot.components.FakeTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchGroundLoader extends Subsystem {
@@ -16,6 +17,12 @@ public class HatchGroundLoader extends Subsystem {
 	// Pitch up/down motor
 	private IMotorControllerEnhanced wristDriver;
 	
+	// Wrist variables
+	private double wristCur = 0;
+	private double wristDTMs = 0;
+	private boolean wristLast = false;
+	private boolean wristDet = false;
+
 	// Encoder and position info for wristDriver
 	private static final double DEGREES_FULL_RANGE = 90; // How many degrees the wrist can move; needs to be measured
 	private static final double ENCODER_TICKS_FULL_RANGE = 78400.0; // How many encoder ticks the wrist can move; needs to be measured
@@ -45,6 +52,9 @@ public class HatchGroundLoader extends Subsystem {
 	
 	}	
 	
+	public void visit() {
+		updateCurrents();
+	}
 
 	/**
 	 * Set speed of the intake rollers
@@ -79,9 +89,26 @@ public class HatchGroundLoader extends Subsystem {
 	}
 
 	/**
-	 * Check if the wrist is at its limit based on the current being sufficiently large
+	 * Update the currents for the wrist and intake
 	 */		
-	public Boolean wristAtLimit() {
-		return wristDriver.getOutputCurrent() >= Constants.HGL_MAX_WRIST_CURRENT_AMPS;
+	public void updateCurrents() {
+		wristCur = wristDriver.getOutputCurrent();
+		if (wristCur >= Constants.HGL_MAX_WRIST_CURRENT_AMPS) {
+			// Went from below to above threshold so set time
+			if (!wristLast) { wristDTMs = System.nanoTime()*1000; }
+			if (!wristDet) {
+				// Check if detection time has elapsed
+				if (System.nanoTime()*1000 - wristDTMs >= Constants.HGL_MAX_WRIST_CURRENT_DURATION_MS) {
+					wristDet = true;
+				}
+			} 
+			wristLast = true;
+		} else {
+			// Current is below detection level so re-set wristDet and wristDTMs
+			if (wristLast) { wristDet = false; }
+			wristLast = false;
+		}
+		SmartDashboard.putNumber("HGL Wrist Current (A)",wristCur);
+		SmartDashboard.putNumber("HGL Wrist High Current Detected",wristDet ? 1: 0);
 	}
 }
