@@ -88,16 +88,16 @@ public class OI {
 
 	public OI() {
 
-		// Create some buttons
-		JoystickButton joy_dA = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
-		JoystickButton joy_dB = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
-		JoystickButton joy_wA = new JoystickButton(weaponsController, XBox360Controller.Button.A.Number());
-		JoystickButton joy_wB = new JoystickButton(weaponsController, XBox360Controller.Button.B.Number());
-		// Connect the buttons to commands
-		joy_dA.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, 0.1, true));
-		joy_dB.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.LOW_PITCH, 1.0, 0.1, true));
-		joy_wA.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 0.5, 1.0, true));
-		joy_wB.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 0.5, 1.0, true));
+		// // Create some buttons
+		// JoystickButton joy_dA = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
+		// JoystickButton joy_dB = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
+		// JoystickButton joy_wA = new JoystickButton(weaponsController, XBox360Controller.Button.A.Number());
+		// JoystickButton joy_wB = new JoystickButton(weaponsController, XBox360Controller.Button.B.Number());
+		// // Connect the buttons to commands
+		// joy_dA.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, 0.1, true));
+		// joy_dB.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.LOW_PITCH, 1.0, 0.1, true));
+		// joy_wA.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 0.5, 1.0, true));
+		// joy_wB.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 0.5, 1.0, true));
 
 
 		// Sendable Chooser for single commands
