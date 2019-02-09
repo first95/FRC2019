@@ -207,7 +207,7 @@ public class OI {
 		// The Y axis on thet controller is reversed, so that positive is down
 		SmartDashboard.putNumber("Elevator axis value",elevatorCtrl);
 		SmartDashboard.putNumber("Elevator speed throttle",-elevatorSpeed);
-		return -elevatorSpeed;
+		return -elevatorSpeed * 0.25;
 	}
 
 	public boolean isElevatorFloorButtonPressed() {
