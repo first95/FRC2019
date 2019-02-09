@@ -80,6 +80,12 @@ public class HatchGroundLoader extends Subsystem {
 	
 	}	
 	
+	public void visit () {
+		if (realHW) {
+			wrtD.visit();
+			intD.visit();
+		}
+	}
 
 	/**
 	 * Set speed of the intake rollers

@@ -99,6 +99,7 @@ public class Robot extends TimedRobot {
 		drivebase.pullPidConstantsFromSmartDash();
 		oi.visit();
 		drivebase.visit();
+		hGroundLoader.visit();
 
 		// Depending if you want all output or just limited
 		// use either debugLog() or just log()

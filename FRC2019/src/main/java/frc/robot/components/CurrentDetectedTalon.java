@@ -24,6 +24,12 @@ public class CurrentDetectedTalon extends AdjustedTalon {
 		return detect;
 	}
 
+	public void visit() {
+		if (query) {
+			updateStatus();
+		}
+	}
+
 	/**
 	 * Update the current and detection status
 	 */		
@@ -31,10 +37,10 @@ public class CurrentDetectedTalon extends AdjustedTalon {
 		cur = super.getOutputCurrent();
 		if (cur >= curThresh) {
 			// Went from below to above threshold so set time
-			if (!last) { cst = System.nanoTime()*1000; }
+			if (!last) { cst = System.nanoTime()*1000*1000; }
 			if (!detect) {
 				// Check if detection time has elapsed
-				if (System.nanoTime()*1000 - cst >= minTimeMs) {
+				if (System.nanoTime()*1000*1000 - cst >= minTimeMs) {
 					detect = true;
 				}
 			} 
