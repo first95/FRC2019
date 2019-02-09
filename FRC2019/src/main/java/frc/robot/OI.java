@@ -30,6 +30,7 @@ public class OI {
 	// Buttons on drive controller
 	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
+	// Likely put control for climber as buttons on driver controller
 	
 	// Buttons on weapons controller
 	public static final int ELEV_SEEK_FLOOR_BUTTON = XBox360Controller.Button.A.Number();
@@ -39,6 +40,11 @@ public class OI {
 	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = XBox360Controller.Button.Y.Number();
 	public static final int HS_OPEN_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
+	// Quickly running out of buttons and axes on weapons controller...
+	// Use one direction of POV (e.g. UP) for HGL auto-collect and the other direction of POV
+	// (e.g. DOWN) for CL auto-collect; then ignore other primary directions (LEFT and RIGHT) and treat
+	// the intermediate directions as (e.g. UP-RIGHT, DOWN-LEFT) as the primary direction we're using
+	// i.e. UP-LEFT, UP, and UP-RIGHT would all map to one UP behavior
 
 	// Controllers
 	private Joystick driverController = new Joystick(0);
