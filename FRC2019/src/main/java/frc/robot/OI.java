@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
@@ -72,6 +73,12 @@ public class OI {
         }
 	}
 
+	/** Describes which of the controlleres you're referring to */
+	public enum Controller {
+		DRIVER,
+		WEAPONS, // Weapons operator
+	}
+
 	// System timestamps after which we want each rumbler to be turned off
 	private double driverLowRumbleStopTime = 0;
 	private double driverHighRumbleStopTime = 0;
@@ -81,7 +88,8 @@ public class OI {
 	public OI() {
 
 		// Create some buttons
-		// JoystickButton joy_A = new JoystickButton(driverController, 1);
+		JoystickButton joy_A = new JoystickButton(driverController, 1);
+		joy_A.whenPressed(command);
 
 		// Connect the buttons to commands
 
@@ -241,59 +249,68 @@ public class OI {
 	}
 
 	/**
-	 * Rumble the weapons controller.
+	 * Rumble a controller.
 	 * Note that you may have overlapping low- and high-pitched rumbles
+	 * @param controller which controller to rumble
 	 * @param pitch low-pitched or high-pitched rumbler
 	 * @param severity how strongly to rumble, between 0.0 and 1.0
 	 * @param duration how long, in seconds, the rumble should last
 	 */
-	public void RumbleWeapons(RumbleType pitch, double severity, double duration) {
-		switch(pitch) {
-			case HIGH_PITCH:
-				weaponsHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
+	public void Rumble(Controller controller, RumbleType pitch, double severity, double duration) {
+		Joystick stick = null;
+		switch(controller) {
+			case DRIVER: 
+				stick = driverController; 
+				switch(pitch) {
+					case HIGH_PITCH:
+						driverHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
+						break;
+					case LOW_PITCH:
+						driverLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
+						break;
+				}
 				break;
-			case LOW_PITCH:
-				weaponsLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
-				break;
-		}
-		weaponsController.setRumble(RumbleType.LOW_PITCH.JoystickType(), severity);
-	}
-
-	/**
-	 * Cease all rumbling on the weapons controller
-	 */
-	public void CancelWeaponsRumble() {
-		weaponsHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
-		weaponsLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
-		weaponsController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
-		weaponsController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
-	}
-	/**
-	 * Rumble the driver controller.
-	 * Note that you may have overlapping low- and high-pitched rumbles
-	 * @param pitch low-pitched or high-pitched rumbler
-	 * @param severity how strongly to rumble, between 0.0 and 1.0
-	 * @param duration how long, in seconds, the rumble should last
-	 */
-	public void RumbleDriver(RumbleType pitch, double severity, double duration) {
-		switch(pitch) {
-			case HIGH_PITCH:
-				driverHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
-				break;
-			case LOW_PITCH:
-				driverLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
+			case WEAPONS: 
+				stick = weaponsController;
+				switch(pitch) {
+					case HIGH_PITCH:
+						weaponsHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
+						break;
+					case LOW_PITCH:
+						weaponsLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
+						break;
+				}
 				break;
 		}
-		driverController.setRumble(RumbleType.LOW_PITCH.JoystickType(), severity);
-	}
 
+		stick.setRumble(pitch.JoystickType(), severity);
+	}
 	/**
-	 * Cease all rumbling on the driver controller
+	 * Cease all rumbling
 	 */
-	public void CancelDriverRumble() {
-		driverHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
-		driverLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
-		driverController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
-		driverController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
+	public void CancelRumble() {
+		CancelRumble(Controller.DRIVER);
+		CancelRumble(Controller.WEAPONS);
+	}
+	/**
+	 * Cease all rumbling on a controller
+	 */
+	public void CancelRumble(Controller controller) {
+		Joystick stick = null;
+		switch(controller) {
+			case DRIVER: 
+				stick = driverController; 
+				driverHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				driverLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				break;
+			case WEAPONS: 
+				stick = weaponsController;
+				weaponsHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				weaponsLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				break;
+		}
+
+		stick.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
+		stick.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
 	}
 }
