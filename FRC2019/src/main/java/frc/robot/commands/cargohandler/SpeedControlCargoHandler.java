@@ -13,8 +13,8 @@ public class SpeedControlCargoHandler extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.cargoHandler.setIntakeSpeed(Robot.oi.getHGLIntakeSpeed());
-		wristSpeed = Robot.oi.getHGLWristSpeed();
+		Robot.cargoHandler.setIntakeSpeed(Robot.oi.getCargoLoaderIntakeSpeed());
+		wristSpeed = Robot.oi.getCargoLoaderWristSpeed();
 		Robot.cargoHandler.setWristPitchSpeed(wristSpeed);
 		SmartDashboard.putNumber("HGL Wrist Input", wristSpeed);
 	}

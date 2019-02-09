@@ -53,7 +53,7 @@ public class Constants
 		public static final int HGL_WRIST = 24;
 		
 		// Cargo handler
-		public static final int CARGO_HANDLER_INTAKE = 99; // TODO: Find the real number
+		public static final int CARGO_HANDLER_INTAKE = 30;
 		public static final int CARGO_HANDLER_WRIST = 98;  // TODO: Find the real number
 		
 		// Sensors attached via CAN
