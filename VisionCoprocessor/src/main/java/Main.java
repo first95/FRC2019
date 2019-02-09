@@ -225,8 +225,8 @@ public static JsonObject readJsonFile(String path) {
     NetworkTable analysisOutputTable = ntinst.getTable("vision_metrics");
     NetworkTable cameraControlTable = ntinst.getTable("camera_control");
     cameraControlTable.getEntry("camera_for_humans").setBoolean(false);
-    // cameraControlTable.getEntry("camera_rightward_from_center_in").setDouble(10);
-    // cameraControlTable.getEntry("camera_forward_from_center_in").setDouble(5);
+    cameraControlTable.getEntry("camera_rightward_from_center_in").setDouble(CAM_X_DEFAULT_OFFSET_IN);
+    cameraControlTable.getEntry("camera_forward_from_center_in").setDouble(CAM_Y_DEFAULT_OFFSET_IN);
     
     // start cameras
     List<VideoSource> cameras = new ArrayList<>();
@@ -258,16 +258,18 @@ public static JsonObject readJsonFile(String path) {
 
                   // Convert to cartesian coordinates.  Y+ is ahead of the robot, X+ is rightwards.
                   double xc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
-                  double yc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
+                  double yc = ranges[i] * Math.cos(Math.toRadians(bearings[i]));
                   // Shift from being camera-relative to being robot-relative
                   double xr = xc - dx;
                   double yr = yc - dy;
                   // Convert back to polar for delivery
-                  bearingsRelRobot[i] = Math.atan2(yr, xr);
+                  bearingsRelRobot[i] = Math.toDegrees(Math.atan2(xr, yr));
                   rangesRelRobot[i] = Math.sqrt(xr * xr + yr * yr);
 
                   i++;
                 }
+                analysisOutputTable.getEntry("target bearings relative to camera (deg)").setDoubleArray(bearings);
+                analysisOutputTable.getEntry("target ranges relative to camera (in)").setDoubleArray(ranges);
                 analysisOutputTable.getEntry("target bearings (deg)").setDoubleArray(bearingsRelRobot);
                 analysisOutputTable.getEntry("target ranges (in)").setDoubleArray(rangesRelRobot);
                 analysisOutputTable.getEntry("target count").setNumber(hvts.size());
