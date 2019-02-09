@@ -260,8 +260,8 @@ public static JsonObject readJsonFile(String path) {
                   double xc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
                   double yc = ranges[i] * Math.cos(Math.toRadians(bearings[i]));
                   // Shift from being camera-relative to being robot-relative
-                  double xr = xc - dx;
-                  double yr = yc - dy;
+                  double xr = xc + dx;
+                  double yr = yc + dy;
                   // Convert back to polar for delivery
                   bearingsRelRobot[i] = Math.toDegrees(Math.atan2(xr, yr));
                   rangesRelRobot[i] = Math.sqrt(xr * xr + yr * yr);
