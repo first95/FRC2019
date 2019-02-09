@@ -43,10 +43,10 @@ public class Constants
 		public static final int RIGHT_F2 = 22;
 		
 		// Elevator
-		// public static final int LEFT_ELEV_DRIVER = 31;
-		public static final int LEFT_ELEV_DRIVER = 15;
-		// public static final int RIGHT_ELEV_DRIVER = 35;
-		public static final int RIGHT_ELEV_DRIVER = 25;
+		// public static final int ELEV_FOLLOWER_DRIVER = 31;
+		public static final int ELEV_FOLLOWER_DRIVER = 15;
+		// public static final int ELEV_LEADER_DRIVER = 35;
+		public static final int ELEV_LEADER_DRIVER = 25;
 
 		// Hatch Ground Loader
 		public static final int HGL_INTAKE = 14;
