@@ -37,6 +37,7 @@ public class CurrentDetectedTalon extends AdjustedTalon {
 		cur = super.getOutputCurrent();
 		if (cur >= curThresh) {
 			// Went from below to above threshold so set time
+			// Note: If System.nanoTime() doesn't work, try Timer.getFPGATimestamp() from WPILib
 			if (!last) { cst = System.nanoTime()*1000*1000; }
 			if (!detect) {
 				// Check if detection time has elapsed
