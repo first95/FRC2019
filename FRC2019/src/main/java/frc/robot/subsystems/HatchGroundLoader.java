@@ -94,7 +94,7 @@ public class HatchGroundLoader extends Subsystem {
 	 * Set speed of the intake rollers
 	 * @param inwardThrottle 1.0 for fully inward, -1.0 for fully outward, 0.0 for stationary
 	 */
-	public void setIntakeSpeed(double inwardThrottle) {
+	public void setIntakeThrottle(double inwardThrottle) {
 		intakeDriver.set(ControlMode.PercentOutput, inwardThrottle);
 	}
 
