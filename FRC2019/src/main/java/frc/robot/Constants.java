@@ -65,8 +65,10 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_CONTINUAL_AMPS = 10;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
+		// Above this threshold, we consider the wrist to have hit a mechanical stop
 		public static final double HGL_MAX_WRIST_CURRENT_AMPS = 0.75;	
 		public static final int HGL_MAX_WRIST_CURRENT_DURATION_MS = 50;
+		// Above this threshold, we consider there to be a hatch in the intake
 		public static final double HGL_MAX_INTAKE_CURRENT_AMPS = 0.75;	
 		public static final int HGL_MAX_INTAKE_CURRENT_DURATION_MS = 50;		
 		
