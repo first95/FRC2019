@@ -15,6 +15,8 @@ public class Constants
 		// Used in closed-loop control
 		public static final double ELEVATOR_ON_TARGET_THRESHOLD_INCHES = 1; // Elevator will call itself close enough at this point
 		public static final double DRIVEPOD_ON_TARGET_THRESHOLD_INCHES = 1; // Each drivepod will call itself close enough at this point		
+		public static final double HGL_ON_TARGET_THRESHOLD_DEGREES = 5;
+		public static final double CARGO_LOADER_ON_TARGET_THRESHOLD_DEGREES = 5;
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec
@@ -52,6 +54,10 @@ public class Constants
 		public static final int HGL_INTAKE = 14;
 		public static final int HGL_WRIST = 24;
 		
+		// Cargo handler
+		public static final int CARGO_HANDLER_INTAKE = 30;
+		public static final int CARGO_HANDLER_WRIST = 98;  // TODO: Find the real number
+		
 		// Sensors attached via CAN
 		public static final int PIGEON_NUM = 30;		
 
@@ -59,8 +65,10 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_CONTINUAL_AMPS = 10;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
+		// Above this threshold, we consider the wrist to have hit a mechanical stop
 		public static final double HGL_MAX_WRIST_CURRENT_AMPS = 0.75;	
 		public static final int HGL_MAX_WRIST_CURRENT_DURATION_MS = 50;
+		// Above this threshold, we consider there to be a hatch in the intake
 		public static final double HGL_MAX_INTAKE_CURRENT_AMPS = 0.75;	
 		public static final int HGL_MAX_INTAKE_CURRENT_DURATION_MS = 50;		
 		

@@ -26,6 +26,9 @@ public class HatchGroundLoader extends Subsystem {
 	private static final double DEGREES_FULL_RANGE = 90; // How many degrees the wrist can move; needs to be measured
 	private static final double ENCODER_TICKS_FULL_RANGE = 78400.0; // How many encoder ticks the wrist can move; needs to be measured
 	private static final double TICKS_PER_DEG = ENCODER_TICKS_FULL_RANGE / DEGREES_FULL_RANGE;
+	// Positions - TODO: Verify these
+	public static final double WRIST_UP_DEG = DEGREES_FULL_RANGE;
+	public static final double WRIST_DOWN_DEG = 0;
 
 	private static final double K_F = 0.0; // Don't use in position mode.
 	private double K_P = 0.4 * 1023.0 / 900.0; // Respond to an error of 900 with 40% throttle
@@ -91,7 +94,7 @@ public class HatchGroundLoader extends Subsystem {
 	 * Set speed of the intake rollers
 	 * @param inwardThrottle 1.0 for fully inward, -1.0 for fully outward, 0.0 for stationary
 	 */
-	public void setIntakeSpeed(double inwardThrottle) {
+	public void setIntakeThrottle(double inwardThrottle) {
 		intakeDriver.set(ControlMode.PercentOutput, inwardThrottle);
 	}
 
@@ -113,6 +116,18 @@ public class HatchGroundLoader extends Subsystem {
 	 */
 	public void setWristRot(double degrees) {
 		wristDriver.set(ControlMode.Position, degrees * TICKS_PER_DEG);
+	}
+
+	/**
+	 * 
+	 * @return true when the wrist is close enough to its target
+	 */
+	public boolean isWristPositionOnTarget() {
+		if (wristDriver.getControlMode() == ControlMode.Position) {
+			return (Math.abs(wristDriver.getSelectedSensorPosition(Constants.PID_IDX) - wristDriver.getClosedLoopTarget(Constants.PID_IDX)) / TICKS_PER_DEG) < Constants.HGL_ON_TARGET_THRESHOLD_DEGREES;
+		} else {
+			return true; // When you're not seeking anything, you're already at your destination.
+		}
 	}
 
 	/**

@@ -46,17 +46,34 @@ public class XBox360Controller {
         }
     }
 
-    // POV/DPAD on the weapons controller || IT IS IN DEGREES!
-	public static final int POV_NONE = -1; // No DPAD button pressed
-	public static final int POV_UP = 0;
-	public static final int POV_UP_RIGHT = 45;
-	public static final int POV_RIGHT = 90;
-	public static final int POV_RIGHT_DOWN = 135;
-	public static final int POV_DOWN = 180;
-	public static final int POV_DOWN_LEFT = 225;
-	public static final int POV_LEFT = 270;
-	public static final int POV_LEFT_UP = 315;
+    public enum PovDir {
+        NONE(-1),
+        UP(0),
+        UP_RIGHT(45),
+        RIGHT(90),
+        RIGHT_DOWN(135),
+        DOWN(180),
+        DOWN_LEFT(225),
+        LEFT(270),
+        LEFT_UP(315)
+        ;
+        private final int degrees;
 
+        private PovDir(int value) {
+            this.degrees = value;
+        }
 
-    
+        public int Degrees() {
+            return degrees;
+        }
+
+        public static PovDir FromDegrees(int degrees) {
+            for (PovDir dir : PovDir.values()) {
+                if(dir.degrees == degrees) {
+                    return dir;
+                }
+            }
+            return NONE;
+        }
+    }    
 }

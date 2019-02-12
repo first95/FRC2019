@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.CargoHandler;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchGroundLoader;
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
 	public static Elevator elevator;
 	public static HatchScorer hScorer;
 	public static HatchGroundLoader hGroundLoader;
+	public static CargoHandler cargoHandler;
 	public static Compressor compressor;
 	public static OI oi;
 	public static VisionCoprocessor vision;
@@ -45,6 +47,7 @@ public class Robot extends TimedRobot {
 		elevator = new Elevator(true);
 		hScorer = new HatchScorer();
 		hGroundLoader = new HatchGroundLoader(true);
+		cargoHandler = new CargoHandler(true);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
