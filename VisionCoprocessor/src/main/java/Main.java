@@ -60,6 +60,11 @@ public final class Main {
   private final static String machineVisibleSettingsFile = "/home/pi/machineSettings.json";
   private static JsonObject machineVisibleSettings;
 
+  // How far to the right of center is the camera?
+  private final static double CAM_X_DEFAULT_OFFSET_IN = 10;
+  // How far back from the front of the robot is the camera?
+  private final static double CAM_Y_DEFAULT_OFFSET_IN = 10;
+
   // @SuppressWarnings("MemberName")
   public static class CameraConfig {
     public String name;
@@ -220,6 +225,9 @@ public static JsonObject readJsonFile(String path) {
     NetworkTable analysisOutputTable = ntinst.getTable("vision_metrics");
     NetworkTable cameraControlTable = ntinst.getTable("camera_control");
     cameraControlTable.getEntry("camera_for_humans").setBoolean(false);
+    cameraControlTable.getEntry("camera_rightward_from_center_in").setDouble(CAM_X_DEFAULT_OFFSET_IN);
+    cameraControlTable.getEntry("camera_forward_from_center_in").setDouble(CAM_Y_DEFAULT_OFFSET_IN);
+    
     // start cameras
     List<VideoSource> cameras = new ArrayList<>();
     for (CameraConfig cameraConfig : cameraConfigs) {
@@ -234,15 +242,36 @@ public static JsonObject readJsonFile(String path) {
                 List<HatchVisionTargetsFromImage.HatchVisionTarget> hvts = pipeline.getDetectedTargets();
                 double[] bearings = new double[hvts.size()];
                 double[] ranges = new double[hvts.size()];
+
+                double dx = cameraControlTable.getEntry("camera_rightward_from_center_in").getDouble(CAM_X_DEFAULT_OFFSET_IN);
+                double dy = cameraControlTable.getEntry("camera_forward_from_center_in").getDouble(CAM_Y_DEFAULT_OFFSET_IN);
+            
+                double[] bearingsRelRobot = new double[hvts.size()];
+                double[] rangesRelRobot = new double[hvts.size()];
+                
                 int i = 0;
                 int imgWidth = cameras.get(0).getVideoMode().width;
                 for (HatchVisionTargetsFromImage.HatchVisionTarget hvt : hvts) {
+                  // Get bearing and range, relative to the camera
                   ranges[i] = hvt.computeRangeInches(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
                   bearings[i] = hvt.computeBearingDegrees(imgWidth, HatchVisionTargetsFromImage.CAMERA_FOV_WIDTH_DEG);
+
+                  // Convert to cartesian coordinates.  Y+ is ahead of the robot, X+ is rightwards.
+                  double xc = ranges[i] * Math.sin(Math.toRadians(bearings[i]));
+                  double yc = ranges[i] * Math.cos(Math.toRadians(bearings[i]));
+                  // Shift from being camera-relative to being robot-relative
+                  double xr = xc + dx;
+                  double yr = yc + dy;
+                  // Convert back to polar for delivery
+                  bearingsRelRobot[i] = Math.toDegrees(Math.atan2(xr, yr));
+                  rangesRelRobot[i] = Math.sqrt(xr * xr + yr * yr);
+
                   i++;
                 }
-                analysisOutputTable.getEntry("target bearings (deg)").setDoubleArray(bearings);
-                analysisOutputTable.getEntry("target ranges (in)").setDoubleArray(ranges);
+                analysisOutputTable.getEntry("target bearings relative to camera (deg)").setDoubleArray(bearings);
+                analysisOutputTable.getEntry("target ranges relative to camera (in)").setDoubleArray(ranges);
+                analysisOutputTable.getEntry("target bearings (deg)").setDoubleArray(bearingsRelRobot);
+                analysisOutputTable.getEntry("target ranges (in)").setDoubleArray(rangesRelRobot);
                 analysisOutputTable.getEntry("target count").setNumber(hvts.size());
       });
       visionThread.start();
