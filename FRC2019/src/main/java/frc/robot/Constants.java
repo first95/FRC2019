@@ -29,6 +29,7 @@ public class Constants
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
 		public static final int HS_OPEN_A = 6;
 		public static final int HS_PUSH_A = 7;
+		public static final int CLIMBER_SOL = 1;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
@@ -56,6 +57,9 @@ public class Constants
 		public static final int CARGO_HANDLER_INTAKE = 30;
 		public static final int CARGO_HANDLER_WRIST = 98;  // TODO: Find the real number
 		
+		// Climber
+		public static final int CLIMBER_DRIVER = 95; // TODO: get real number
+
 		// Sensors attached via CAN
 		public static final int PIGEON_NUM = 30;		
 

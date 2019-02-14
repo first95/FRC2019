@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CargoHandler;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.HatchGroundLoader;
 import frc.robot.subsystems.HatchScorer;
 import frc.robot.subsystems.VisionCoprocessor;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 	public static HatchScorer hScorer;
 	public static HatchGroundLoader hGroundLoader;
 	public static CargoHandler cargoHandler;
+	public static Climber climber;
 	public static Compressor compressor;
 	public static OI oi;
 	public static VisionCoprocessor vision;
@@ -44,10 +46,11 @@ public class Robot extends TimedRobot {
 
 		// Initialize all subsystems
 		drivebase = new DriveBase(true);
-		elevator = new Elevator(true);
+		elevator = new Elevator(false);
 		hScorer = new HatchScorer();
-		hGroundLoader = new HatchGroundLoader(true);
-		cargoHandler = new CargoHandler(true);
+		hGroundLoader = new HatchGroundLoader(false);
+		cargoHandler = new CargoHandler(false);
+		climber = new Climber(true);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
@@ -60,6 +63,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData(drivebase);
 		SmartDashboard.putData(elevator);
 		SmartDashboard.putData(hGroundLoader);
+		SmartDashboard.putData(climber);
 
 		// Disable brakes on talons to make it
 		// easier to push
