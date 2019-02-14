@@ -55,4 +55,11 @@ public class Climber extends Subsystem {
 	public void deploySkids(boolean deploy) {
 		sol.set(deploy);
 	  }
+
+	/**
+	 * Toggle skids between deploy and retract
+	 */
+	public void toggleSkids() {
+		sol.set(!sol.get());
+	  }	  
 }
