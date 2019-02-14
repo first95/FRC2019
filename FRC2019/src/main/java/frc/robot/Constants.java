@@ -54,11 +54,11 @@ public class Constants
 		public static final int HGL_WRIST = 24;
 		
 		// Cargo handler
+		public static final int CARGO_HANDLER_WRIST = 29;
 		public static final int CARGO_HANDLER_INTAKE = 30;
-		public static final int CARGO_HANDLER_WRIST = 98;  // TODO: Find the real number
 		
 		// Climber
-		public static final int CLIMBER_DRIVER = 95; // TODO: get real number
+		public static final int CLIMBER_DRIVER = 33;
 
 		// Sensors attached via CAN
 		public static final int PIGEON_NUM = 30;		
