@@ -69,8 +69,8 @@ public class Constants
 		public static final double HGL_MAX_WRIST_CURRENT_AMPS = 0.75;	
 		public static final int HGL_MAX_WRIST_CURRENT_DURATION_MS = 50;
 		// Above this threshold, we consider there to be a hatch in the intake
-		public static final double HGL_MAX_INTAKE_CURRENT_AMPS = 0.75;	
-		public static final int HGL_MAX_INTAKE_CURRENT_DURATION_MS = 50;		
+		public static final double HGL_MAX_INTAKE_CURRENT_AMPS = 20;	
+		public static final int HGL_MAX_INTAKE_CURRENT_DURATION_MS = 20;		
 		
 		public static double RFVoltsToFt(double voltage)
 			{
