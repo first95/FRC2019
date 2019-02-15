@@ -81,6 +81,9 @@ public class HatchGroundLoader extends Subsystem {
 	}
 	
 	public void log() {
+		SmartDashboard.putNumber("HGL on target?", isWristPositionOnTarget()? 1 : 0);
+		SmartDashboard.putString("HGL wrist control mode", wristDriver.getControlMode().toString());
+		SmartDashboard.putNumber("HGL CL position", wristDriver.getClosedLoopTarget(Constants.PID_IDX));
 		SmartDashboard.putNumber("HGL Wrist Encoder Ticks", getWristTicks());
 		SmartDashboard.putNumber("HGL Wrist Pos (degrees)", getWristTicks()/TICKS_PER_DEG);
 		SmartDashboard.putNumber("HGL Intake Current", getIntakeCur());

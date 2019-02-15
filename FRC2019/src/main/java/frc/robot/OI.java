@@ -109,9 +109,9 @@ public class OI {
 		SmartDashboard.putData("Drive to vision target", new DriveToVT());
 		SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
 		SmartDashboard.putData("Auto Acquire for HGL", new AutoAcquire());
-		SmartDashboard.putData("Set HGL Wrist Down", new SetWristPosition(-90, true));
-		SmartDashboard.putData("Set HGL Wrist Up", new SetWristPosition(0, true));
-		SmartDashboard.putData("Set HGL Wrist Mid", new SetWristPosition(-45, true));
+		SmartDashboard.putData("Set HGL Wrist Down", new SetWristPosition(0, true));
+		SmartDashboard.putData("Set HGL Wrist Up", new SetWristPosition(90, true));
+		SmartDashboard.putData("Set HGL Wrist Mid", new SetWristPosition(45, true));
 		SmartDashboard.putData("Wait for Hatch Detected", new WaitForHatchDetected());
 		// SmartDashboard.putData("Pivot 90 degrees CCW", new Pivot(-90));
 		// SmartDashboard.putData("Pivot 180 degrees CW", new Pivot(180));
