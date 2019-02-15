@@ -9,6 +9,8 @@ import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.commands.hgroundloader.AutoAcquire;
+import frc.robot.commands.hgroundloader.SetWristPosition;
+import frc.robot.commands.hgroundloader.WaitForHatchDetected;
 import frc.robot.oi.XBox360Controller;
 
 /**
@@ -107,6 +109,10 @@ public class OI {
 		SmartDashboard.putData("Drive to vision target", new DriveToVT());
 		SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
 		SmartDashboard.putData("Auto Acquire for HGL", new AutoAcquire());
+		SmartDashboard.putData("Set HGL Wrist Down", new SetWristPosition(-90, true));
+		SmartDashboard.putData("Set HGL Wrist Up", new SetWristPosition(0, true));
+		SmartDashboard.putData("Set HGL Wrist Mid", new SetWristPosition(-45, true));
+		SmartDashboard.putData("Wait for Hatch Detected", new WaitForHatchDetected());
 		// SmartDashboard.putData("Pivot 90 degrees CCW", new Pivot(-90));
 		// SmartDashboard.putData("Pivot 180 degrees CW", new Pivot(180));
 		// SmartDashboard.putData("Pivot 180 degrees CCW", new Pivot(-180));

@@ -24,8 +24,15 @@ public class CurrentDetectedTalon extends AdjustedTalon {
 		return detect;
 	}
 
+	/**
+	 * Get the current current (mainly debugging purposes)
+	 */
+	public double getCurrent() {
+		return cur;
+	}
+
 	public void visit() {
-		if (query) {
+		if (true) {
 			updateStatus();
 		}
 	}
