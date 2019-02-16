@@ -54,7 +54,7 @@ public class Elevator extends Subsystem {
 		super();
 		// Set up the digital IO object to read the home switch
 		homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
-
+		
 		if(realHardware) {
 			followerDriver = new AdjustedTalon(Constants.ELEV_FOLLOWER_DRIVER);
 			leaderDriver = new AdjustedTalon(Constants.ELEV_LEADER_DRIVER);
@@ -86,7 +86,7 @@ public class Elevator extends Subsystem {
 		//leaderDriver.configReverseSoftLimitEnable(false, Constants.CAN_TIMEOUT_MS);
 		
 		//Tell talon a limit switch is connected
-		leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
+		// leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
 
 		// Send the initial PID constant values to the smartdash
 		// SmartDashboard.putNumber(pLabel, K_P);
@@ -140,7 +140,7 @@ public class Elevator extends Subsystem {
 
 	public void log() {
 		SmartDashboard.putNumber("Elevator Speed", Robot.oi.getElevatorSpeed());
-		SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
+		SmartDashboard.putBoolean("Elevator is home?", elevatorIsHome());
 		SmartDashboard.putNumber("Elevator encoder value:",
 				leaderDriver.getSelectedSensorPosition(Constants.PID_IDX));
 		SmartDashboard.putNumber("Elevator height in feet:", getElevatorHeightFeet());
