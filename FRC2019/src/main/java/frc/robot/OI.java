@@ -184,8 +184,8 @@ public class OI {
 	 * Get deploy state for skids
 	 * @return true to deploy and false to retract
 	 */	
-	public boolean isDeploySkidsButtonPressed() {
-		return driverController.getRawButton(CLIMB_SKIDS_BUTTON);
+	public boolean isDeploySkidsToggled() {
+		return driverController.getRawButtonPressed(CLIMB_SKIDS_BUTTON);
 	}
 
 	/**
