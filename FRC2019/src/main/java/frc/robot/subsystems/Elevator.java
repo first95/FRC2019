@@ -27,11 +27,10 @@ public class Elevator extends Subsystem {
 	private final String pLabel = "Winch P";
 	private final String iLabel = "Winch I";
 	private final String dLabel = "Winch D";
-	public static final double FEET_FULL_RANGE = 71.0 / 12.0; // How many feet the elevator can move. Measured 2018-2-3
-																// on practice robot
-	public static final double ENCODER_TICKS_FULL_RANGE = 78400.0; // How many encoder ticks the elevator can move.
-																	// Measured 2018-2-3 on practice robot
-	private static final double TICKS_PER_FOOT = ENCODER_TICKS_FULL_RANGE / FEET_FULL_RANGE;
+	public static final double INCHES_FULL_RANGE = 71.0 ;
+	public static final double ENCODER_TICKS_FULL_RANGE = 78400.0; 
+	private static final double TICKS_PER_INCH = ENCODER_TICKS_FULL_RANGE / INCHES_FULL_RANGE;
+	private static final double TICKS_PER_FOOT = TICKS_PER_INCH * 12;
 	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
 
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
@@ -39,11 +38,18 @@ public class Elevator extends Subsystem {
 
 	
 	public enum ElevatorHoldPoint {
-		NONE,			 // Not commanded to any specific position
-		FLOOR,            // Positioned at its lowest position
-		SWITCH_SCORE,     // Positioned to hold a cube above the fence around the Switch
-		SCALE_SCORE_HIGH, // Positioned at the lowest  sensible point to score a cube on the Scale
-		SCALE_SCORE_LOW,  // Positioned at the highest sensible point to score a cube on the Scale
+		NONE(-1),			 // Not commanded to any specific position
+		HATCH_HANDOFF(5),   // The point at which we need to position the elevator to retrieve a hatch from the ground loader
+		HATCH_COVER_LOW(10), // The point at which we need to position the elevator to score a hatch cover on the low position
+		HATCH_COVER_MID(50), // The point at which we need to position the elevator to score a hatch cover on the middle position
+		HATCH_COVER_HIGH(INCHES_FULL_RANGE),// The point at which we need to position the elevator to score a hatch cover on the high position
+		;
+        public final double heightInches;
+
+        private ElevatorHoldPoint(double heightInches) {
+            this.heightInches = heightInches;
+        }
+
 	};
 
 	public Elevator(boolean realHardware) {
@@ -176,7 +182,17 @@ public class Elevator extends Subsystem {
 	 *            - the target height in feet up from lowest possible position
 	 */
 	public void setElevatorHeight(double feet) {
-		leaderDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
+		leaderDriver.set(ControlMode.Position, feet * 12 * TICKS_PER_INCH);
+	}
+
+	/**
+	 * Command the elevator to a specific position
+	 * @param point
+	 */
+	public void setElevatorHeight(ElevatorHoldPoint point) {
+		if(point != ElevatorHoldPoint.NONE) {
+			setElevatorHeight(point.HeightInches());
+		}
 	}
 
 	/**
