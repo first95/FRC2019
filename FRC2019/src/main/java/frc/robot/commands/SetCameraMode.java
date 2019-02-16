@@ -29,7 +29,7 @@ public class SetCameraMode extends Command {
      * Command the coprocessor to configure the camera for machine vision.
      */
     public SetCameraMode() {
-        this(false);
+        this(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
