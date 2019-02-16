@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends Subsystem {
 	private static final double K_F = 0.0; // Don't use in position mode.
-	private double K_P = 0.4 * 1023.0 / 900.0; // Respond to an error of 900 with 40% throttle
+	private double K_P = 0.3 * 1023.0 / 900.0; // Respond to an error of 900 with 40% throttle
 	private double K_I = 0.01 * K_P;
 	private double K_D = 0; // 40.0 * K_P;
 	private static final int I_ZONE = 200; // In closed loop error units
@@ -27,7 +27,7 @@ public class Elevator extends Subsystem {
 	private final String iLabel = "Winch I";
 	private final String dLabel = "Winch D";
 	public static final double INCHES_FULL_RANGE = 71.0 ;
-	public static final double ENCODER_TICKS_FULL_RANGE = 78400.0; 
+	public static final double ENCODER_TICKS_FULL_RANGE = 78055.0; // Measured 2019-2-16
 	private static final double TICKS_PER_INCH = ENCODER_TICKS_FULL_RANGE / INCHES_FULL_RANGE;
 	private static final double TICKS_PER_FOOT = TICKS_PER_INCH * 12;
 	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
@@ -87,6 +87,8 @@ public class Elevator extends Subsystem {
 		
 		//Tell talon a limit switch is connected
 		// leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
 
 		// Send the initial PID constant values to the smartdash
 		// SmartDashboard.putNumber(pLabel, K_P);
@@ -158,10 +160,12 @@ public class Elevator extends Subsystem {
 			// Either the elevator is above the deck, or being driven upward.
 			// This is the normal state
 			leaderDriver.set(ControlMode.PercentOutput, value);
+			SmartDashboard.putNumber("Elevator speed drive", value);
 		} else {
 			// The elevator is on the deck and they're trying to drive down.
 			// Don't do that.
 			leaderDriver.set(ControlMode.PercentOutput, 0);
+			SmartDashboard.putNumber("Elevator speed drive", 0);
 		}
 	}
 
@@ -186,7 +190,7 @@ public class Elevator extends Subsystem {
 			// Hold wherever the elevator is right now
 			setElevatorHeight(getElevatorHeightFeet());
 		} else {
-			setElevatorHeight(point.heightInches * 12);
+			setElevatorHeight(point.heightInches / 12);
 		}
 	}
 
