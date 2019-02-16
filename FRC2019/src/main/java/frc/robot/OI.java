@@ -49,6 +49,21 @@ public class OI {
 	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = XBox360Controller.Button.Y.Number();
 	public static final int HS_OPEN_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
+
+	// POV/DPAD on the weapons controller || IT IS IN DEGREES!
+	public static final int POV_NONE = -1; // No DPAD button pressed
+	public static final int POV_UP = 0;
+	//public static final int POV_UP_RIGHT = 45;
+	public static final int POV_RIGHT = 90;
+	//public static final int POV_RIGHT_DOWN = 135;
+	public static final int POV_DOWN = 180;
+	//public static final int POV_DOWN_LEFT = 225;
+	public static final int POV_LEFT = 270;
+	//public static final int POV_LEFT_UP = 315;
+
+	public static final int CH_WRIST_UP = POV_LEFT;
+	public static final int CH_WRIST_COLLECT = POV_RIGHT;
+
 	// Quickly running out of buttons and axes on weapons controller...
 	// Use one direction of POV (e.g. UP) for HGL auto-collect and the other direction of POV
 	// (e.g. DOWN) for CL auto-collect; then ignore other primary directions (LEFT and RIGHT) and treat
@@ -211,6 +226,22 @@ public class OI {
 	public double getCargoLoaderWristSpeed() {
 		return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
 	}
+
+	/**
+	 * Get whether cargo handler wrist UP button is pressed
+	 * @return true to bring cargo handler wrist up, false otherwise
+	 */	
+	public boolean isCHWristUpButtonPressed() {
+		return weaponsController.getPOV() == CH_WRIST_UP;
+	}
+
+	/**
+	 * Get whether cargo handler wrist COLLECT button is pressed
+	 * @return true to bring cargo handler wrist to collect position, false otherwise
+	 */	
+	public boolean isCHWristCollectButtonPressed() {
+		return weaponsController.getPOV() == CH_WRIST_COLLECT;
+	}	
 
 	// Elevator controls
 	public double getElevatorSpeed() {

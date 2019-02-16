@@ -105,9 +105,17 @@ public class CargoHandler extends Subsystem {
 	 * @param degrees
 	 *            - the target in degrees from vertical
 	 */
-	public void setWristRot(double degrees) {
+	public void setWristAngleDeg(double degrees) {
 		wristDriver.set(ControlMode.Position, degrees * TICKS_PER_DEG);
 	}	
+
+	/**
+	 * Commands the wrist motor to stop driving itself, but not to disable. Turns off
+	 * closed-loop control completely.
+	 */
+	public void stopWrist() {
+		wristDriver.set(ControlMode.PercentOutput, 0.0);
+	}
 
 	/**
 	 * Gets the wrist's target angle, in degrees.

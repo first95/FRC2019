@@ -14,7 +14,7 @@ public class SetWristAngle extends Command {
 
 	@Override
 	public synchronized void initialize() {
-		Robot.cargoHandler.setWristRot(targetDegrees);
+		Robot.cargoHandler.setWristAngleDeg(targetDegrees);
 	}
 	
 	@Override
