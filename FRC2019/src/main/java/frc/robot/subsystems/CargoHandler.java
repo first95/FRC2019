@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.commands.cargohandler.SpeedControlCargoHandler;
+import frc.robot.commands.cargohandler.CombinedControlCargoHandler;
 import frc.robot.components.AdjustedTalon;
 import frc.robot.components.FakeTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -62,7 +62,7 @@ public class CargoHandler extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new SpeedControlCargoHandler());
+		setDefaultCommand(new CombinedControlCargoHandler());
 	}
 	
 	public void log() {
