@@ -26,7 +26,7 @@ public class Elevator extends Subsystem {
 	private final String pLabel = "Winch P";
 	private final String iLabel = "Winch I";
 	private final String dLabel = "Winch D";
-	public static final double INCHES_FULL_RANGE = 71.0 ;
+	public static final double INCHES_FULL_RANGE = 77-12.3 ;// Measured on 2019-2-16
 	public static final double ENCODER_TICKS_FULL_RANGE = 78055.0; // Measured 2019-2-16
 	private static final double TICKS_PER_INCH = ENCODER_TICKS_FULL_RANGE / INCHES_FULL_RANGE;
 	private static final double TICKS_PER_FOOT = TICKS_PER_INCH * 12;
@@ -35,7 +35,7 @@ public class Elevator extends Subsystem {
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
 
-	
+	// TODO: Compute real inches.  Note inches are measured relative to the elevator's starting position, at which the hatch collector is 12.3" off the ground.
 	public enum ElevatorHoldPoint {
 		NONE(0),			// Not commanded to any specific position
 		HERE(0),			// Stay exactly where you are
