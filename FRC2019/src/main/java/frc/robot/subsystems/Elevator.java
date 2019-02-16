@@ -106,10 +106,7 @@ public class Elevator extends Subsystem {
 	}
 	
 	private boolean elevatorIsHome() {
-		// THIS IS A RISKY TEMPORARY CHANGE
-		// Without a homing switch, we have to assume that elevator is at
-		// the bottom (home) when this class is initialized
-		return false; //!homeSwitch.get();
+		return !homeSwitch.get();
 	}
 
 	/**
