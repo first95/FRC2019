@@ -2,10 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.oi.XBox360Controller;
@@ -41,7 +38,6 @@ public class OI {
 	public static final int ELEV_PRESET_HATCH_LOW = XBox360Controller.Button.B.Number();
 	public static final int ELEV_PRESET_HATCH_MID = XBox360Controller.Button.X.Number(); 
 	public static final int ELEV_PRESET_HATCH_HIGH = XBox360Controller.Button.Y.Number();
-	// TODO: Make both of the following toggles
 	public static final int HS_OPEN_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	public static final int ELEV_YOU_ARE_HOME = XBox360Controller.Button.BACK.Number();
