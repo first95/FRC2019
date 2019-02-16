@@ -9,6 +9,7 @@ import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.oi.XBox360Controller;
+import frc.robot.subsystems.Elevator;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -189,7 +190,7 @@ public class OI {
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
 	public double getCargoLoaderIntakeSpeed() {
-		return driverController.getRawAxis(CARGO_LOADER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_LOADER_OUTSPIT_AXIS);
+		return driverController.getRawAxis(CARGO_LOADER_INTAKE_AXIS) - driverController.getRawAxis(LOADERS_OUTSPIT_AXIS);
 	}
 
 	/**
@@ -217,24 +218,19 @@ public class OI {
 		return -elevatorSpeed * 0.25;
 	}
 
-	public boolean isElevatorFloorButtonPressed() {
-		return weaponsController.getRawButton(ELEV_SEEK_FLOOR_BUTTON);
-	}
-
-	public boolean isElevatorSwitchScoreButtonPressed() {
-		return weaponsController.getRawButton(ELEV_SEEK_SWITCH_SCORE_BUTTON);
-	}
-
-	public boolean isElevatorScaleScoreLowButtonPressed() {
-		return weaponsController.getRawButton(ELEV_SEEK_SCALE_SCORE_LOW_BUTTON);
-	}
-
-	public boolean isElevatorScaleScoreMedButtonPressed() {
-		return weaponsController.getRawButton(ELEV_SEEK_SCALE_SCORE_MED_BUTTON);
-	}
-
-	public boolean isElevatorScaleScoreHighButtonPressed() {
-		return weaponsController.getRawButton(ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON);
+	public Elevator.ElevatorHoldPoint getCommandedHoldPoint() {
+		// Prioritize lower setpoints if the user holds more than one button
+		if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HANDOFF)) {
+			return Elevator.ElevatorHoldPoint.HATCH_HANDOFF;
+		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOW)) {
+			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOW;
+		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_MID)) {
+			return Elevator.ElevatorHoldPoint.HATCH_COVER_MID;
+		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HIGH)) {
+			return Elevator.ElevatorHoldPoint.HATCH_COVER_HIGH;
+		} else {
+			return Elevator.ElevatorHoldPoint.NONE;
+		}
 	}
 
 	// Drive base controls

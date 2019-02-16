@@ -49,7 +49,6 @@ public class Elevator extends Subsystem {
         private ElevatorHoldPoint(double heightInches) {
             this.heightInches = heightInches;
         }
-
 	};
 
 	public Elevator(boolean realHardware) {
@@ -182,7 +181,7 @@ public class Elevator extends Subsystem {
 	 *            - the target height in feet up from lowest possible position
 	 */
 	public void setElevatorHeight(double feet) {
-		leaderDriver.set(ControlMode.Position, feet * 12 * TICKS_PER_INCH);
+		leaderDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
 	}
 
 	/**
@@ -191,7 +190,7 @@ public class Elevator extends Subsystem {
 	 */
 	public void setElevatorHeight(ElevatorHoldPoint point) {
 		if(point != ElevatorHoldPoint.NONE) {
-			setElevatorHeight(point.HeightInches());
+			setElevatorHeight(point.heightInches * 12);
 		}
 	}
 
