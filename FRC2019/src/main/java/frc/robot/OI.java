@@ -26,14 +26,14 @@ public class OI {
 	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
 	public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
 	public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 
 	// Axes on weapons controller
 	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
 	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	//public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int ELEVATOR_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
 
 	// Buttons on drive controller
@@ -205,7 +205,7 @@ public class OI {
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
 	public double getCargoHandlerIntakeSpeed() {
-		return driverController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
+		return weaponsController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - weaponsController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getCargoHandlerWristSpeed() {
-		return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
+		return weaponsController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
 	}
 
 	/**
