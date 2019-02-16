@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CargoHandler extends Subsystem {
 	// Control parameters for wrist
 	private static final double K_F = 0.0; // Don't use in position mode.
-	private double K_P = 0.4 * 1023.0 / 900.0; // Respond to an error of 900 with 40% throttle
+	private double K_P = 0.5 * 1023.0 / 200.0; // Respond to an error of 200 with 50% throttle
 	private double K_I = 0; //0.01 * K_P;
 	private double K_D = 0; // 40.0 * K_P;
 	private static final int I_ZONE = 200; // In closed loop error units

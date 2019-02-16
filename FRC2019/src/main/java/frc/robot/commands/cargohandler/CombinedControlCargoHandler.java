@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CombinedControlCargoHandler extends Command {
 	// Note that a different set of constants is used in autonomous control
 	public static double UP_DEG = 0.0;
-	public static double COLLECT_DEG = -90.0;
+	public static double COLLECT_DEG = -50.0;
 
 	public enum WristHoldPoint {
 		UP, // Positioned at its highest
