@@ -13,6 +13,7 @@ public class SpeedControlHatchGroundLoader extends Command {
 
 	@Override
 	protected void execute() {
+		System.out.println("Speed control active");
 		Robot.hGroundLoader.setIntakeThrottle(Robot.oi.getHGLIntakeSpeed());
 		wristSpeed = Robot.oi.getHGLWristSpeed();
 		Robot.hGroundLoader.setWristPitchSpeed(wristSpeed);
