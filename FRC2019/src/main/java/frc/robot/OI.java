@@ -143,12 +143,19 @@ public class OI {
 
 
 	// Hatch scorer
+	/**
+	 * Check if the Open Hatch Grabber button was pressed since last check
+	 * @return true if the Open Hatch Grabber button was pressed since last check
+	 */
 	public boolean isGrabHatchButtonPressed() {
-		return weaponsController.getRawButton(HS_OPEN_HOLD);
+		return weaponsController.getRawButtonPressed(HS_OPEN_HOLD);
 	}
-
+	/**
+	 * Check if the Push Hatch Grabber button was pressed since last check
+	 * @return true if the Push Hatch Grabber button was pressed since last check
+	 */
 	public boolean isPushHatchButtonPressed() {
-		return weaponsController.getRawButton(HS_PUSH_HOLD);
+		return weaponsController.getRawButtonPressed(HS_PUSH_HOLD);
 	}	
 
 	/**
