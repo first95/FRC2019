@@ -18,46 +18,55 @@ import frc.robot.oi.XBox360Controller;
  */
 public class OI {
 
-	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
+	// Controllers
+	private Joystick driverController = new Joystick(0);
+	private Joystick weaponsController = new Joystick(1);
+
+	// Buttons on drive controller
+	public static final int CLIMB_SKIDS_BUTTON = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int SWITCH_CAM_VIEW_BUTTON = XBox360Controller.Button.START.Number();
+	// Features not presently in use - getRawButton(0) always returns false
+	public static final int BUTTON_FORCE_LOW_GEAR = 0;// XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int BUTTON_FORCE_HIGH_GEAR = 0;//XBox360Controller.Button.RIGHT_BUMPER.Number();
 
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
-	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+    public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+    public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
-	// Axes on weapons controller
-	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
-	public static final int ELEVATOR_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
-
-	// Buttons on drive controller
-	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
-	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
-	// Likely put control for climber as buttons on driver controller
-	
 	// Buttons on weapons controller
-	public static final int ELEV_SEEK_FLOOR_BUTTON = XBox360Controller.Button.A.Number();
-	public static final int ELEV_SEEK_SWITCH_SCORE_BUTTON = 0;
-	public static final int ELEV_SEEK_SCALE_SCORE_LOW_BUTTON = XBox360Controller.Button.A.Number(); 
-	public static final int ELEV_SEEK_SCALE_SCORE_MED_BUTTON = XBox360Controller.Button.X.Number();
-	public static final int ELEV_SEEK_SCALE_SCORE_HIGH_BUTTON = XBox360Controller.Button.Y.Number();
+	public static final int ELEV_PRESET_HATCH_HANDOFF = XBox360Controller.Button.A.Number();
+	public static final int ELEV_PRESET_HATCH_LOW = XBox360Controller.Button.B.Number();
+	public static final int ELEV_PRESET_HATCH_MID = XBox360Controller.Button.X.Number(); 
+	public static final int ELEV_PRESET_HATCH_HIGH = XBox360Controller.Button.Y.Number();
+	// TODO: Make both of the following toggles
 	public static final int HS_OPEN_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
+	public static final int ELEV_YOU_ARE_HOME = XBox360Controller.Button.BACK.Number();
+	public static final int HGL_RETRACT_WRIST = XBox360Controller.PovDir.UP.Degrees();
+	public static final int CARGO_LOADER_RETRACT_WRIST = XBox360Controller.PovDir.LEFT.Degrees();
+	public static final int CARGO_LOADER_EXTEND_WRIST = XBox360Controller.PovDir.RIGHT.Degrees();
+	public static final int HGL_AUTO_COLLECT = XBox360Controller.PovDir.DOWN.Degrees();
+	// Features not presently in use - getRawButton(0) always returns false
+
 	// Quickly running out of buttons and axes on weapons controller...
 	// Use one direction of POV (e.g. UP) for HGL auto-collect and the other direction of POV
 	// (e.g. DOWN) for CL auto-collect; then ignore other primary directions (LEFT and RIGHT) and treat
 	// the intermediate directions as (e.g. UP-RIGHT, DOWN-LEFT) as the primary direction we're using
 	// i.e. UP-LEFT, UP, and UP-RIGHT would all map to one UP behavior
+	
+	// Axes on weapons controller
+	public static final int CARGO_LOADER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int ELEVATOR_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
+	public static final int LOADERS_OUTSPIT_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int CARGO_LOADER_INTAKE_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
-	// Controllers
-	private Joystick driverController = new Joystick(0);
-	private Joystick weaponsController = new Joystick(1);
+	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
 
 	// XBox controllers have both high-frequency and low-frequency vibrator motors.
-	// The Joystick class calls these "left" and "right".  This is our adapter between the two.
+	// The Joystick class calls these "left" and "right", and they do seem to be on those sides.
+	// This is the mapping between the two.
 	public enum RumbleType {
 		LOW_PITCH(Joystick.RumbleType.kLeftRumble),
 		HIGH_PITCH(Joystick.RumbleType.kRightRumble),
@@ -105,27 +114,7 @@ public class OI {
 		// Rotations
 		SmartDashboard.putData("Drive to vision target", new DriveToVT());
 		SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
-		// SmartDashboard.putData("Pivot 90 degrees CCW", new Pivot(-90));
-		// SmartDashboard.putData("Pivot 180 degrees CW", new Pivot(180));
-		// SmartDashboard.putData("Pivot 180 degrees CCW", new Pivot(-180));
-		// SmartDashboard.putData("Pivot 360 degrees CW", new Pivot(360));
-		// SmartDashboard.putData("Pivot 360 degrees CCW", new Pivot(-360));
-
-		// Forward and Backwards
-		// SmartDashboard.putData("One Foot Forward", new DriveStraight(12));
-		// SmartDashboard.putData("Two Feet Forward", new DriveStraight(24));
-		// SmartDashboard.putData("Three Feet Forward", new DriveStraight(36));
-		// SmartDashboard.putData("Six Feet Forward", new DriveStraight(12*6));
-		// SmartDashboard.putData("One Foot Backward", new DriveStraight(-12));
-		// SmartDashboard.putData("Two Feet Backward", new DriveStraight(-24));
-		// SmartDashboard.putData("Three Feet Backward", new DriveStraight(-36));
-		// SmartDashboard.putData("Six Feet Backward", new DriveStraight(-12*6));
 		
-		// Gear Shifting
-		// SmartDashboard.putData("Lock High Gear", new LockGear(true));
-		// SmartDashboard.putData("Lock Low Gear", new LockGear(false));
-		// SmartDashboard.putData("Unlock Gear", new UnlockGear());
-		// SmartDashboard.putData("LOCK DRIVE UNLOCK", new DriveStraightLockedGears(12*4, true));
 	}
 
 	// There are a few things the OI wants to revisit every time around
@@ -166,7 +155,8 @@ public class OI {
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
 	public double getHGLIntakeSpeed() {
-		return weaponsController.getRawAxis(HGL_INTAKE_AXIS) - weaponsController.getRawAxis(HGL_OUTSPIT_AXIS);
+		return 0; // Not presently under manual control
+		// return weaponsController.getRawAxis(HGL_INTAKE_AXIS) - weaponsController.getRawAxis(HGL_OUTSPIT_AXIS);
 	}
 
 	/**
@@ -174,7 +164,8 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getHGLWristSpeed() {
-		return weaponsController.getRawAxis(HGL_WRIST_AXIS);
+		return 0; // Not presently under manual control
+		// return weaponsController.getRawAxis(HGL_WRIST_AXIS);
 	}
 
 	/**
@@ -182,7 +173,7 @@ public class OI {
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
 	public double getCargoLoaderIntakeSpeed() {
-		return driverController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
+		return driverController.getRawAxis(CARGO_LOADER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_LOADER_OUTSPIT_AXIS);
 	}
 
 	/**
@@ -190,7 +181,7 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getCargoLoaderWristSpeed() {
-		return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
+		return driverController.getRawAxis(CARGO_LOADER_WRIST_AXIS);
 	}
 
 	// Elevator controls

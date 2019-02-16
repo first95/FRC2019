@@ -54,7 +54,7 @@ public class Constants
 		
 		// Cargo handler
 		public static final int CARGO_HANDLER_INTAKE = 30;
-		public static final int CARGO_HANDLER_WRIST = 29;  // TODO: Find the real number
+		public static final int CARGO_HANDLER_WRIST = 29; 
 		
 		// Sensors attached via CAN
 		public static final int PIGEON_NUM = 30;		
