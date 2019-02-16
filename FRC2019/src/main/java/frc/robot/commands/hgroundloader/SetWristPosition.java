@@ -18,16 +18,30 @@ public class SetWristPosition extends Command {
                 requires(Robot.hGroundLoader);
                 wristPosition = position;
                 waitForWristToReachTarget = wait;
+                System.out.println("HGL SWP Constructed");
         }
 
         @Override
         public void start() {
+                System.out.println("HGL SWP Start");
                 Robot.hGroundLoader.setWristRot(wristPosition);
         }
 
         @Override
+        protected void initialize() {
+                System.out.println("HGL SWP initialize");
+
+        }
+        @Override
+        protected void execute() {
+                System.out.println("HGL SWP execute");
+        }
+
+        @Override
         protected boolean isFinished() {
-                return (!waitForWristToReachTarget) || Robot.hGroundLoader.isWristPositionOnTarget();
+                boolean finished =  (!waitForWristToReachTarget) || Robot.hGroundLoader.isWristPositionOnTarget();
+                System.out.println("HGL SWP finished? " + (finished? "True":"False"));
+                return finished;
         }
 
 }

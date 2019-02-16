@@ -8,6 +8,7 @@ public class SpeedControlHatchGroundLoader extends Command {
 	
 	public SpeedControlHatchGroundLoader() {
 		requires(Robot.hGroundLoader);
+		setInterruptible(true);
 	}
 
 	@Override
