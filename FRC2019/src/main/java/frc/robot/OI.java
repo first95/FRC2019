@@ -2,9 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
+import frc.robot.commands.cargohandler.SetWristAngle;
 import frc.robot.oi.XBox360Controller;
 import frc.robot.subsystems.Elevator;
 
@@ -30,8 +32,16 @@ public class OI {
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
-    public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
     public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+
+	// Axes on weapons controller
+	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 
 	// Buttons on weapons controller
 	public static final int ELEV_PRESET_HATCH_HANDOFF = XBox360Controller.Button.A.Number();
@@ -42,11 +52,11 @@ public class OI {
 	public static final int HS_PUSH_TOGGLE = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	public static final int ELEV_YOU_ARE_HOME = XBox360Controller.Button.BACK.Number();
 	public static final int HGL_RETRACT_WRIST = XBox360Controller.PovDir.UP.Degrees();
-	public static final int CARGO_LOADER_RETRACT_WRIST = XBox360Controller.PovDir.LEFT.Degrees();
-	public static final int CARGO_LOADER_EXTEND_WRIST = XBox360Controller.PovDir.RIGHT.Degrees();
 	public static final int HGL_AUTO_COLLECT = XBox360Controller.PovDir.DOWN.Degrees();
-	// Features not presently in use - getRawButton(0) always returns false
+	public static final int CH_WRIST_UP = XBox360Controller.PovDir.LEFT.Degrees();
+	public static final int CH_WRIST_COLLECT = XBox360Controller.PovDir.RIGHT.Degrees();
 
+	
 	// Quickly running out of buttons and axes on weapons controller...
 	// Use one direction of POV (e.g. UP) for HGL auto-collect and the other direction of POV
 	// (e.g. DOWN) for CL auto-collect; then ignore other primary directions (LEFT and RIGHT) and treat
@@ -100,8 +110,8 @@ public class OI {
 		// JoystickButton joy_wA = new JoystickButton(weaponsController, XBox360Controller.Button.A.Number());
 		// JoystickButton joy_wB = new JoystickButton(weaponsController, XBox360Controller.Button.B.Number());
 		// // Connect the buttons to commands
-		// joy_dA.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, 0.1, true));
-		// joy_dB.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.LOW_PITCH, 1.0, 0.1, true));
+		// joy_dA.whenPressed(new SetWristAngle(0));
+		// joy_dB.whenPressed(new SetWristAngle(-90));
 		// joy_wA.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 0.5, 1.0, true));
 		// joy_wB.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 0.5, 1.0, true));
 
@@ -192,17 +202,33 @@ public class OI {
 	 * Get speed at which the intake rollers of the cargo handler should run
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
-	public double getCargoLoaderIntakeSpeed() {
-		return driverController.getRawAxis(CARGO_LOADER_INTAKE_AXIS) - driverController.getRawAxis(LOADERS_OUTSPIT_AXIS);
+	public double getCargoHandlerIntakeSpeed() {
+		return weaponsController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - weaponsController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
 	}
 
 	/**
 	 * Get speed at which the wrist of of the cargo handler  should turn
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
-	public double getCargoLoaderWristSpeed() {
-		return driverController.getRawAxis(CARGO_LOADER_WRIST_AXIS);
+	public double getCargoHandlerWristSpeed() {
+		return weaponsController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
 	}
+
+	/**
+	 * Get whether cargo handler wrist UP button is pressed
+	 * @return true to bring cargo handler wrist up, false otherwise
+	 */	
+	public boolean isCHWristUpButtonPressed() {
+		return weaponsController.getPOV() == CH_WRIST_UP;
+	}
+
+	/**
+	 * Get whether cargo handler wrist COLLECT button is pressed
+	 * @return true to bring cargo handler wrist to collect position, false otherwise
+	 */	
+	public boolean isCHWristCollectButtonPressed() {
+		return weaponsController.getPOV() == CH_WRIST_COLLECT;
+	}	
 
 	// Elevator controls
 	public double getElevatorSpeed() {

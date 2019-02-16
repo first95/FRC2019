@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 		elevator = new Elevator(true);
 		hScorer = new HatchScorer();
 		hGroundLoader = new HatchGroundLoader(false);
-		cargoHandler = new CargoHandler(false);
+		cargoHandler = new CargoHandler(true);
 		climber = new Climber(false);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
@@ -153,6 +153,7 @@ public class Robot extends TimedRobot {
 	private void debugLog() {
 		// drivebase.log();
 		elevator.log();
+		cargoHandler.log();
 		// hGroundLoader.log();
 		// oi.log();
 	}
