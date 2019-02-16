@@ -14,34 +14,47 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-//import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends Subsystem {
 	private static final double K_F = 0.0; // Don't use in position mode.
-	private double K_P = 0.4 * 1023.0 / 900.0; // Respond to an error of 900 with 40% throttle
+	private double K_P = 0.3 * 1023.0 / 900.0; // Respond to an error of 900 with 40% throttle
 	private double K_I = 0.01 * K_P;
 	private double K_D = 0; // 40.0 * K_P;
 	private static final int I_ZONE = 200; // In closed loop error units
 	private final String pLabel = "Winch P";
 	private final String iLabel = "Winch I";
 	private final String dLabel = "Winch D";
-	public static final double FEET_FULL_RANGE = 71.0 / 12.0; // How many feet the elevator can move. Measured 2018-2-3
-																// on practice robot
-	public static final double ENCODER_TICKS_FULL_RANGE = 78400.0; // How many encoder ticks the elevator can move.
-																	// Measured 2018-2-3 on practice robot
-	private static final double TICKS_PER_FOOT = ENCODER_TICKS_FULL_RANGE / FEET_FULL_RANGE;
+	public static final double INCHES_FULL_RANGE = 77-12.3 ;// Measured on 2019-2-16
+	public static final double ENCODER_TICKS_FULL_RANGE = 78055.0; // Measured 2019-2-16
+	private static final double TICKS_PER_INCH = ENCODER_TICKS_FULL_RANGE / INCHES_FULL_RANGE;
+	private static final double TICKS_PER_FOOT = TICKS_PER_INCH * 12;
 	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
 
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
 
+	// TODO: Compute real inches.  Note inches are measured relative to the elevator's starting position, at which the hatch collector is 12.3" off the ground.
+	public enum ElevatorHoldPoint {
+		NONE(0),			// Not commanded to any specific position
+		HERE(0),			// Stay exactly where you are
+		HATCH_HANDOFF(10),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
+		HATCH_COVER_LOW(20),// The point at which we need to position the elevator to score a hatch cover on the low position
+		HATCH_COVER_MID(30),// The point at which we need to position the elevator to score a hatch cover on the middle position
+		HATCH_COVER_HIGH(40),// The point at which we need to position the elevator to score a hatch cover on the high position
+		;
+        public final double heightInches;
+        private ElevatorHoldPoint(double heightInches) {
+            this.heightInches = heightInches;
+        }
+	};
+
 	public Elevator(boolean realHardware) {
 		super();
 		// Set up the digital IO object to read the home switch
 		homeSwitch = new DigitalInput(Constants.ELEVATOR_HOME_SWITCH_DIO_NUM);
-
+		
 		if(realHardware) {
 			followerDriver = new AdjustedTalon(Constants.ELEV_FOLLOWER_DRIVER);
 			leaderDriver = new AdjustedTalon(Constants.ELEV_LEADER_DRIVER);
@@ -73,7 +86,9 @@ public class Elevator extends Subsystem {
 		//leaderDriver.configReverseSoftLimitEnable(false, Constants.CAN_TIMEOUT_MS);
 		
 		//Tell talon a limit switch is connected
-		leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
+		// leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
+		leaderDriver.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.NormallyOpen, Constants.CAN_TIMEOUT_MS);
 
 		// Send the initial PID constant values to the smartdash
 		// SmartDashboard.putNumber(pLabel, K_P);
@@ -86,16 +101,13 @@ public class Elevator extends Subsystem {
 		// Pin floats high by default, due to an internal pull-up resistor.
 		// When the magnet gets close enough to the reed switch, the pin is
 		// connected to ground. Thus, get() starts returning false.
-		if (elevatorIsHome()) {
+		if (elevatorIsHome() || Robot.oi.getElevatorHomeButtonPressed()) {
 			setCurrentPosToZero();
 		}
 	}
 	
 	private boolean elevatorIsHome() {
-		// THIS IS A RISKY TEMPORARY CHANGE
-		// Without a homing switch, we have to assume that elevator is at
-		// the bottom (home) when this class is initialized
-		return false; //!homeSwitch.get();
+		return !homeSwitch.get();
 	}
 
 	/**
@@ -130,7 +142,7 @@ public class Elevator extends Subsystem {
 
 	public void log() {
 		SmartDashboard.putNumber("Elevator Speed", Robot.oi.getElevatorSpeed());
-		SmartDashboard.putBoolean("Elevator Home Switch", homeSwitch.get());
+		SmartDashboard.putBoolean("Elevator is home?", elevatorIsHome());
 		SmartDashboard.putNumber("Elevator encoder value:",
 				leaderDriver.getSelectedSensorPosition(Constants.PID_IDX));
 		SmartDashboard.putNumber("Elevator height in feet:", getElevatorHeightFeet());
@@ -144,20 +156,17 @@ public class Elevator extends Subsystem {
 	 *            - the throttle value to apply to the motors, between -1 and +1
 	 */
 	public void setElevatorSpeed(double value) {
-		// W/out the homing switch, we can't check if trying to drive elevator
-		// down into deck so just have to rely on driver not to do that
-		leaderDriver.set(ControlMode.PercentOutput, value);
-		// When get homing switch back in, should remove line above and comment
-		// back in lines below.
-		// if(!elevatorIsHome() || value > 0) {
-		// 	// Either the elevator is above the deck, or being driven upward.
-		// 	// This is the normal state
-		// 	leaderDriver.set(ControlMode.PercentOutput, value);
-		// } else {
-		// 	// The elevator is on the deck and they're trying to drive down.
-		// 	// Don't do that.
-		// 	leaderDriver.set(ControlMode.PercentOutput, 0);
-		// }
+		if(!elevatorIsHome() || value > 0) {
+			// Either the elevator is above the deck, or being driven upward.
+			// This is the normal state
+			leaderDriver.set(ControlMode.PercentOutput, value);
+			SmartDashboard.putNumber("Elevator speed drive", value);
+		} else {
+			// The elevator is on the deck and they're trying to drive down.
+			// Don't do that.
+			leaderDriver.set(ControlMode.PercentOutput, 0);
+			SmartDashboard.putNumber("Elevator speed drive", 0);
+		}
 	}
 
 	/**
@@ -168,6 +177,21 @@ public class Elevator extends Subsystem {
 	 */
 	public void setElevatorHeight(double feet) {
 		leaderDriver.set(ControlMode.Position, feet * TICKS_PER_FOOT);
+	}
+
+	/**
+	 * Command the elevator to a specific position
+	 * @param point
+	 */
+	public void seekHoldPoint(ElevatorHoldPoint point) {
+		if(point == ElevatorHoldPoint.NONE) {
+			// No action commanded
+		} else if (point == ElevatorHoldPoint.HERE) {
+			// Hold wherever the elevator is right now
+			setElevatorHeight(getElevatorHeightFeet());
+		} else {
+			setElevatorHeight(point.heightInches / 12);
+		}
 	}
 
 	/**

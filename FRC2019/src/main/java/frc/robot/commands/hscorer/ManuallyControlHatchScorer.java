@@ -11,10 +11,14 @@ public class ManuallyControlHatchScorer extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.hScorer.openHS(Robot.oi.isGrabHatchButtonPressed());
-		Robot.hScorer.pushHS(Robot.oi.isPushHatchButtonPressed());
+		if (Robot.oi.isGrabHatchButtonPressed()) {
+			Robot.hScorer.toggleOpenHS();
+		}
+		if (Robot.oi.isPushHatchButtonPressed()) {
+			Robot.hScorer.togglePushHS();
+		}
 	}
-	
+
 	@Override
 	protected boolean isFinished() {
 		return false; // until interrupted
