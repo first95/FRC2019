@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
+import frc.robot.commands.cargohandler.SetWristAngle;
 import frc.robot.oi.XBox360Controller;
 
 /**
@@ -91,13 +92,13 @@ public class OI {
 	public OI() {
 
 		// // Create some buttons
-		// JoystickButton joy_dA = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
-		// JoystickButton joy_dB = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
+		JoystickButton joy_dA = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
+		JoystickButton joy_dB = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
 		// JoystickButton joy_wA = new JoystickButton(weaponsController, XBox360Controller.Button.A.Number());
 		// JoystickButton joy_wB = new JoystickButton(weaponsController, XBox360Controller.Button.B.Number());
 		// // Connect the buttons to commands
-		// joy_dA.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, 0.1, true));
-		// joy_dB.whenPressed(new RumbleCommand(Controller.WEAPONS, RumbleType.LOW_PITCH, 1.0, 0.1, true));
+		joy_dA.whenPressed(new SetWristAngle(0));
+		joy_dB.whenPressed(new SetWristAngle(-90));
 		// joy_wA.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 0.5, 1.0, true));
 		// joy_wB.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 0.5, 1.0, true));
 
@@ -200,8 +201,7 @@ public class OI {
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
 	public double getCargoLoaderIntakeSpeed() {
-		return 0; // temporary change because this is operating on the same axis that we're trying climber on
-		//return driverController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
+		return driverController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
 	}
 
 	/**
@@ -209,8 +209,7 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getCargoLoaderWristSpeed() {
-		return 0; // temporary change because this is operating on same axis as one of the main drive axes
-		//return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
+		return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
 	}
 
 	// Elevator controls

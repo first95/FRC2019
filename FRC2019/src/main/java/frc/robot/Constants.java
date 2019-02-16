@@ -15,6 +15,7 @@ public class Constants
 		// Used in closed-loop control
 		public static final double ELEVATOR_ON_TARGET_THRESHOLD_INCHES = 1; // Elevator will call itself close enough at this point
 		public static final double DRIVEPOD_ON_TARGET_THRESHOLD_INCHES = 1; // Each drivepod will call itself close enough at this point		
+		public static final double CARGO_HANDLER_ON_TARGET_DEG = 2; // Cargo handler wrist will call itself close enough at this point
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec
