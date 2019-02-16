@@ -27,7 +27,7 @@ public class SetElevatorHeight extends Command {
 
 		// This method is called once when the command is activated
 		if(targetPoint != Elevator.ElevatorHoldPoint.NONE) {
-			Robot.elevator.setElevatorHeight(targetPoint);
+			Robot.elevator.seekHoldPoint(targetPoint);
 		} else {
 			Robot.elevator.setElevatorHeight(targetFeet);
 		}

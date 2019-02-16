@@ -37,14 +37,14 @@ public class Elevator extends Subsystem {
 
 	
 	public enum ElevatorHoldPoint {
-		NONE(-1),			 // Not commanded to any specific position
-		HATCH_HANDOFF(5),   // The point at which we need to position the elevator to retrieve a hatch from the ground loader
-		HATCH_COVER_LOW(10), // The point at which we need to position the elevator to score a hatch cover on the low position
-		HATCH_COVER_MID(50), // The point at which we need to position the elevator to score a hatch cover on the middle position
+		NONE(0),			// Not commanded to any specific position
+		HERE(0),			// Stay exactly where you are
+		HATCH_HANDOFF( 5),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
+		HATCH_COVER_LOW(10),// The point at which we need to position the elevator to score a hatch cover on the low position
+		HATCH_COVER_MID(50),// The point at which we need to position the elevator to score a hatch cover on the middle position
 		HATCH_COVER_HIGH(INCHES_FULL_RANGE),// The point at which we need to position the elevator to score a hatch cover on the high position
 		;
         public final double heightInches;
-
         private ElevatorHoldPoint(double heightInches) {
             this.heightInches = heightInches;
         }
@@ -184,8 +184,13 @@ public class Elevator extends Subsystem {
 	 * Command the elevator to a specific position
 	 * @param point
 	 */
-	public void setElevatorHeight(ElevatorHoldPoint point) {
-		if(point != ElevatorHoldPoint.NONE) {
+	public void seekHoldPoint(ElevatorHoldPoint point) {
+		if(point == ElevatorHoldPoint.NONE) {
+			// No action commanded
+		} else if (point == ElevatorHoldPoint.HERE) {
+			// Hold wherever the elevator is right now
+			setElevatorHeight(getElevatorHeightFeet());
+		} else {
 			setElevatorHeight(point.heightInches * 12);
 		}
 	}
