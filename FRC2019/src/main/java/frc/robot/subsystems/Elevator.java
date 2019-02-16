@@ -100,7 +100,7 @@ public class Elevator extends Subsystem {
 		// Pin floats high by default, due to an internal pull-up resistor.
 		// When the magnet gets close enough to the reed switch, the pin is
 		// connected to ground. Thus, get() starts returning false.
-		if (elevatorIsHome()) {
+		if (elevatorIsHome() || Robot.oi.getElevatorHomeButtonPressed()) {
 			setCurrentPosToZero();
 		}
 	}

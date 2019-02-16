@@ -233,6 +233,10 @@ public class OI {
 		}
 	}
 
+	public boolean getElevatorHomeButtonPressed() {
+		return weaponsController.getRawButton(ELEV_YOU_ARE_HOME);
+	}
+
 	// Drive base controls
 	public double getForwardAxis() {
 		return driverController.getRawAxis(DRIVE_FORWARD_AXIS);
