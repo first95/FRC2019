@@ -39,10 +39,10 @@ public class Elevator extends Subsystem {
 	public enum ElevatorHoldPoint {
 		NONE(0),			// Not commanded to any specific position
 		HERE(0),			// Stay exactly where you are
-		HATCH_HANDOFF( 5),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
-		HATCH_COVER_LOW(10),// The point at which we need to position the elevator to score a hatch cover on the low position
-		HATCH_COVER_MID(50),// The point at which we need to position the elevator to score a hatch cover on the middle position
-		HATCH_COVER_HIGH(INCHES_FULL_RANGE),// The point at which we need to position the elevator to score a hatch cover on the high position
+		HATCH_HANDOFF(10),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
+		HATCH_COVER_LOW(20),// The point at which we need to position the elevator to score a hatch cover on the low position
+		HATCH_COVER_MID(30),// The point at which we need to position the elevator to score a hatch cover on the middle position
+		HATCH_COVER_HIGH(40),// The point at which we need to position the elevator to score a hatch cover on the high position
 		;
         public final double heightInches;
         private ElevatorHoldPoint(double heightInches) {
@@ -154,20 +154,15 @@ public class Elevator extends Subsystem {
 	 *            - the throttle value to apply to the motors, between -1 and +1
 	 */
 	public void setElevatorSpeed(double value) {
-		// W/out the homing switch, we can't check if trying to drive elevator
-		// down into deck so just have to rely on driver not to do that
-		leaderDriver.set(ControlMode.PercentOutput, value);
-		// When get homing switch back in, should remove line above and comment
-		// back in lines below.
-		// if(!elevatorIsHome() || value > 0) {
-		// 	// Either the elevator is above the deck, or being driven upward.
-		// 	// This is the normal state
-		// 	leaderDriver.set(ControlMode.PercentOutput, value);
-		// } else {
-		// 	// The elevator is on the deck and they're trying to drive down.
-		// 	// Don't do that.
-		// 	leaderDriver.set(ControlMode.PercentOutput, 0);
-		// }
+		if(!elevatorIsHome() || value > 0) {
+			// Either the elevator is above the deck, or being driven upward.
+			// This is the normal state
+			leaderDriver.set(ControlMode.PercentOutput, value);
+		} else {
+			// The elevator is on the deck and they're trying to drive down.
+			// Don't do that.
+			leaderDriver.set(ControlMode.PercentOutput, 0);
+		}
 	}
 
 	/**
