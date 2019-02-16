@@ -169,6 +169,22 @@ public class OI {
 	}
 
 	/**
+	 * Get speed at which the motor of the climber should move
+	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
+	 */
+	public double getClimberSpeed() {
+		return driverController.getRawAxis(CLIMBER_UP_AXIS) - driverController.getRawAxis(CLIMBER_DOWN_AXIS);
+	}
+
+	/**
+	 * Get deploy state for skids
+	 * @return true to deploy and false to retract
+	 */	
+	public boolean isDeploySkidsButtonPressed() {
+		return driverController.getRawButton(CLIMB_SKIDS_BUTTON);
+	}
+
+	/**
 	 * Get speed at which the intake rollers of the cargo handler should run
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
