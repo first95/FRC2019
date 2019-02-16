@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpeedControlHatchGroundLoader extends Command {
+	private double intakeSpeed;
 	private double wristSpeed;
 	
 	public SpeedControlHatchGroundLoader() {
@@ -13,7 +14,10 @@ public class SpeedControlHatchGroundLoader extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.hGroundLoader.setIntakeSpeed(Robot.oi.getHGLIntakeSpeed());
+		intakeSpeed = Robot.oi.getHGLIntakeSpeed();
+		Robot.hGroundLoader.setIntakeSpeed(intakeSpeed);
+		SmartDashboard.putNumber("HGL Intake Input", intakeSpeed);
+
 		wristSpeed = Robot.oi.getHGLWristSpeed();
 		Robot.hGroundLoader.setWristPitchSpeed(wristSpeed);
 		SmartDashboard.putNumber("HGL Wrist Input", wristSpeed);
