@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
+import frc.robot.commands.vision.ToggleCameraMode;
 import frc.robot.commands.cargohandler.SetWristAngle;
 import frc.robot.oi.XBox360Controller;
 import frc.robot.subsystems.Elevator;
@@ -114,7 +115,8 @@ public class OI {
 		// joy_dB.whenPressed(new SetWristAngle(-90));
 		// joy_wA.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 0.5, 1.0, true));
 		// joy_wB.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 0.5, 1.0, true));
-
+		JoystickButton cameraViewSwitcher = new JoystickButton(driverController, SWITCH_CAM_VIEW_BUTTON);
+		cameraViewSwitcher.whenPressed(new ToggleCameraMode());
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
