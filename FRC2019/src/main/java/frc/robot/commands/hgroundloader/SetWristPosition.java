@@ -15,6 +15,7 @@ public class SetWristPosition extends Command {
          *                 sets the setpoint and then ends immediately.
          */
         public SetWristPosition(double position, boolean wait) {
+                super();
                 requires(Robot.hGroundLoader);
                 wristPosition = position;
                 waitForWristToReachTarget = wait;
@@ -23,17 +24,20 @@ public class SetWristPosition extends Command {
 
         @Override
         public void start() {
+                super.start();
                 System.out.println("HGL SWP Start");
                 Robot.hGroundLoader.setWristRot(wristPosition);
         }
 
         @Override
         protected void initialize() {
+                super.initialize();
                 System.out.println("HGL SWP initialize");
 
         }
         @Override
         protected void execute() {
+                super.execute();
                 System.out.println("HGL SWP execute");
         }
 
