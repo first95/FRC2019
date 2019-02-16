@@ -32,7 +32,7 @@ public class CurrentDetectedTalon extends AdjustedTalon {
 	}
 
 	public void visit() {
-		if (true) {
+		if (query) {
 			updateStatus();
 		}
 	}

@@ -25,14 +25,14 @@ public class HatchGroundLoader extends Subsystem {
 
 	// Encoder and position info for wristDriver
 	private static final double DEGREES_FULL_RANGE = 90; // How many degrees the wrist can move; needs to be measured
-	private static final double ENCODER_TICKS_FULL_RANGE = 1400.0; // How many encoder ticks the wrist can move through full range
+	private static final double ENCODER_TICKS_FULL_RANGE = 1250.0; // How many encoder ticks the wrist can move through full range
 	private static final double TICKS_PER_DEG = ENCODER_TICKS_FULL_RANGE / DEGREES_FULL_RANGE;
 	// Positions - TODO: Verify these
 	public static final double WRIST_UP_DEG = 0;
 	public static final double WRIST_DOWN_DEG = -DEGREES_FULL_RANGE;
 
 	private static final double K_F = 0.0; // Don't use in position mode.
-	private double K_P = 0.8 * 1023.0 / 500; // Respond to an error of 700 with 60% throttle
+	private double K_P = 0.2 * 1023.0 / 500; // Respond to an error of 700 with 60% throttle
 	private double K_I = 0; //0.01 * K_P;
 	private double K_D = 0; // 40.0 * K_P;
 	private static final int I_ZONE = 200; // In closed loop error units
@@ -87,13 +87,14 @@ public class HatchGroundLoader extends Subsystem {
 	}
 	
 	public void log() {
-		SmartDashboard.putNumber("HGL on target?", isWristPositionOnTarget()? 1 : 0);
-		SmartDashboard.putString("HGL wrist control mode", wristDriver.getControlMode().toString());
-		SmartDashboard.putNumber("HGL CL target", wristDriver.getClosedLoopTarget(Constants.PID_IDX));
+		SmartDashboard.putNumber("HGL wrist output current (A)", wristDriver.getOutputCurrent());
+		//SmartDashboard.putNumber("HGL on target?", isWristPositionOnTarget()? 1 : 0);
+		//SmartDashboard.putString("HGL wrist control mode", wristDriver.getControlMode().toString());
+		//SmartDashboard.putNumber("HGL CL target", wristDriver.getClosedLoopTarget(Constants.PID_IDX));
 		SmartDashboard.putNumber("HGL Wrist Encoder Ticks", getWristTicks());
 		SmartDashboard.putNumber("HGL Wrist Pos (degrees)", getWristTicks()/TICKS_PER_DEG);
-		SmartDashboard.putNumber("HGL Intake Current", getIntakeCur());
-		SmartDashboard.putNumber("HGL Intake Detect", getIntakeDetect()? 1: 0);	
+		//SmartDashboard.putNumber("HGL Intake Current", getIntakeCur());
+		//SmartDashboard.putNumber("HGL Intake Detect", getIntakeDetect()? 1: 0);	
 	}	
 	
 	public void visit () {
@@ -125,7 +126,7 @@ public class HatchGroundLoader extends Subsystem {
 	public void setWristPitchSpeed(double upwardSpeed) {
 		// Slow it way the hell down for starters
 		// and reverse the direction so up is up and down is down
-		wristDriver.set(ControlMode.PercentOutput, -upwardSpeed * 0.2);	
+		wristDriver.set(ControlMode.PercentOutput, -upwardSpeed * 0.4);	
 	}
 	
 	/**
