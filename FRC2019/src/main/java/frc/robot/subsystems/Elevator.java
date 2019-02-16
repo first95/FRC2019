@@ -37,6 +37,15 @@ public class Elevator extends Subsystem {
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
 
+	
+	public enum ElevatorHoldPoint {
+		NONE,			 // Not commanded to any specific position
+		FLOOR,            // Positioned at its lowest position
+		SWITCH_SCORE,     // Positioned to hold a cube above the fence around the Switch
+		SCALE_SCORE_HIGH, // Positioned at the lowest  sensible point to score a cube on the Scale
+		SCALE_SCORE_LOW,  // Positioned at the highest sensible point to score a cube on the Scale
+	};
+
 	public Elevator(boolean realHardware) {
 		super();
 		// Set up the digital IO object to read the home switch
