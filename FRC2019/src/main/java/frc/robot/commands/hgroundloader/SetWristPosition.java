@@ -45,7 +45,7 @@ public class SetWristPosition extends Command {
         protected boolean isFinished() {
                 System.out.println("HGL SWP waitForWristToReachTarget? " + (waitForWristToReachTarget? "True":"False"));
                 System.out.println("HGL SWP isWristPositionOnTarget()? " + (Robot.hGroundLoader.isWristPositionOnTarget()? "True":"False"));
-                boolean finished =  (!waitForWristToReachTarget) || Robot.hGroundLoader.isWristPositionOnTarget();
+                boolean finished =  (!waitForWristToReachTarget) || Robot.hGroundLoader.isWristPositionOnTarget(true);
                 System.out.println("HGL SWP finished? " + (finished? "True":"False"));
                 return finished;
         }

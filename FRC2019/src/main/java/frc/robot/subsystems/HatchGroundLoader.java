@@ -89,7 +89,7 @@ public class HatchGroundLoader extends Subsystem {
 	public void log() {
 		SmartDashboard.putNumber("HGL on target?", isWristPositionOnTarget()? 1 : 0);
 		SmartDashboard.putString("HGL wrist control mode", wristDriver.getControlMode().toString());
-		SmartDashboard.putNumber("HGL CL position", wristDriver.getClosedLoopTarget(Constants.PID_IDX));
+		SmartDashboard.putNumber("HGL CL target", wristDriver.getClosedLoopTarget(Constants.PID_IDX));
 		SmartDashboard.putNumber("HGL Wrist Encoder Ticks", getWristTicks());
 		SmartDashboard.putNumber("HGL Wrist Pos (degrees)", getWristTicks()/TICKS_PER_DEG);
 		SmartDashboard.putNumber("HGL Intake Current", getIntakeCur());
@@ -143,10 +143,18 @@ public class HatchGroundLoader extends Subsystem {
 	 * @return true when the wrist is close enough to its target
 	 */
 	public boolean isWristPositionOnTarget() {
+		return isWristPositionOnTarget(false);
+	}
+	public boolean isWristPositionOnTarget(boolean verbose) {
+		if(verbose) {
+			System.out.println("HGL SWP control mode: " + wristDriver.getControlMode().toString());
+			System.out.println("HGL SWP getSelectedSensorPosition: " + wristDriver.getSelectedSensorPosition(Constants.PID_IDX));
+			System.out.println("HGL SWP getClosedLoopTarget: " + wristDriver.getClosedLoopTarget(Constants.PID_IDX));
+		}
 		if (wristDriver.getControlMode() == ControlMode.Position) {
 			return (Math.abs(wristDriver.getSelectedSensorPosition(Constants.PID_IDX) - wristDriver.getClosedLoopTarget(Constants.PID_IDX)) / TICKS_PER_DEG) < Constants.HGL_ON_TARGET_THRESHOLD_DEGREES;
 		} else {
-			return true; // When you're not seeking anything, you're already at your destination.
+			return false; // When you're not seeking anything, you're already at your destination.
 		}
 	}
 
