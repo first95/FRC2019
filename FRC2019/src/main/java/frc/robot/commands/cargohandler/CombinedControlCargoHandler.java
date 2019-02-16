@@ -35,7 +35,7 @@ public class CombinedControlCargoHandler extends Command {
 	protected void execute() {
 		// This method is called every iteration
 		// First do the simple intake control
-		intakeSpeed = Robot.oi.getCargoLoaderIntakeSpeed();
+		intakeSpeed = Robot.oi.getCargoHandlerIntakeSpeed();
 		Robot.cargoHandler.setIntakeSpeed(intakeSpeed);
 		SmartDashboard.putNumber("Cargo Handler Intake Input", intakeSpeed);
 
@@ -52,9 +52,9 @@ public class CombinedControlCargoHandler extends Command {
 			wasHoldingPresentPositionLastIteration = false;
 		} else {
 			// Second priority: Is the stick outside the deadband?
-			if (Math.abs(Robot.oi.getCargoLoaderWristSpeed()) > 0.1) {
+			if (Math.abs(Robot.oi.getCargoHandlerWristSpeed()) > 0.1) {
 				SmartDashboard.putString(CH_WRIST_MODE, "Set speed");
-				Robot.hGroundLoader.setWristPitchSpeed(Robot.oi.getCargoLoaderWristSpeed());
+				Robot.cargoHandler.setWristPitchSpeed(Robot.oi.getCargoHandlerWristSpeed());
 				wasHoldingPresentPositionLastIteration = false;
 			} else {
 				// Third priority: hold the present position

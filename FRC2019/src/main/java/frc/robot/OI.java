@@ -204,7 +204,7 @@ public class OI {
 	 * Get speed at which the intake rollers of the cargo handler should run
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
-	public double getCargoLoaderIntakeSpeed() {
+	public double getCargoHandlerIntakeSpeed() {
 		return driverController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
 	}
 
@@ -212,7 +212,7 @@ public class OI {
 	 * Get speed at which the wrist of of the cargo handler  should turn
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
-	public double getCargoLoaderWristSpeed() {
+	public double getCargoHandlerWristSpeed() {
 		return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
 	}
 
