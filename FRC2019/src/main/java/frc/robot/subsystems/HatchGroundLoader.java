@@ -59,7 +59,13 @@ public class HatchGroundLoader extends Subsystem {
 		// Configure the wrist for closed-loop control
 		wristDriver.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_IDX,
 				Constants.CAN_TIMEOUT_MS);
-		wristDriver.setSensorPhase(true);
+
+		// Setting sensor phase seems to do nothing for some reason. -- JDW
+		// wristDriver.setSensorPhase(true);
+		// So we're gonna invert the output.
+		// Apparently, by the power of MAGIC, inverting the SRX's output inverts the sensor direction.
+		wristDriver.setInverted(true);
+
 		wristDriver.config_kF(Constants.PID_IDX, K_F, Constants.CAN_TIMEOUT_MS);
 		wristDriver.config_kP(Constants.PID_IDX, K_P, Constants.CAN_TIMEOUT_MS);
 		wristDriver.config_kI(Constants.PID_IDX, K_I, Constants.CAN_TIMEOUT_MS);
