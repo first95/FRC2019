@@ -23,6 +23,8 @@ public class OI {
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
+	public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
 	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
@@ -36,7 +38,7 @@ public class OI {
 	// Buttons on drive controller
 	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
-	// Likely put control for climber as buttons on driver controller
+	public static final int CLIMB_SKIDS_BUTTON = XBox360Controller.Button.A.Number();
 	
 	// Buttons on weapons controller
 	public static final int ELEV_SEEK_FLOOR_BUTTON = XBox360Controller.Button.A.Number();
@@ -178,11 +180,28 @@ public class OI {
 	}
 
 	/**
+	 * Get speed at which the motor of the climber should move
+	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
+	 */
+	public double getClimberSpeed() {
+		return driverController.getRawAxis(CLIMBER_UP_AXIS) - driverController.getRawAxis(CLIMBER_DOWN_AXIS);
+	}
+
+	/**
+	 * Get deploy state for skids
+	 * @return true to deploy and false to retract
+	 */	
+	public boolean isDeploySkidsButtonPressed() {
+		return driverController.getRawButton(CLIMB_SKIDS_BUTTON);
+	}
+
+	/**
 	 * Get speed at which the intake rollers of the cargo handler should run
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary
 	 */
 	public double getCargoLoaderIntakeSpeed() {
-		return driverController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
+		return 0; // temporary change because this is operating on the same axis that we're trying climber on
+		//return driverController.getRawAxis(CARGO_HANDLER_INTAKE_AXIS) - driverController.getRawAxis(CARGO_HANDLER_OUTSPIT_AXIS);
 	}
 
 	/**
@@ -190,7 +209,8 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getCargoLoaderWristSpeed() {
-		return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
+		return 0; // temporary change because this is operating on same axis as one of the main drive axes
+		//return driverController.getRawAxis(CARGO_HANDLER_WRIST_AXIS);
 	}
 
 	// Elevator controls
