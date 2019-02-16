@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		// Initialize all subsystems
-		drivebase = new DriveBase(false);
+		drivebase = new DriveBase(true);
 		elevator = new Elevator(true);
 		hScorer = new HatchScorer();
 		hGroundLoader = new HatchGroundLoader(false);
