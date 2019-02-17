@@ -30,7 +30,9 @@ public class Elevator extends Subsystem {
 	public static final double ENCODER_TICKS_FULL_RANGE = 78055.0; // Measured 2019-2-16
 	private static final double TICKS_PER_INCH = ENCODER_TICKS_FULL_RANGE / INCHES_FULL_RANGE;
 	private static final double TICKS_PER_FOOT = TICKS_PER_INCH * 12;
-	//private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
+    //private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
+    private static final double HATCH_SCORER_HEIGHT_IN = 12.3; // This is the height off the ground that the hatch scorer is at when the elevator is at 0 inches
+    private static final double HATCH_SCORING_OFFSET_IN = 2.0; 
 
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
@@ -40,9 +42,9 @@ public class Elevator extends Subsystem {
 		NONE(0),			// Not commanded to any specific position
 		HERE(0),			// Stay exactly where you are
 		HATCH_HANDOFF(10),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
-		HATCH_COVER_LOW(20),// The point at which we need to position the elevator to score a hatch cover on the low position
-		HATCH_COVER_MID(30),// The point at which we need to position the elevator to score a hatch cover on the middle position
-		HATCH_COVER_HIGH(40),// The point at which we need to position the elevator to score a hatch cover on the high position
+		HATCH_COVER_LOW(19 - HATCH_SCORER_HEIGHT_IN + HATCH_SCORING_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the low position
+		HATCH_COVER_MID(47 - HATCH_SCORER_HEIGHT_IN),// The point at which we need to position the elevator to score a hatch cover on the middle position
+		HATCH_COVER_HIGH(75 - HATCH_SCORER_HEIGHT_IN),// The point at which we need to position the elevator to score a hatch cover on the high position
 		;
         public final double heightInches;
         private ElevatorHoldPoint(double heightInches) {
