@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpeedControlCargoHandler extends Command {
+	private double intakeSpeed;
 	private double wristSpeed;
 	
 	public SpeedControlCargoHandler() {
@@ -13,10 +14,13 @@ public class SpeedControlCargoHandler extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.cargoHandler.setIntakeSpeed(Robot.oi.getCargoLoaderIntakeSpeed());
-		wristSpeed = Robot.oi.getCargoLoaderWristSpeed();
+		intakeSpeed = Robot.oi.getCargoHandlerIntakeSpeed();
+		Robot.cargoHandler.setIntakeSpeed(intakeSpeed);
+		SmartDashboard.putNumber("Cargo Handler Intake Input", intakeSpeed);
+
+		wristSpeed = Robot.oi.getCargoHandlerWristSpeed();
 		Robot.cargoHandler.setWristPitchSpeed(wristSpeed);
-		SmartDashboard.putNumber("Cargo Loader Wrist Input", wristSpeed);
+		SmartDashboard.putNumber("Cargo Handler Wrist Input", wristSpeed);
 	}
 	
 	@Override

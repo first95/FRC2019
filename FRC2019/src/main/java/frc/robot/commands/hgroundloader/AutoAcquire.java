@@ -11,6 +11,9 @@ public class AutoAcquire extends CommandGroup {
     public static final double RUMBLE_TIME_S = 0.5;
 
     public AutoAcquire() {
+        this(true);
+    }
+    public AutoAcquire(boolean buzz) {
         // Spin it 
         addSequential(new SetIntakeThrottle(AUTO_ACQUIRE_INTAKE_THROTTLE));
         // Drop it
@@ -19,10 +22,11 @@ public class AutoAcquire extends CommandGroup {
         addSequential(new WaitForHatchDetected());
         // Stop it
         addSequential(new SetIntakeThrottle(0));
-        // Buzz it
-        addSequential(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, true));
-        // Buzz it
-        addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 1.0, RUMBLE_TIME_S, true));
+        if(buzz) {
+            // Buzz it
+            addSequential(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, true));
+            addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 1.0, RUMBLE_TIME_S, true));
+        }
         // Lift it
         addSequential(new SetWristPosition(HatchGroundLoader.WRIST_UP_DEG, true));
     }

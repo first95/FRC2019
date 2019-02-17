@@ -15,7 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.SetCameraMode;
+import frc.robot.commands.vision.SetCameraMode;
 
 /**
  * A subsystem to read from the vision coprocessor

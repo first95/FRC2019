@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -13,29 +13,19 @@ import frc.robot.Robot;
 /**
  * Command to set the main camera into one of its modes
  */
-public class SetCameraMode extends Command {
-    private boolean camShouldBeHumanVisible = false;
+public class ToggleCameraMode extends Command {
 
     /**
-     * Command the camera to enter a mode
-     * @param isHumanVisible true if the camera should be configured for human use, 
-     * or false to configure the camera for machine vision.
+     * Command the camera to enter whatever mode it is not in
      */
-    public SetCameraMode(boolean isHumanVisible) {
-        camShouldBeHumanVisible = isHumanVisible;
+    public ToggleCameraMode() {
         requires(Robot.vision);
     }
-    /**
-     * Command the coprocessor to configure the camera for machine vision.
-     */
-    public SetCameraMode() {
-        this(false);
-    }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() {
-        Robot.vision.setCameraIsHumanVisible(camShouldBeHumanVisible);
+    public synchronized void start() {
+        super.start();
+        Robot.vision.setCameraIsHumanVisible(!Robot.vision.isCameraHumanVision());
     }
 
     // Make this return true when this Command no longer needs to run execute()

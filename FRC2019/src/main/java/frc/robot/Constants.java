@@ -17,6 +17,7 @@ public class Constants
 		public static final double DRIVEPOD_ON_TARGET_THRESHOLD_INCHES = 1; // Each drivepod will call itself close enough at this point		
 		public static final double HGL_ON_TARGET_THRESHOLD_DEGREES = 1;
 		public static final double CARGO_LOADER_ON_TARGET_THRESHOLD_DEGREES = 5;
+		public static final double CARGO_HANDLER_ON_TARGET_DEG = 2; // Cargo handler wrist will call itself close enough at this point
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec
@@ -29,8 +30,9 @@ public class Constants
 		
 		// Indices for solenoids
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
-		public static final int HS_OPEN_A = 6;
-		public static final int HS_PUSH_A = 7;
+		public static final int HS_OPEN_A = 7;
+		public static final int HS_PUSH_A = 6;
+		public static final int CLIMBER_SOL = 1;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
@@ -55,9 +57,12 @@ public class Constants
 		public static final int HGL_WRIST = 24;
 		
 		// Cargo handler
+		public static final int CARGO_HANDLER_WRIST = 29;
 		public static final int CARGO_HANDLER_INTAKE = 30;
-		public static final int CARGO_HANDLER_WRIST = 29; 
 		
+		// Climber
+		public static final int CLIMBER_DRIVER = 33;
+
 		// Sensors attached via CAN
 		public static final int PIGEON_NUM = 30;		
 

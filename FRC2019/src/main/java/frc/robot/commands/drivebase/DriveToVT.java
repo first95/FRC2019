@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.Robot;
-import frc.robot.commands.SetCameraMode;
+import frc.robot.commands.vision.SetCameraMode;
 import frc.robot.subsystems.VisionCoprocessor;
 
 /**
