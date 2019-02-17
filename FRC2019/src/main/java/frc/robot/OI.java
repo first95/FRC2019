@@ -247,7 +247,7 @@ public class OI {
 		// The Y axis on thet controller is reversed, so that positive is down
 		SmartDashboard.putNumber("Elevator axis value",elevatorCtrl);
 		SmartDashboard.putNumber("Elevator speed throttle",-elevatorSpeed);
-		return -elevatorSpeed * 0.5;
+		return -elevatorSpeed * 1.0;
 	}
 
 	public Elevator.ElevatorHoldPoint getCommandedHoldPoint() {
