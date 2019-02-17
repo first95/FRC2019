@@ -41,7 +41,7 @@ public class Elevator extends Subsystem {
 	public enum ElevatorHoldPoint {
 		NONE(0),			// Not commanded to any specific position
 		HERE(0),			// Stay exactly where you are
-		HATCH_HANDOFF(10),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
+		HATCH_HANDOFF(3.9),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
 		HATCH_COVER_LOW(19 - HATCH_SCORER_HEIGHT_IN + HATCH_SCORING_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the low position
 		HATCH_COVER_MID(47 - HATCH_SCORER_HEIGHT_IN),// The point at which we need to position the elevator to score a hatch cover on the middle position
 		HATCH_COVER_HIGH(75 - HATCH_SCORER_HEIGHT_IN),// The point at which we need to position the elevator to score a hatch cover on the high position
