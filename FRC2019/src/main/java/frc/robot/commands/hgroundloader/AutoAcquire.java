@@ -14,10 +14,10 @@ public class AutoAcquire extends CommandGroup {
         this(true);
     }
     public AutoAcquire(boolean buzz) {
-        // Spin it 
-        addSequential(new SetIntakeThrottle(AUTO_ACQUIRE_INTAKE_THROTTLE));
         // Drop it
         addSequential(new SetWristAngle(HatchGroundLoader.COLLECT_DEG, true));
+        // Spin it 
+        addSequential(new SetIntakeThrottle(AUTO_ACQUIRE_INTAKE_THROTTLE));        
         // Wait for it
         addSequential(new WaitForHatchDetected());
         // Stop it

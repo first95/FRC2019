@@ -122,9 +122,10 @@ public class OI {
 		cameraViewSwitcher.close(); // Don't need this one anymore?
 		
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);
+		hglAutoCollect.whenPressed(new AutoAcquire());
 		//hglAutoCollect.whenPressed(new SetIntakeThrottle(1.0));
 		//hglAutoCollect.whenPressed(new SetWristAngle(90, true));
-		hglAutoCollect.whenPressed(new WaitForHatchDetected());
+		//hglAutoCollect.whenPressed(new WaitForHatchDetected());
         hglAutoCollect.close(); // Don't need this one anymore?		
 
 		// Sendable Chooser for single commands
