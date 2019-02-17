@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.Robot;
 
 /**
- * Set the hatch scorer to open or closed, then wait a short duration for it to
- * actuate
+ * Set the hatch scorer to extended or retracted
  */
 public class PushIt extends TimedCommand {
     private static final double DEFAULT_DURATION_S = 0.3;
