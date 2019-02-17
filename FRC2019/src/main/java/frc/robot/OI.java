@@ -116,7 +116,8 @@ public class OI {
 		// joy_wA.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 0.5, 1.0, true));
 		// joy_wB.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 0.5, 1.0, true));
 		JoystickButton cameraViewSwitcher = new JoystickButton(driverController, SWITCH_CAM_VIEW_BUTTON);
-		cameraViewSwitcher.whenPressed(new ToggleCameraMode());
+        cameraViewSwitcher.whenPressed(new ToggleCameraMode());
+        cameraViewSwitcher.close(); // Don't need this one anymore?
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
@@ -357,5 +358,5 @@ public class OI {
 
 		stick.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
 		stick.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
-	}
+    }
 }
