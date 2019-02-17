@@ -53,8 +53,12 @@ public class DriveBase extends Subsystem {
 
 		// Note that one pod must be inverted, since the gearbox assemblies are rotationally symmetrical
 		leftPod = new DrivePod("Left", Constants.LEFT_LEAD, Constants.LEFT_F1, Constants.LEFT_F2, false, realHardware);
-		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, true, realHardware);
-		shifter = new Solenoid(Constants.SHIFTER_SOLENOID_NUM);
+        rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, true, realHardware);
+        if(realHardware) {
+            shifter = new Solenoid(Constants.SHIFTER_SOLENOID_NUM);
+        } else {
+            shifter = null;
+        }
 		
 		// imu = new PigeonWrapper(Constants.PIGEON_NUM);
 	}
@@ -269,14 +273,20 @@ public class DriveBase extends Subsystem {
 	}
 
 	private void setGear(boolean isHighGear) {
-		//System.out.println("Shifting to " + (isHighGear? "high":"low") + " gear");
-		shifter.set(isHighGear);
+        //System.out.println("Shifting to " + (isHighGear? "high":"low") + " gear");
+        if(shifter != null) {
+            shifter.set(isHighGear);
+        }
 	}
 	
 	public boolean getGear() {
 		// True in high gear
-		// False in low gear
-		return shifter.get();
+        // False in low gear
+        if(shifter != null) {
+            return shifter.get();
+        } else {
+            return false;
+        }
 	}
 
 	private void autoShift() {
