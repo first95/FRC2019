@@ -16,6 +16,7 @@ public class Constants
 		public static final double ELEVATOR_ON_TARGET_THRESHOLD_INCHES = 1; // Elevator will call itself close enough at this point
 		public static final double DRIVEPOD_ON_TARGET_THRESHOLD_INCHES = 1; // Each drivepod will call itself close enough at this point		
 		public static final double CARGO_HANDLER_ON_TARGET_DEG = 2; // Cargo handler wrist will call itself close enough at this point
+		public static final double HGL_ON_TARGET_DEG = 2; // HGL wrist will call itself close enough at this point
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec
@@ -68,7 +69,8 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_CONTINUAL_AMPS = 10;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
-		public static final int HGL_MAX_WRIST_CURRENT_AMPS = 1;	
+		public static final int CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS = 10;
+		public static final int HGL_INTAKE_CUR_SPIKE_AMPS = 20;	
 		
 		public static double RFVoltsToFt(double voltage)
 			{

@@ -14,20 +14,20 @@ public class AutoAcquire extends CommandGroup {
         this(true);
     }
     public AutoAcquire(boolean buzz) {
-        // // Spin it 
-        // addSequential(new SetIntakeThrottle(AUTO_ACQUIRE_INTAKE_THROTTLE));
-        // // Drop it
-        // addSequential(new SetWristPosition(HatchGroundLoader.WRIST_DOWN_DEG, true));
-        // // Wait for it
-        // addSequential(new WaitForHatchDetected());
-        // // Stop it
-        // addSequential(new SetIntakeThrottle(0));
+        // Spin it 
+        addSequential(new SetIntakeThrottle(AUTO_ACQUIRE_INTAKE_THROTTLE));
+        // Drop it
+        addSequential(new SetWristAngle(HatchGroundLoader.COLLECT_DEG, true));
+        // Wait for it
+        addSequential(new WaitForHatchDetected());
+        // Stop it
+        addSequential(new SetIntakeThrottle(0));
         if(buzz) {
-            // // Buzz it
-            // addSequential(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, true));
-            // addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 1.0, RUMBLE_TIME_S, true));
+            // Buzz it
+            addSequential(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, true));
+            //addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 1.0, RUMBLE_TIME_S, true));
         }
-        // // Lift it
-        // addSequential(new SetWristPosition(HatchGroundLoader.WRIST_UP_DEG, true));
+        // Lift it
+        addSequential(new SetWristAngle(HatchGroundLoader.UP_DEG, true));
     }
 }
