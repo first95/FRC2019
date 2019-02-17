@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
 		hScorer = new HatchScorer(true);
 		hGroundLoader = new HatchGroundLoader(false);
 		cargoHandler = new CargoHandler(true);
-		climber = new Climber(false);
+		climber = new Climber(true);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
