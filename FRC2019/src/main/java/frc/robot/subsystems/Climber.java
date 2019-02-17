@@ -11,55 +11,60 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Climber extends Subsystem {
-	
-	// Motor controller for the climber
-	private IMotorControllerEnhanced driver;
-	// Solenoid for the climber
-	private Solenoid sol;
 
-	public Climber(boolean realHardware) {
-		super();
-		
-		sol = new Solenoid(Constants.CLIMBER_SOL);
+    // Motor controller for the climber
+    private IMotorControllerEnhanced driver;
+    // Solenoid for the climber
+    private Solenoid sol;
 
-		if(realHardware) {
-			driver = new AdjustedTalon(Constants.CLIMBER_DRIVER);
-		} else {
-			driver = new FakeTalon();
-		}
-		
-	}
+    public Climber(boolean realHardware) {
+        super();
 
-	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new SpeedControlClimber());
-	}
-	
-	public void log() {
-	
-	}	
-	
+        if (realHardware) {
+            sol = new Solenoid(Constants.CLIMBER_SOL);
+            driver = new AdjustedTalon(Constants.CLIMBER_DRIVER);
+        } else {
+            sol = null;
+            driver = new FakeTalon();
+        }
+    }
 
-	/**
-	 * Set speed of the driver
-	 * @param throttle 1.0 for fully down (?), -1.0 for fully up (?), 0.0 for stationary
-	 */
-	public void setSpeed(double throttle) {
-		driver.set(ControlMode.PercentOutput, throttle);
-	}
+    @Override
+    protected void initDefaultCommand() {
+        setDefaultCommand(new SpeedControlClimber());
+    }
 
-	/**
-	 * Set whether deploy or retract climber skids
-	 * @param deploy true to extend skids and false to retract them
-	 */
-	public void deploySkids(boolean deploy) {
-		sol.set(deploy);
-	  }
+    public void log() {
 
-	/**
-	 * Toggle skids between deploy and retract
-	 */
-	public void toggleSkids() {
-		sol.set(!sol.get());
-	  }	  
+    }
+
+    /**
+     * Set speed of the driver
+     * 
+     * @param throttle 1.0 for fully down (?), -1.0 for fully up (?), 0.0 for
+     *                 stationary
+     */
+    public void setSpeed(double throttle) {
+        driver.set(ControlMode.PercentOutput, throttle);
+    }
+
+    /**
+     * Set whether deploy or retract climber skids
+     * 
+     * @param deploy true to extend skids and false to retract them
+     */
+    public void deploySkids(boolean deploy) {
+        if (sol != null) {
+            sol.set(deploy);
+        }
+    }
+
+    /**
+     * Toggle skids between deploy and retract
+     */
+    public void toggleSkids() {
+        if (sol != null) {
+            sol.set(!sol.get());
+        }
+    }
 }
