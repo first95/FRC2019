@@ -451,7 +451,7 @@ public class FakeTalon implements IMotorControllerEnhanced {
 
     @Override
     public ControlMode getControlMode() {
-        return null;
+        return ControlMode.Disabled;
     }
 
     @Override
