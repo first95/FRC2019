@@ -69,20 +69,6 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_CONTINUAL_AMPS = 10;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
-		public static final int CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS = 10;
-		public static final int HGL_INTAKE_CUR_SPIKE_AMPS = 20;	
-		
-		public static double RFVoltsToFt(double voltage)
-			{
-				double distance;
-				// Sonar Range finder based on data sheet almost acurrate
-				// distance = (voltage * 100) / .977; //mV to mm
-
-				// sonar based on experimentation (in cm)
-				distance = (voltage * 107.96) - 3.0219;
-
-				// convert from cm to ft
-				distance = distance * 0.0328084;
-				return distance;
-			}
+		public static final double CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS = 10;
+		public static final double HGL_INTAKE_CUR_SPIKE_AMPS = 20;	
 	}
