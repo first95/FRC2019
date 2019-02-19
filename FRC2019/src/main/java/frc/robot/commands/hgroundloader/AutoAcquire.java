@@ -12,6 +12,7 @@ public class AutoAcquire extends CommandGroup {
 
     public AutoAcquire() {
         this(true);
+        //CombinedControlHGroundLoader.setInterrupt(true);
     }
     public AutoAcquire(boolean buzz) {
         // Drop it

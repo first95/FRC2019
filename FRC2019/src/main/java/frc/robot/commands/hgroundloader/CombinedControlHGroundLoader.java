@@ -22,6 +22,7 @@ public class CombinedControlHGroundLoader extends Command {
 	public CombinedControlHGroundLoader() {
 		// This method is run once during robot startup
 		requires(Robot.hGroundLoader);
+		this.setInterruptible(true);
 	}
 
 	@Override
@@ -29,7 +30,6 @@ public class CombinedControlHGroundLoader extends Command {
 		// This method is called once when the command is activated
 		seekHoldPoint(WristHoldPoint.HERE);
 		wasHoldingPresentPositionLastIteration = true;
-		this.setInterruptible(true);
 	}
 
 	@Override
