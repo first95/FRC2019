@@ -3,12 +3,14 @@ package frc.robot.commands.hgroundloader;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.OI.Controller;
 import frc.robot.OI.RumbleType;
+import frc.robot.commands.Pause;
 import frc.robot.commands.RumbleCommand;
 import frc.robot.subsystems.HatchGroundLoader;
 
 public class AutoAcquire extends CommandGroup {
     public static final double AUTO_ACQUIRE_INTAKE_THROTTLE = 1.0;
     public static final double RUMBLE_TIME_S = 0.5;
+    public static final double SPINUP_DURATION_S = 0.5;
 
     public AutoAcquire() {
         this(true);
@@ -20,6 +22,8 @@ public class AutoAcquire extends CommandGroup {
         // Spin it 
         addSequential(new SetIntakeThrottle(AUTO_ACQUIRE_INTAKE_THROTTLE));        
         // Wait for it
+        addSequential(new Pause(SPINUP_DURATION_S));
+        // Waaaaaaaait for it
         addSequential(new WaitForHatchDetected());
         // Stop it
         addSequential(new SetIntakeThrottle(0));
