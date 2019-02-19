@@ -87,7 +87,7 @@ public class CargoHandler extends Subsystem {
 	public void setWristPitchSpeed(double upwardSpeed) {
 		// Slow it way the hell down for starters
 		// and reverse the direction so up is up and down is down
-		wristDriver.set(ControlMode.PercentOutput, -upwardSpeed * 0.2);	
+		wristDriver.set(ControlMode.PercentOutput, -upwardSpeed * 0.2 * 2);	
 	}
 
 	/**
