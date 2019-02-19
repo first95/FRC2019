@@ -24,11 +24,11 @@ public class OI {
 	private Joystick weaponsController = new Joystick(1);
 
 	// Buttons on drive controller
-	public static final int CLIMB_SKIDS_BUTTON = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int CLIMB_SKIDS_BUTTON = 0;// XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int SWITCH_CAM_VIEW_BUTTON = XBox360Controller.Button.START.Number();
 	// Features not presently in use - getRawButton(0) always returns false
-	public static final int BUTTON_FORCE_LOW_GEAR = 0;// XBox360Controller.Button.LEFT_BUMPER.Number();
-	public static final int BUTTON_FORCE_HIGH_GEAR = 0;//XBox360Controller.Button.RIGHT_BUMPER.Number();
+	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
 
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
