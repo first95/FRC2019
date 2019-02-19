@@ -29,6 +29,7 @@ public class CombinedControlHGroundLoader extends Command {
 		// This method is called once when the command is activated
 		seekHoldPoint(WristHoldPoint.HERE);
 		wasHoldingPresentPositionLastIteration = true;
+		this.setInterruptible(true);
 	}
 
 	@Override
