@@ -38,7 +38,6 @@ public class Elevator extends Subsystem {
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
 
-	// TODO: Compute real setpoints (issue #42).  Note inches are measured relative to the elevator's starting position, at which the hatch collector is 12.3" off the ground.
 	public enum ElevatorHoldPoint {
 		NONE(0),			// Not commanded to any specific position
 		HERE(0),			// Stay exactly where you are
