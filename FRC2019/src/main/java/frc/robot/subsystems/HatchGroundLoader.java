@@ -21,12 +21,12 @@ public class HatchGroundLoader extends Subsystem {
 	private final String pLabel = "HGL_Wrist P";
 	private final String iLabel = "HGL Wrist I";
 	private final String dLabel = "HGL Wrist D";
-	public static final double DEGREES_FULL_RANGE = 90; // needs to be measured
-	public static final double ENCODER_TICKS_FULL_RANGE = 1500; // needs to be measured
+	public static final double DEGREES_FULL_RANGE = 90;
+	public static final double ENCODER_TICKS_FULL_RANGE = 1075; // measured 2019-2-19
 	private static final double TICKS_PER_DEG = ENCODER_TICKS_FULL_RANGE / DEGREES_FULL_RANGE;
 
 	public static double UP_DEG = 0.0;
-	public static double COLLECT_DEG = -90.0;
+	public static double COLLECT_DEG = 90.0;
 	
 	// Motor controller for the intake rollers
 	private IMotorControllerEnhanced intakeDriver;
