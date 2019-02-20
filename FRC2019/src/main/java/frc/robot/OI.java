@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.commands.vision.ToggleCameraMode;
@@ -122,7 +123,8 @@ public class OI {
 		cameraViewSwitcher.close(); // Don't need this one anymore?
 		
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);
-		hglAutoCollect.whenPressed(new AutoAcquire());
+		hglAutoCollect.whenPressed(new AutoAcquire(false));
+		// hglAutoCollect.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
 		// hglAutoCollect.whileHeld(new SetIntakeThrottle(1.0));
 		// hglAutoCollect.whenPressed(new SetWristAngle(90, true));
 		//hglAutoCollect.whenPressed(new WaitForHatchDetected());
