@@ -38,11 +38,11 @@ public class Elevator extends Subsystem {
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
 
-	// TODO: Compute real setpoints (issue #42).  Note inches are measured relative to the elevator's starting position, at which the hatch collector is 12.3" off the ground.
 	public enum ElevatorHoldPoint {
 		NONE(0),			// Not commanded to any specific position
 		HERE(0),			// Stay exactly where you are
 		HATCH_HANDOFF(3.9),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
+		HATCH_COVER_LOAD(19 - HATCH_SCORER_HEIGHT_IN),// The point at which we need to position the elevator to retrieve a hatch from the loading station
 		HATCH_COVER_LOW(19 - HATCH_SCORER_HEIGHT_IN + HATCH_LOW_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the low position
 		HATCH_COVER_MID(47 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the middle position
 		HATCH_COVER_HIGH(75 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the high position
