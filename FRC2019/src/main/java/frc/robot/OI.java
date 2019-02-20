@@ -24,7 +24,7 @@ public class OI {
 	private Joystick weaponsController = new Joystick(1);
 
 	// Buttons on drive controller
-	public static final int CLIMB_SKIDS_BUTTON = 0;// XBox360Controller.Button.LEFT_BUMPER.Number();
+	//public static final int CLIMB_SKIDS_BUTTON = 0;// XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int SWITCH_CAM_VIEW_BUTTON = XBox360Controller.Button.START.Number();
 	// Features not presently in use - getRawButton(0) always returns false
 	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
@@ -33,8 +33,8 @@ public class OI {
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
-	public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-    public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	//public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+    //public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
 	// Axes on weapons controller
 	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
@@ -190,7 +190,7 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getClimberSpeed() {
-		return driverController.getRawAxis(CLIMBER_UP_AXIS) - driverController.getRawAxis(CLIMBER_DOWN_AXIS);
+		return 0; //driverController.getRawAxis(CLIMBER_UP_AXIS) - driverController.getRawAxis(CLIMBER_DOWN_AXIS);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class OI {
 	 * @return true to deploy and false to retract
 	 */	
 	public boolean isDeploySkidsToggled() {
-		return driverController.getRawButtonPressed(CLIMB_SKIDS_BUTTON);
+		return false; //driverController.getRawButtonPressed(CLIMB_SKIDS_BUTTON);
 	}
 
 	/**
