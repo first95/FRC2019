@@ -123,8 +123,8 @@ public class OI {
 		
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);
 		hglAutoCollect.whenPressed(new AutoAcquire());
-		//hglAutoCollect.whenPressed(new SetIntakeThrottle(1.0));
-		//hglAutoCollect.whenPressed(new SetWristAngle(90, true));
+		// hglAutoCollect.whileHeld(new SetIntakeThrottle(1.0));
+		// hglAutoCollect.whenPressed(new SetWristAngle(90, true));
 		//hglAutoCollect.whenPressed(new WaitForHatchDetected());
         hglAutoCollect.close(); // Don't need this one anymore?		
 
