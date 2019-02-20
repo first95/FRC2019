@@ -45,7 +45,7 @@ public class OI {
 	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 
 	// Buttons on weapons controller
-	public static final int ELEV_PRESET_HATCH_HANDOFF = XBox360Controller.Button.A.Number();
+	public static final int ELEV_PRESET_HATCH_LOAD = XBox360Controller.Button.A.Number();
 	public static final int ELEV_PRESET_HATCH_LOW = XBox360Controller.Button.B.Number();
 	public static final int ELEV_PRESET_HATCH_MID = XBox360Controller.Button.X.Number(); 
 	public static final int ELEV_PRESET_HATCH_HIGH = XBox360Controller.Button.Y.Number();
@@ -252,8 +252,8 @@ public class OI {
 
 	public Elevator.ElevatorHoldPoint getCommandedHoldPoint() {
 		// Prioritize lower setpoints if the user holds more than one button
-		if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HANDOFF)) {
-			return Elevator.ElevatorHoldPoint.HATCH_HANDOFF;
+		if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOAD)) {
+			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOAD;
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOW)) {
 			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOW;
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_MID)) {
