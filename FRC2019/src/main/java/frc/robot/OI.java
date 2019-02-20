@@ -28,17 +28,17 @@ public class OI {
 	private Joystick weaponsController = new Joystick(1);
 
 	// Buttons on drive controller
-	public static final int CLIMB_SKIDS_BUTTON = XBox360Controller.Button.LEFT_BUMPER.Number();
+	//public static final int CLIMB_SKIDS_BUTTON = 0;// XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int SWITCH_CAM_VIEW_BUTTON = XBox360Controller.Button.START.Number();
 	// Features not presently in use - getRawButton(0) always returns false
-	public static final int BUTTON_FORCE_LOW_GEAR = 0;// XBox360Controller.Button.LEFT_BUMPER.Number();
-	public static final int BUTTON_FORCE_HIGH_GEAR = 0;//XBox360Controller.Button.RIGHT_BUMPER.Number();
+	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
 
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int DRIVE_TURN_AXIS = XBox360Controller.Axis.RIGHT_STICK_X.Number();
-	public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-    public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	//public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+    //public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
 	// Axes on weapons controller
 	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
@@ -49,7 +49,7 @@ public class OI {
 	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 
 	// Buttons on weapons controller
-	public static final int ELEV_PRESET_HATCH_HANDOFF = XBox360Controller.Button.A.Number();
+	public static final int ELEV_PRESET_HATCH_LOAD = XBox360Controller.Button.A.Number();
 	public static final int ELEV_PRESET_HATCH_LOW = XBox360Controller.Button.B.Number();
 	public static final int ELEV_PRESET_HATCH_MID = XBox360Controller.Button.X.Number(); 
 	public static final int ELEV_PRESET_HATCH_HIGH = XBox360Controller.Button.Y.Number();
@@ -207,7 +207,7 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getClimberSpeed() {
-		return driverController.getRawAxis(CLIMBER_UP_AXIS) - driverController.getRawAxis(CLIMBER_DOWN_AXIS);
+		return 0; //driverController.getRawAxis(CLIMBER_UP_AXIS) - driverController.getRawAxis(CLIMBER_DOWN_AXIS);
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class OI {
 	 * @return true to deploy and false to retract
 	 */	
 	public boolean isDeploySkidsToggled() {
-		return driverController.getRawButtonPressed(CLIMB_SKIDS_BUTTON);
+		return false; //driverController.getRawButtonPressed(CLIMB_SKIDS_BUTTON);
 	}
 
 	/**
@@ -269,8 +269,8 @@ public class OI {
 
 	public Elevator.ElevatorHoldPoint getCommandedHoldPoint() {
 		// Prioritize lower setpoints if the user holds more than one button
-		if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HANDOFF)) {
-			return Elevator.ElevatorHoldPoint.HATCH_HANDOFF;
+		if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOAD)) {
+			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOAD;
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOW)) {
 			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOW;
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_MID)) {

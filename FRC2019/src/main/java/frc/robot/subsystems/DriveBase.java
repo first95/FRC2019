@@ -303,7 +303,7 @@ public class DriveBase extends Subsystem {
 					hasAlreadyShifted = false;
 				}
 
-			} else if ((leftSpeed > Constants.SPEED_TO_SHIFT_UP) && (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
+			} else if ((leftSpeed > Constants.SPEED_TO_SHIFT_UP) || (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
 				if (allowDeshift) {
 					shiftTimer.reset();
 					shiftTimer.start();
@@ -319,6 +319,7 @@ public class DriveBase extends Subsystem {
 			hasAlreadyShifted = true;
 		}
 
+		// System.out.println("rightSpeed: " + rightSpeed + ", allowShift: " + allowShift);
 		// System.out.println("leftSpeed: " + leftSpeed + ", allowShift: " + allowShift);
 		// SmartDashboard.putBoolean("Allow Shift:", allowShift);
 		// SmartDashboard.putBoolean("Allow Deshift:", allowDeshift);
