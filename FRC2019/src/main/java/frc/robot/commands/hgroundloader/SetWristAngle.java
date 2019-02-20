@@ -15,7 +15,8 @@ public class SetWristAngle extends Command {
 	}
 
 	@Override
-	public synchronized void initialize() {
+	public synchronized void start() {
+        super.start();
 		Robot.hGroundLoader.setWristAngleDeg(targetDegrees);
 	}
 	

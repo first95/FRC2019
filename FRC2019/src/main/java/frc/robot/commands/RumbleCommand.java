@@ -42,7 +42,8 @@ public class RumbleCommand extends Command {
 
     // Called just before this Command runs the first time
     @Override
-    protected void initialize() {
+    public void start() {
+        super.start();
         Robot.oi.Rumble(controller, pitch, severity, duration); 
         endTime = Timer.getFPGATimestamp() + duration;
     }
