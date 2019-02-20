@@ -319,11 +319,11 @@ public class DriveBase extends Subsystem {
 			hasAlreadyShifted = true;
 		}
 
-		System.out.println("rightSpeed: " + rightSpeed + ", allowShift: " + allowShift);
-		System.out.println("leftSpeed: " + leftSpeed + ", allowShift: " + allowShift);
-		SmartDashboard.putBoolean("Allow Shift:", allowShift);
-		SmartDashboard.putBoolean("Allow Deshift:", allowDeshift);
-		SmartDashboard.putBoolean("Has Already Shifted:", hasAlreadyShifted);
+		// System.out.println("rightSpeed: " + rightSpeed + ", allowShift: " + allowShift);
+		// System.out.println("leftSpeed: " + leftSpeed + ", allowShift: " + allowShift);
+		// SmartDashboard.putBoolean("Allow Shift:", allowShift);
+		// SmartDashboard.putBoolean("Allow Deshift:", allowDeshift);
+		// SmartDashboard.putBoolean("Has Already Shifted:", hasAlreadyShifted);
 	}
 	
 
