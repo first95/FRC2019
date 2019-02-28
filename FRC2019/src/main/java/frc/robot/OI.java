@@ -49,8 +49,8 @@ public class OI {
 	public static final int ELEV_PRESET_HATCH_LOW = XBox360Controller.Button.B.Number();
 	public static final int ELEV_PRESET_HATCH_MID = XBox360Controller.Button.X.Number(); 
 	public static final int ELEV_PRESET_HATCH_HIGH = XBox360Controller.Button.Y.Number();
-	public static final int HS_OPEN_TOGGLE = XBox360Controller.Button.LEFT_BUMPER.Number();
-	public static final int HS_PUSH_TOGGLE = XBox360Controller.Button.RIGHT_BUMPER.Number();
+	public static final int HS_CLOSE_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
+	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	public static final int ELEV_YOU_ARE_HOME = XBox360Controller.Button.BACK.Number();
 	public static final int HGL_RETRACT_WRIST = XBox360Controller.PovDir.UP.Degrees();
 	public static final int HGL_AUTO_COLLECT = XBox360Controller.PovDir.DOWN.Degrees();
@@ -156,15 +156,15 @@ public class OI {
 	 * Check if the Open Hatch Grabber button was pressed since last check
 	 * @return true if the Open Hatch Grabber button was pressed since last check
 	 */
-	public boolean isGrabHatchButtonPressed() {
-		return weaponsController.getRawButtonPressed(HS_OPEN_TOGGLE);
+	public boolean isGrabHatchButtonHeld() {
+		return weaponsController.getRawButton(HS_CLOSE_HOLD);
 	}
 	/**
 	 * Check if the Push Hatch Grabber button was pressed since last check
 	 * @return true if the Push Hatch Grabber button was pressed since last check
 	 */
-	public boolean isPushHatchButtonPressed() {
-		return weaponsController.getRawButtonPressed(HS_PUSH_TOGGLE);
+	public boolean isPushHatchButtonHeld() {
+		return weaponsController.getRawButton(HS_PUSH_HOLD);
 	}	
 
 	/**
