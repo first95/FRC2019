@@ -21,8 +21,8 @@ public class PushIt extends TimedCommand {
     }
 
     @Override
-    public void start() {
-        super.start();
+    public void execute() {
+        super.execute();
         Robot.hScorer.pushHS(push);
     }
 }
