@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CombinedControlHGroundLoader extends Command {
 	// Note that a different set of constants is used in autonomous control
 	public static double UP_DEG = 0.0;
-	public static double COLLECT_DEG = 90.0;
+    public static double COLLECT_DEG = 90.0;
+    public static double OVERRIDE_UPWARD_THROTTLE = 0.5;
 
 	public enum WristHoldPoint {
 		UP, // Positioned at its highest
@@ -45,7 +46,9 @@ public class CombinedControlHGroundLoader extends Command {
 		// First priority: Is the user holding down one of the seek buttons?
 		if (Robot.oi.isHGLWristUpButtonPressed()) {
 			SmartDashboard.putString(HGL_WRIST_MODE, "Seek up");
-			seekHoldPoint(WristHoldPoint.UP);
+            // seekHoldPoint(WristHoldPoint.UP);
+            // Updated behavior: make it power upward so it can hit the homing switch
+            Robot.hGroundLoader.setWristPitchSpeed(OVERRIDE_UPWARD_THROTTLE);
 			wasHoldingPresentPositionLastIteration = false;
 		} else {
 			// Second priority: Is the stick outside the deadband?
