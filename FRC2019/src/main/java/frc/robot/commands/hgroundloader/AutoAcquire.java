@@ -38,4 +38,29 @@ public class AutoAcquire extends CommandGroup {
         // // Lift it
         // addSequential(new SetWristAngle(HatchGroundLoader.UP_DEG, true));
     }
+
+    @Override
+    public synchronized void start() {
+        System.out.println("AutoAcquire.start()");
+        super.start();
+    }
+
+    @Override
+    protected void execute() {
+        System.out.println("AutoAcquire.execute()");
+        super.execute();
+    }
+
+    @Override
+    protected boolean isFinished() {
+        boolean fin = super.isFinished();
+        System.out.println("AutoAcquire.isFinished() - " + fin);
+        return fin;
+    }
+
+    @Override
+    protected void end() {
+        System.out.println("AutoAcquire.end()");
+        super.end();
+    }
 }
