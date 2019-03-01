@@ -1,6 +1,7 @@
 package frc.robot.commands.hgroundloader;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.OI.Controller;
 import frc.robot.OI.RumbleType;
 import frc.robot.commands.Pause;
@@ -64,5 +65,12 @@ public class AutoAcquire extends CommandGroup {
     protected void end() {
         System.out.println("AutoAcquire.end()");
         super.end();
+    }
+    @Override
+    public synchronized void cancel() {
+        System.out.println("AutoAcquire.cancel()");
+        super.cancel();
+        Scheduler.getInstance().add(new SetWristAngle(HatchGroundLoader.UP_DEG, false));
+        Scheduler.getInstance().add(new SetIntakeThrottle(0));
     }
 }

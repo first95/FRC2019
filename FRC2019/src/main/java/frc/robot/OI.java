@@ -123,7 +123,7 @@ public class OI {
 		cameraViewSwitcher.close(); // Don't need this one anymore?
 		
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);
-		hglAutoCollect.whenPressed(new AutoAcquire(false));
+		hglAutoCollect.whileHeld(new AutoAcquire(true));
 		// hglAutoCollect.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
 		// hglAutoCollect.whileHeld(new SetIntakeThrottle(1.0));
 		// hglAutoCollect.whenPressed(new SetWristAngle(90, true));
