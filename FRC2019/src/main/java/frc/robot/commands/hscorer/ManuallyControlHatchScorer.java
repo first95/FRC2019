@@ -19,11 +19,11 @@ public class ManuallyControlHatchScorer extends Command {
 			Robot.hScorer.openHS(false);
 		}
 		if (Robot.oi.isPushHatchButtonHeld()) {
-			Robot.hScorer.pushHS(false);
+			Robot.hScorer.pushHS(true);
 		}
 		else
 		{
-			Robot.hScorer.pushHS(true);
+			Robot.hScorer.pushHS(false);
 		}
 	}
 
