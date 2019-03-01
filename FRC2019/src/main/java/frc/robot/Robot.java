@@ -114,14 +114,6 @@ public class Robot extends TimedRobot {
 
 		drivebase.brake(true);
 		elevator.brake(true);
-
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
 	}
 
 	/**
