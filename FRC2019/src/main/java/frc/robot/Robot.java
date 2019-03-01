@@ -24,8 +24,6 @@ import frc.robot.subsystems.DriveBase.GearShiftMode;
 
 public class Robot extends TimedRobot {
 
-	private Command autonomousCommand;
-
 	// Components of the robot
 	public static DriveBase drivebase;
 	public static Elevator elevator;
@@ -70,9 +68,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		// No automoves currently planned, going to use vision during sandstorm
-		autonomousCommand.start();
-	}
+
+    }
 
 	/**
 	 * This function is called periodically during autonomous
@@ -117,14 +114,6 @@ public class Robot extends TimedRobot {
 
 		drivebase.brake(true);
 		elevator.brake(true);
-
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
 	}
 
 	/**
