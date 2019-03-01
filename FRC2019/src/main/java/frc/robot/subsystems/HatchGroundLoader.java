@@ -25,6 +25,7 @@ public class HatchGroundLoader extends Subsystem {
 	public static final double ENCODER_TICKS_FULL_RANGE = 1075; // measured 2019-2-19
 	private static final double TICKS_PER_DEG = ENCODER_TICKS_FULL_RANGE / DEGREES_FULL_RANGE;
 
+	public static double HANDOFF_DEG = -10.0;
 	public static double UP_DEG = 0.0;
 	public static double COLLECT_DEG = 90.0;
 	
