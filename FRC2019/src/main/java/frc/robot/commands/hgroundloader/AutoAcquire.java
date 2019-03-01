@@ -17,6 +17,7 @@ public class AutoAcquire extends CommandGroup {
     public static final double AUTO_ACQUIRE_INTAKE_THROTTLE = 1.0;
     public static final double RUMBLE_TIME_S = 0.5;
     public static final double SPINUP_DURATION_S = 0.5;
+    public static final double DEBOUNCE_DURATION_S = 0.25;
 
     public AutoAcquire() {
         this(true);
@@ -27,7 +28,7 @@ public class AutoAcquire extends CommandGroup {
         // Drop it
         addSequential(new SetWristAngle(HatchGroundLoader.COLLECT_DEG, true));
         //         like it's hot
-        addParallel(new SetElevatorHeight(ElevatorHoldPoint.HATCH_HANDOFF));
+        addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_HANDOFF));
         // Pull it
         addSequential(new PushIt(false));
         addSequential(new GrabIt(false));
@@ -39,11 +40,13 @@ public class AutoAcquire extends CommandGroup {
         addSequential(new SetIntakeThrottle(0));
         if(buzz) {
             // Buzz it
-            addParallel(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, true));
-            addParallel(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 1.0, RUMBLE_TIME_S, true));
+            // addParallel(new RumbleCommand(Controller.WEAPONS, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, true));
+            // addParallel(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 1.0, RUMBLE_TIME_S, true));
         }
         // Lift it
-        addSequential(new SetWristAngle(HatchGroundLoader.UP_DEG, true));
+        addSequential(new SetWristAngle(HatchGroundLoader.HANDOFF_DEG, true));
+        // Wait for it
+        addSequential(new Pause(DEBOUNCE_DURATION_S));
         // Grab it
         addSequential(new GrabIt(true));
         // Lift it
