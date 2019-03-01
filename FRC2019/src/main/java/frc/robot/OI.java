@@ -218,6 +218,14 @@ public class OI {
 		return false; //driverController.getRawButtonPressed(CLIMB_SKIDS_BUTTON);
 	}
 
+	public boolean isDeployFrontClimberToggled() {
+		return false;
+	}
+
+	public boolean isDeployRearClimberToggled() {
+		return false;
+	}
+
 	/**
 	 * Get speed at which the intake rollers of the cargo handler should run
 	 * @return -1.0 for fully outward, 1.0 for fully inward, 0.0 for stationary

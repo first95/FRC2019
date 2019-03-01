@@ -9,6 +9,7 @@ import frc.robot.subsystems.CargoHandler;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberHabLevelTwo;
 import frc.robot.subsystems.HatchGroundLoader;
 import frc.robot.subsystems.HatchScorer;
 import frc.robot.subsystems.VisionCoprocessor;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
 	public static HatchGroundLoader hGroundLoader;
 	public static CargoHandler cargoHandler;
 	public static Climber climber;
+	public static ClimberHabLevelTwo climber2;
 	public static Compressor compressor;
 	public static OI oi;
 	public static VisionCoprocessor vision;
@@ -49,6 +51,7 @@ public class Robot extends TimedRobot {
 		hGroundLoader = new HatchGroundLoader(true);
 		cargoHandler = new CargoHandler(true);
 		climber = new Climber(false);
+		climber2 = new ClimberHabLevelTwo(true);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
