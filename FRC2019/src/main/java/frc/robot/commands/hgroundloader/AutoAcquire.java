@@ -19,9 +19,9 @@ public class AutoAcquire extends CommandGroup {
     public AutoAcquire(boolean buzz) {
         super();
         // Drop it
-        addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
-        // addSequential(new SetWristAngle(HatchGroundLoader.COLLECT_DEG, true));
-        // addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, false));
+        addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , RUMBLE_TIME_S, false));
+        addSequential(new SetWristAngle(HatchGroundLoader.COLLECT_DEG, true));
+        addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 1.0, RUMBLE_TIME_S, false));
         // // Spin it 
         // addSequential(new SetIntakeThrottle(AUTO_ACQUIRE_INTAKE_THROTTLE));        
         // // Wait for it
