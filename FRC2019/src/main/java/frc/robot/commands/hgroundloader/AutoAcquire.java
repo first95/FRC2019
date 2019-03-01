@@ -2,6 +2,7 @@ package frc.robot.commands.hgroundloader;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.Robot;
 import frc.robot.OI.Controller;
 import frc.robot.OI.RumbleType;
 import frc.robot.commands.Nothing;
@@ -56,39 +57,14 @@ public class AutoAcquire extends CommandGroup {
     }
 
     @Override
-    public synchronized void start() {
-        System.out.println("AutoAcquire.start()");
-        super.start();
-    }
-
-    @Override
-    protected void execute() {
-        System.out.println("AutoAcquire.execute()");
-        super.execute();
-    }
-
-    @Override
-    protected boolean isFinished() {
-        boolean fin = super.isFinished();
-        System.out.println("AutoAcquire.isFinished() - " + fin);
-        return fin;
-    }
-    @Override
-    protected void initialize() {
-        System.out.println("AutoAcquire.initialize()");
-        super.initialize();
-    }
-
-    @Override
-    protected void end() {
-        System.out.println("AutoAcquire.end()");
-        super.end();
-    }
-    @Override
     public synchronized void cancel() {
         System.out.println("AutoAcquire.cancel()");
         super.cancel();
         Scheduler.getInstance().add(new SetWristAngle(HatchGroundLoader.UP_DEG, false));
-        Scheduler.getInstance().add(new SetIntakeThrottle(0));
+        // TODO: Figure out how to add multiple commands to the scheduling queue.
+        // Otherwise the command below overrides the command above.
+        // Scheduler.getInstance().add(new SetIntakeThrottle(0));
+        // Robot.hGroundLoader.setWristAngleDeg(HatchGroundLoader.UP_DEG);
+        // Robot.hGroundLoader.setIntakeSpeed(0);
     }
 }
