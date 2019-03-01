@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchGroundLoader extends Subsystem {
@@ -31,11 +32,15 @@ public class HatchGroundLoader extends Subsystem {
 	// Motor controller for the intake rollers
 	private IMotorControllerEnhanced intakeDriver;
 	// Pitch up/down motor
-	private IMotorControllerEnhanced wristDriver;
+    private IMotorControllerEnhanced wristDriver;
+    private DigitalInput homeSwitch;
 
 	public HatchGroundLoader(boolean realHardware) {
 		super();
-		
+        // Set up the digital IO object to read the home switch.
+        // Home here is in the fully-retracted, "up" position
+        homeSwitch = new DigitalInput(Constants.HGL_HOME_SWITCH_DIO_NUM);
+
 		if(realHardware) {
 			intakeDriver = new AdjustedTalon(Constants.HGL_INTAKE);
 			wristDriver  = new AdjustedTalon(Constants.HGL_WRIST);
@@ -58,8 +63,8 @@ public class HatchGroundLoader extends Subsystem {
 		wristDriver.config_IntegralZone(Constants.PID_IDX, I_ZONE, Constants.CAN_TIMEOUT_MS);
 
 		// Set the wrist initially to 0 percent output and assume starting position is 0 (fully up)
-		wristDriver.set(ControlMode.PercentOutput, 0);
-		wristDriver.setSelectedSensorPosition(0, Constants.PID_IDX, Constants.CAN_TIMEOUT_MS);
+        wristDriver.set(ControlMode.PercentOutput, 0);
+        setCurrentPosToZero();
 	}
 
 	@Override
@@ -74,6 +79,23 @@ public class HatchGroundLoader extends Subsystem {
 		SmartDashboard.putNumber("HGL wrist angle (ticks)",getWristAngleDeg()*TICKS_PER_DEG);
 		SmartDashboard.putString("HGL wrist mode",wristDriver.getControlMode().toString());
 	}	
+
+	public void checkAndApplyHomingSwitch() {
+		if (loaderIsHome()) {
+			setCurrentPosToZero();
+		}
+	}
+	
+	private void setCurrentPosToZero() {
+        wristDriver.setSelectedSensorPosition(0, Constants.PID_IDX, Constants.CAN_TIMEOUT_MS);
+    }
+
+    private boolean loaderIsHome() {
+		// Pin floats high by default, due to an internal pull-up resistor.
+		// When the magnet gets close enough to the reed switch, the pin is
+		// connected to ground. Thus, get() starts returning false.
+		return !homeSwitch.get();
+	}
 
 	/**
 	 * Query current for intake and determine if greater than threshold

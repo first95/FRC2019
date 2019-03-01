@@ -35,6 +35,7 @@ public class Constants
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
+		public static final int HGL_HOME_SWITCH_DIO_NUM = 1;
 
 		// Indices for Talons
 		// Drive base
