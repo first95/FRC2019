@@ -21,7 +21,7 @@ public class Climber extends Subsystem {
         super();
 
         if (realHardware) {
-            sol = new Solenoid(Constants.CLIMBER_SOL);
+            sol = new Solenoid(Constants.CLIMBER_SOL_REAR);
             driver = new AdjustedTalon(Constants.CLIMBER_DRIVER);
         } else {
             sol = null;

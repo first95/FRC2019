@@ -33,6 +33,8 @@ public class OI {
 	// Features not presently in use - getRawButton(0) always returns false
 	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
+	public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
+	public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
 
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
@@ -216,6 +218,14 @@ public class OI {
 	 */	
 	public boolean isDeploySkidsToggled() {
 		return false; //driverController.getRawButtonPressed(CLIMB_SKIDS_BUTTON);
+	}
+
+	public boolean isDeployFrontClimberToggled() {
+		return driverController.getRawButtonPressed(CLIMB2_TOGGLE_FRONT);//return false;
+	}
+
+	public boolean isDeployRearClimberToggled() {
+		return driverController.getRawButtonPressed(CLIMB2_TOGGLE_REAR);//return false;
 	}
 
 	/**
