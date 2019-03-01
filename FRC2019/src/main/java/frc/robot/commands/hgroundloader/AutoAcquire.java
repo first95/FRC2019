@@ -57,6 +57,11 @@ public class AutoAcquire extends CommandGroup {
         System.out.println("AutoAcquire.isFinished() - " + fin);
         return fin;
     }
+    @Override
+    protected void initialize() {
+        System.out.println("AutoAcquire.initialize()");
+        super.initialize();
+    }
 
     @Override
     protected void end() {
