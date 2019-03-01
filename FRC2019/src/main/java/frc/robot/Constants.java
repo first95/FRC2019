@@ -31,8 +31,8 @@ public class Constants
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
 		public static final int HS_OPEN_A = 7;
 		public static final int HS_PUSH_A = 6;
-		public static final int CLIMBER_SOL_1 = 1;
-		public static final int CLIMBER_SOL_2 = 5;
+		public static final int CLIMBER_SOL_REAR = 1;
+		public static final int CLIMBER_SOL_FRONT = 5;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;

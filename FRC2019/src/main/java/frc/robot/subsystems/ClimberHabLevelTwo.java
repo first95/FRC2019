@@ -22,20 +22,20 @@ import frc.robot.Constants;
 public class ClimberHabLevelTwo extends Subsystem {
 
   //Solenoid (1) from the original climber
-  private Solenoid sol1;
+  private Solenoid solR;
   //Solenoid (5) for the new climber
-  private Solenoid sol2;
+  private Solenoid solF;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   public ClimberHabLevelTwo(boolean thisIsABoolean) {
     super();
 
     if(thisIsABoolean == true) {
-      sol1 = new Solenoid(Constants.CLIMBER_SOL_1);
-      sol2 = new Solenoid(Constants.CLIMBER_SOL_2);
+      solR = new Solenoid(Constants.CLIMBER_SOL_REAR);
+      solF = new Solenoid(Constants.CLIMBER_SOL_FRONT);
     } else if(thisIsABoolean == false) {
-      sol1 = null;
-      sol2 = null;
+      solR = null;
+      solF = null;
     }
   }
 
@@ -48,29 +48,29 @@ public class ClimberHabLevelTwo extends Subsystem {
   public void log(){
   }
 
-  public void frontClimber(boolean deploy1) {
-    if(sol2 != null) {
-      sol2.set(deploy1);
+  public void frontClimber(boolean deployFront) {
+    if(solF != null) {
+      solF.set(deployFront);
     }
   }
 
   public void toggleFrontClimber()
   {
-    if(sol2 != null) {
-      sol2.set(!sol2.get());
+    if(solF != null) {
+      solF.set(!solF.get());
     }
   }
 
-  public void rearClimber(boolean deploy2) {
-    if(sol1 != null) {
-      sol1.set(deploy2);
+  public void rearClimber(boolean deployRear) {
+    if(solR != null) {
+      solR.set(deployRear);
     }
   }
 
   public void toggleRearClimber()
   {
-    if(sol1 != null) {
-      sol1.set(!sol1.get());
+    if(solR != null) {
+      solR.set(!solR.get());
     }
   }
 }
