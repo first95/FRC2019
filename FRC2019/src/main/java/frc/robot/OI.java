@@ -43,7 +43,7 @@ public class OI {
 	// Axes on weapons controller
 	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
 	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	//public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
 	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
@@ -191,7 +191,7 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getHGLWristSpeed() {
-		return weaponsController.getRawAxis(HGL_WRIST_AXIS);
+		return 0; //weaponsController.getRawAxis(HGL_WRIST_AXIS);
 	}
 
 	/**
