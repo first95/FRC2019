@@ -24,8 +24,6 @@ import frc.robot.subsystems.DriveBase.GearShiftMode;
 
 public class Robot extends TimedRobot {
 
-	private Command autonomousCommand;
-
 	// Components of the robot
 	public static DriveBase drivebase;
 	public static Elevator elevator;
@@ -70,9 +68,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		// No automoves currently planned, going to use vision during sandstorm
-		autonomousCommand.start();
-	}
+
+    }
 
 	/**
 	 * This function is called periodically during autonomous
