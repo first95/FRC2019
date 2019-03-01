@@ -20,6 +20,7 @@ public class RumbleCommand extends TimedCommand {
     private double severity;
     private double duration;
 
+    private boolean hasDoneRumble = false;
     /**
      * Rumble one of the controllers
      * @param controller which controller to rumble
@@ -34,6 +35,14 @@ public class RumbleCommand extends TimedCommand {
         this.pitch = pitch;
         this.severity = severity;
         this.duration = duration;
+        hasDoneRumble = false;
+    }
+
+    /**
+     * This is the actual action, must be executed exactly once
+     */
+    private void doRumble() {
+        Robot.oi.Rumble(controller, pitch, severity, duration); 
     }
 
     // Called just before this Command runs the first time
@@ -41,16 +50,21 @@ public class RumbleCommand extends TimedCommand {
     public void start() {
         super.start();
         System.out.println("RumbleCommand.start()");
-        Robot.oi.Rumble(controller, pitch, severity, duration); 
+        hasDoneRumble = false;
     }
     @Override
     protected void execute() {
         System.out.println("RumbleCommand.execute()");
+        if(!hasDoneRumble) {
+            doRumble();
+            hasDoneRumble = true;
+        }
         super.execute();
     }
     @Override
     protected void initialize() {
         System.out.println("RumbleCommand.initialize()");
+        hasDoneRumble = false;
         super.initialize();
     }
 

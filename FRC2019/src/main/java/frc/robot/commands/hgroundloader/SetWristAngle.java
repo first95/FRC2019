@@ -18,14 +18,12 @@ public class SetWristAngle extends Command {
 	public synchronized void start() {
         System.out.println("SetWristAngle.start()");
         super.start();
-		Robot.hGroundLoader.setWristAngleDeg(targetDegrees);
 	}
 	
 	@Override
 	protected void execute() {
 		// This method is called every iteration
-		
-		// Nothing needed; we did everything we needed in initialize()
+		Robot.hGroundLoader.setWristAngleDeg(targetDegrees);
 	}
 	
 	@Override
