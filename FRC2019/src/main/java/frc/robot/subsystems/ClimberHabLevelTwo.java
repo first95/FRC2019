@@ -10,11 +10,7 @@ package frc.robot.subsystems;
 /**
  * Add your docs here.
  */
-import frc.robot.commands.climber.SpeedControlClimber;
-import frc.robot.components.AdjustedTalon;
-import frc.robot.components.FakeTalon;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
+import frc.robot.commands.climber.ClimberHabLevelTwoCommand;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
@@ -42,7 +38,7 @@ public class ClimberHabLevelTwo extends Subsystem {
   @Override
   public void initDefaultCommand() {
   // Set the default command for a subsystem here.
-  // setDefaultCommand(new MySpecialCommand());
+  setDefaultCommand(new ClimberHabLevelTwoCommand());
   }
 
   public void log(){
