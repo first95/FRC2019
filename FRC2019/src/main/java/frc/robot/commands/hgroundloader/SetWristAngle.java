@@ -16,6 +16,7 @@ public class SetWristAngle extends Command {
 
 	@Override
 	public synchronized void start() {
+        System.out.println("SetWristAngle.start()");
         super.start();
 		Robot.hGroundLoader.setWristAngleDeg(targetDegrees);
 	}
@@ -30,7 +31,14 @@ public class SetWristAngle extends Command {
 	@Override
 	protected boolean isFinished() {
 		boolean finished = (!waitForWristToReachTarget) || Robot.hGroundLoader.isOnTarget();
+        System.out.println("SetWristAngle.isFinished() - " + finished);
 		return finished;
 	}
 	
+    @Override
+    protected void end() {
+        System.out.println("SetWristAngle.end()");
+        super.end();
+    }
+
 }
