@@ -40,6 +40,13 @@ public class RumbleCommand extends TimedCommand {
     @Override
     public void start() {
         super.start();
+        System.out.println("RumbleCommand.start()");
         Robot.oi.Rumble(controller, pitch, severity, duration); 
+    }
+
+    @Override
+    protected void end() {
+        System.out.println("RumbleCommand.end()");
+        super.end();
     }
 }
