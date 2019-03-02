@@ -21,8 +21,8 @@ public class GrabIt extends TimedCommand {
 	}
 
 	@Override
-	public void start() {
-		super.start();
-		Robot.hScorer.openHS(grab);
+	public void execute() {
+		super.execute();
+		Robot.hScorer.openHS(!grab);
 	}
 }
