@@ -16,7 +16,7 @@ public class CombinedControlCargoHandler extends Command {
 				// now.
 	};
 
-	private boolean wasHoldingPresentPositionLastIteration = true;
+	private boolean wasHoldingPresentPositionLastIteration = false;
 	private double intakeSpeed;
 
 	public CombinedControlCargoHandler() {
