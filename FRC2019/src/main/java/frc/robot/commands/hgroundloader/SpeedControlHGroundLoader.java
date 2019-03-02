@@ -9,7 +9,7 @@ public class SpeedControlHGroundLoader extends Command {
 	private double wristSpeed;
 	
 	public SpeedControlHGroundLoader() {
-		requires(Robot.cargoHandler);
+		requires(Robot.hGroundLoader);
 	}
 
 	@Override
