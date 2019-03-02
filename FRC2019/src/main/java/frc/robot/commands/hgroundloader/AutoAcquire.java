@@ -52,8 +52,6 @@ public class AutoAcquire extends CommandGroup {
         addSequential(new GrabIt(true));
         // Lift it
         addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_COVER_LOW));
-        // Wait for it
-        addSequential(new Pause(DEBOUNCE_DURATION_S));
         addSequential(new PushIt(false));
         // Stop it (seriously, if you don't put this at the end, and you bind this sequence as a whilePressed, it will repeat while the button is held)
         addSequential(new Nothing());
