@@ -75,7 +75,8 @@ public class CombinedControlCargoHandler extends Command {
 
 	@Override
 	public synchronized void cancel() {
-		// Cancel any position seeking
+        // Cancel any position seeking
+        System.out.println("CombinedControlCargoHandler.cancel()");
 		Robot.cargoHandler.stopWrist();
 	}
 
