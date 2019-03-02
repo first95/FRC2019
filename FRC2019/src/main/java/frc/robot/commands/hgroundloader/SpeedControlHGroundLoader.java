@@ -4,12 +4,12 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SpeedControlHatchGroundLoader extends Command {
+public class SpeedControlHGroundLoader extends Command {
 	private double intakeSpeed;
 	private double wristSpeed;
 	
-	public SpeedControlHatchGroundLoader() {
-		requires(Robot.hGroundLoader);
+	public SpeedControlHGroundLoader() {
+		requires(Robot.cargoHandler);
 	}
 
 	@Override

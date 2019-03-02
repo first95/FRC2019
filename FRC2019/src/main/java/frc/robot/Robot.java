@@ -9,6 +9,7 @@ import frc.robot.subsystems.CargoHandler;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberHabLevelTwo;
 import frc.robot.subsystems.HatchGroundLoader;
 import frc.robot.subsystems.HatchScorer;
 import frc.robot.subsystems.VisionCoprocessor;
@@ -24,8 +25,6 @@ import frc.robot.subsystems.DriveBase.GearShiftMode;
 
 public class Robot extends TimedRobot {
 
-	private Command autonomousCommand;
-
 	// Components of the robot
 	public static DriveBase drivebase;
 	public static Elevator elevator;
@@ -33,6 +32,7 @@ public class Robot extends TimedRobot {
 	public static HatchGroundLoader hGroundLoader;
 	public static CargoHandler cargoHandler;
 	public static Climber climber;
+	public static ClimberHabLevelTwo climber2;
 	public static Compressor compressor;
 	public static OI oi;
 	public static VisionCoprocessor vision;
@@ -48,9 +48,10 @@ public class Robot extends TimedRobot {
 		drivebase = new DriveBase(true);
 		elevator = new Elevator(true);
 		hScorer = new HatchScorer(true);
-		hGroundLoader = new HatchGroundLoader(false);
+		hGroundLoader = new HatchGroundLoader(true);
 		cargoHandler = new CargoHandler(true);
-		climber = new Climber(true);
+		climber = new Climber(false);
+		climber2 = new ClimberHabLevelTwo(true);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
@@ -70,9 +71,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		// No automoves currently planned, going to use vision during sandstorm
-		autonomousCommand.start();
-	}
+
+    }
 
 	/**
 	 * This function is called periodically during autonomous
@@ -117,14 +117,6 @@ public class Robot extends TimedRobot {
 
 		drivebase.brake(true);
 		elevator.brake(true);
-
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
 	}
 
 	/**
@@ -151,10 +143,10 @@ public class Robot extends TimedRobot {
 	}
 
 	private void debugLog() {
-		// drivebase.log();
+		//drivebase.log();
 		elevator.log();
 		cargoHandler.log();
-		// hGroundLoader.log();
+		hGroundLoader.log();
 		// oi.log();
 	}
 }

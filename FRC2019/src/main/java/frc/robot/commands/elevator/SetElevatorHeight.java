@@ -7,30 +7,30 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SetElevatorHeight extends Command {
 	
 	private Elevator.ElevatorHoldPoint targetPoint = Elevator.ElevatorHoldPoint.NONE;
-	private Double targetFeet = 0.0;
+    private Double targetFeet = 0.0;
 	
 	public SetElevatorHeight(Elevator.ElevatorHoldPoint targetHoldPoint) {
 		// This method is run once during robot startup
 		requires(Robot.elevator);
-		targetPoint = targetHoldPoint;
+        targetPoint = targetHoldPoint;
 	}
 
 	public SetElevatorHeight(double targetFeet) {
 		// This method is run once during robot startup
 		requires(Robot.elevator);
-		this.targetFeet = targetFeet;
+        this.targetFeet = targetFeet;
 	}
 
-	@Override
-	public synchronized void start() {
-		super.start();
 
-		// This method is called once when the command is activated
-		if(targetPoint != Elevator.ElevatorHoldPoint.NONE) {
-			Robot.elevator.seekHoldPoint(targetPoint);
-		} else {
-			Robot.elevator.setElevatorHeight(targetFeet);
-		}
+    @Override
+    protected void execute() {
+        super.execute();
+
+        if (targetPoint != Elevator.ElevatorHoldPoint.NONE) {
+            Robot.elevator.seekHoldPoint(targetPoint);
+        } else {
+            Robot.elevator.setElevatorHeight(targetFeet);
+        }
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class Constants
 		public static final double ELEVATOR_ON_TARGET_THRESHOLD_INCHES = 1; // Elevator will call itself close enough at this point
 		public static final double DRIVEPOD_ON_TARGET_THRESHOLD_INCHES = 1; // Each drivepod will call itself close enough at this point		
 		public static final double CARGO_HANDLER_ON_TARGET_DEG = 2; // Cargo handler wrist will call itself close enough at this point
+		public static final double HGL_ON_TARGET_DEG = 5; // HGL wrist will call itself close enough at this point
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec
@@ -30,7 +31,8 @@ public class Constants
 		public static final int SHIFTER_SOLENOID_NUM  = 0;
 		public static final int HS_OPEN_A = 7;
 		public static final int HS_PUSH_A = 6;
-		public static final int CLIMBER_SOL = 1;
+		public static final int CLIMBER_SOL_REAR = 1;
+		public static final int CLIMBER_SOL_FRONT = 5;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
@@ -68,19 +70,6 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_CONTINUAL_AMPS = 10;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_AMPS = 5;
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
-		public static final int HGL_MAX_WRIST_CURRENT_AMPS = 1;	
-		
-		public static double RFVoltsToFt(double voltage)
-			{
-				double distance;
-				// Sonar Range finder based on data sheet almost acurrate
-				// distance = (voltage * 100) / .977; //mV to mm
-
-				// sonar based on experimentation (in cm)
-				distance = (voltage * 107.96) - 3.0219;
-
-				// convert from cm to ft
-				distance = distance * 0.0328084;
-				return distance;
-			}
+		public static final double CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS = 10;
+		public static final double HGL_INTAKE_CUR_SPIKE_AMPS = 20;	
 	}

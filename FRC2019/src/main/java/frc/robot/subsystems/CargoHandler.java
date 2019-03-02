@@ -66,11 +66,19 @@ public class CargoHandler extends Subsystem {
 	}
 	
 	public void log() {
+		SmartDashboard.putNumber("Cargo intake current (A)",intakeDriver.getOutputCurrent());
+		SmartDashboard.putNumber("Cargo intake current spike",getIntakeCurrentSpike() ? 1: 0);
 		SmartDashboard.putNumber("Cargo handler wrist position (deg)",getWristAngleDeg());
 		SmartDashboard.putNumber("Cargo handler wrist angle (ticks)",getWristAngleDeg()*TICKS_PER_DEG);
 		SmartDashboard.putString("Cargo handler wrist mode",wristDriver.getControlMode().toString());
 	}	
-	
+
+	/**
+	 * Query current for intake and determine if greater than threshold
+	 */	
+	public boolean getIntakeCurrentSpike() {
+		return intakeDriver.getOutputCurrent() > Constants.CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS;
+	}
 
 	/**
 	 * Set speed of the intake rollers

@@ -34,24 +34,38 @@ public class HatchScorer extends Subsystem {
         setDefaultCommand(new ManuallyControlHatchScorer());
     }
 
+    /**
+     * Set the Hatch scorer to open (grasping) or closed (not grasping)
+     * @param open true to grasp, false to release
+     */
     public void openHS(boolean open) {
         if(openA != null) {
             openA.set(open);
         }
     }
 
+    /**
+     * Toggle the open/closed state of the hatch scorer
+     */
     public void toggleOpenHS() {
         if(openA != null) {
             openA.set(!openA.get());
         }
     }
 
+    /**
+     * Set the Hatch Scorer to extended or retracted
+     * @param push true for extended, false for retracted
+     */
     public void pushHS(boolean push) {
         if(pushA != null) {
             pushA.set(push);
         }
     }
 
+    /**
+     * Toggle the extend/retract state of the hatch scorer
+     */
     public void togglePushHS() {
         if(pushA != null) {
             pushA.set(!pushA.get());
