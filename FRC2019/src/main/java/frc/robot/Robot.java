@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 		hGroundLoader = new HatchGroundLoader(true);
 		cargoHandler = new CargoHandler(true);
 		climber = new Climber(false);
-		climber2 = new ClimberHabLevelTwo(true);
+		climber2 = new ClimberHabLevelTwo(false);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
 		oi = new OI();
