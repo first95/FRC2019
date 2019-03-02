@@ -18,22 +18,24 @@ public class CombinedControlCargoHandler extends Command {
 
 	private boolean wasHoldingPresentPositionLastIteration = false;
 	private double intakeSpeed;
+	private boolean hasStarted = false;
 
 	public CombinedControlCargoHandler() {
 		// This method is run once during robot startup
 		requires(Robot.cargoHandler);
-	}
-
-	@Override
-	public synchronized void start() {
-		// This method is called once when the command is activated
-		seekHoldPoint(WristHoldPoint.HERE);
-		wasHoldingPresentPositionLastIteration = true;
+		hasStarted = false;
 	}
 
 	@Override
 	protected void execute() {
 		// This method is called every iteration
+		// Check if we've started yet
+		if(!hasStarted) {
+			seekHoldPoint(WristHoldPoint.HERE);
+			wasHoldingPresentPositionLastIteration = true;
+			hasStarted = true;
+		}
+
 		// First do the simple intake control
 		intakeSpeed = Robot.oi.getCargoHandlerIntakeSpeed();
 		Robot.cargoHandler.setIntakeSpeed(intakeSpeed);

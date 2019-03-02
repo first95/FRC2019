@@ -56,8 +56,8 @@ public class CargoHandler extends Subsystem {
 		wristDriver.config_IntegralZone(Constants.PID_IDX, I_ZONE, Constants.CAN_TIMEOUT_MS);
 
 		// Set the wrist initially to 0 percent output and assume starting position is 0 (fully up)
-		wristDriver.set(ControlMode.PercentOutput, 0);
 		wristDriver.setSelectedSensorPosition(0, Constants.PID_IDX, Constants.CAN_TIMEOUT_MS);
+		wristDriver.set(ControlMode.Position, 0);
 	}
 
 	@Override
