@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
- * A {@link Button} that gets its state from a {@link GenericHID}.
+ * Like {@link JoystickButton}, but it checks for the PoV hat rather than a button press.
  */
 public class JoystickPovButton extends Button {
   private final GenericHID m_joystick;

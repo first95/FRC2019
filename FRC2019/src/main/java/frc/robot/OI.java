@@ -12,6 +12,7 @@ import frc.robot.commands.hgroundloader.AutoAcquire;
 import frc.robot.commands.hgroundloader.SetIntakeThrottle;
 import frc.robot.commands.hgroundloader.SetWristAngle;
 import frc.robot.commands.hgroundloader.WaitForHatchDetected;
+import frc.robot.oi.JoystickAxisButton;
 import frc.robot.oi.JoystickPovButton;
 import frc.robot.oi.XBox360Controller;
 import frc.robot.subsystems.Elevator;
@@ -125,6 +126,10 @@ public class OI {
         JoystickPovButton testButton = new JoystickPovButton(driverController, XBox360Controller.PovDir.UP.Degrees());
         testButton.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
         testButton.close();
+
+        JoystickAxisButton testButton2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
+        testButton2.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH  ,1.0 , 1.0, false));
+        testButton2.close();
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
