@@ -122,7 +122,7 @@ public class CargoHandler extends Subsystem {
 	 * closed-loop control completely.
 	 */
 	public void stopWrist() {
-        System.out.println("CargoHandler.stopWrist()");
+        //System.out.println("CargoHandler.stopWrist()");
 		wristDriver.set(ControlMode.PercentOutput, 0.0);
 	}
 
