@@ -71,8 +71,10 @@ public class VisionCoprocessor extends Subsystem {
      */
     public LinkedList<VisionTargetInfo> getCurVisibleVisionTargets() {
         LinkedList<VisionTargetInfo> vvts = new LinkedList<VisionTargetInfo>();
-        for(int i = 0; i < bearingsList.length; ++i) {
-            vvts.add(new VisionTargetInfo(bearingsList[i], rangesList[i]));
+        if(bearingsList != null) {
+            for(int i = 0; i < bearingsList.length; ++i) {
+                vvts.add(new VisionTargetInfo(bearingsList[i], rangesList[i]));
+            }            
         }
         return vvts;
     }
@@ -100,7 +102,7 @@ public class VisionCoprocessor extends Subsystem {
 	 */
 	public void log() {
         SmartDashboard.putBoolean("CameraHumanVision", isCameraHumanVision());
-        SmartDashboard.putNumberArray("VT Bearings List",this.bearingsList);
-        SmartDashboard.putNumberArray("VT Ranges List",this.rangesList);
+        // SmartDashboard.putNumberArray("VT Bearings List",this.bearingsList);
+        // SmartDashboard.putNumberArray("VT Ranges List",this.rangesList);
 	}    
 }

@@ -36,6 +36,8 @@ public class DriveToVT extends Command {
 	private final double K2 = 1/30; // if 30 degrees or more off in bearing angle, don't drive forward at all
 	private final double K3 = 1/60; // if 60 degrees or more off in beraing angle, go at full rotational speed
 	
+	private boolean firstRun = true;
+
 	public DriveToVT() {
 		requires(Robot.drivebase);
 		requires(Robot.vision);
@@ -45,43 +47,51 @@ public class DriveToVT extends Command {
 	@Override
 	public void start() {
 		super.start();
-		System.out.println("Starting DriveToVT");
-		
-		// Tell vision co-processor to put camera in vision processing mode
-		Scheduler.getInstance().add(new SetCameraMode(false));
-
-		// Initialize forward and spin to 0 until know otherwise
-		this.fwd = 0;
-		this.spin = 0;
-		
+		this.firstRun = true;		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
+		if(firstRun) {
+			System.out.println("Starting DriveToVT");
+		
+			// Tell vision co-processor to put camera in vision processing mode
+			Scheduler.getInstance().add(new SetCameraMode(false));
+	
+			// Initialize forward and spin to 0 until know otherwise
+			this.fwd = 0;
+			this.spin = 0;
+			this.rangeInches = 1000;
+
+			this.firstRun = false;
+		}
 		// Get set of targets from vision co-processor, including their bearing and range values
 		this.targets = Robot.vision.getCurVisibleVisionTargets();
 		// Select the target that has the smallest absolute value of bearing angle
 		// For that target, update the values this.rangeInches and this.bearingDegrees
 		// (These values may or may not be updated every time)
-		this.bearingDegrees = 90; // set to higher than realistic value
-		for (VisionCoprocessor.VisionTargetInfo t : this.targets) {
-			if (Math.abs(t.bearingDegrees) < Math.abs(this.bearingDegrees)) {
-				this.bearingDegrees = t.bearingDegrees;
-				this.rangeInches = t.rangeInches;
+		if(this.targets.size()>0) {
+			this.bearingDegrees = 90; // set to higher than realistic value
+			this.rangeInches = this.RANGEMAXINCHES;
+			for (VisionCoprocessor.VisionTargetInfo t : this.targets) {
+				if (Math.abs(t.bearingDegrees) < Math.abs(this.bearingDegrees)) {
+					this.bearingDegrees = t.bearingDegrees;
+					this.rangeInches = t.rangeInches;
+				}
 			}
+			System.out.println("Selected bearing (deg) "+this.bearingDegrees+", selected range (in) "+this.rangeInches);
+	
+			// Update the forward and spin arguments for arcade
+			this.uncFwd = this.K1*this.rangeInches - this.K2*Math.abs(this.bearingDegrees);
+			this.fwd = Math.min(Math.max(this.uncFwd,FMIN),FMAX);
+	
+			this.uncSpin = this.K3*this.bearingDegrees;
+			this.spin = Math.min(Math.max(this.uncSpin,SMIN),SMAX);
+	
+			Robot.drivebase.arcade(this.fwd,this.spin);
+			System.out.println("Fwd "+this.fwd+", spin "+this.spin);
 		}
-		System.out.println("Selected bearing (deg) "+this.bearingDegrees+", selected range (in) "+this.rangeInches);
-
-		// Update the forward and spin arguments for arcade
-		this.uncFwd = this.K1*this.rangeInches - this.K2*Math.abs(this.bearingDegrees);
-		this.fwd = Math.min(Math.max(this.uncFwd,FMIN),FMAX);
-
-		this.uncSpin = this.K3*this.bearingDegrees;
-		this.spin = Math.min(Math.max(this.uncSpin,SMIN),SMAX);
-
-		Robot.drivebase.arcade(this.fwd,this.spin);
-		System.out.println("Fwd "+this.fwd+", spin "+this.spin);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

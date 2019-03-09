@@ -117,7 +117,7 @@ public class OI {
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);
 		hglAutoCollect.whileHeld(new AutoAcquire(true));
 		JoystickButton driveToVTB = new JoystickButton(driverController, BUTTON_DRIVE_TO_VT);
-		driveToVTB.whenPressed(new DriveToVT());
+		driveToVTB.whileHeld(new DriveToVT());
 		// hglAutoCollect.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
 		// hglAutoCollect.whileHeld(new SetIntakeThrottle(1.0));
 		// hglAutoCollect.whenPressed(new SetWristAngle(90, true));
