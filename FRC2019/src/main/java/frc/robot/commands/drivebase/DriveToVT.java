@@ -32,11 +32,12 @@ public class DriveToVT extends Command {
 	private final double SMAX = 1;
 	private double uncSpin;
 
-	private final double K1 = 1/36; // if 36" = 3' or more from target, go at full speed
-	private final double K2 = 1/30; // if 30 degrees or more off in bearing angle, don't drive forward at all
-	private final double K3 = 1/60; // if 60 degrees or more off in beraing angle, go at full rotational speed
+	private final double K1 = 1/36.0; // if 36" = 3' or more from target, go at full speed
+	private final double K2 = 1/30.0; // if 30 degrees or more off in bearing angle, don't drive forward at all
+	private final double K3 = 1/60.0; // if 60 degrees or more off in beraing angle, go at full rotational speed
 	
 	private boolean firstRun = true;
+	private boolean shouldFinish = false;
 
 	public DriveToVT() {
 		requires(Robot.drivebase);
@@ -90,6 +91,7 @@ public class DriveToVT extends Command {
 			this.spin = Math.min(Math.max(this.uncSpin,SMIN),SMAX);
 	
 			Robot.drivebase.arcade(this.fwd,this.spin);
+			System.out.println("uncFwd "+this.uncFwd+", uncSpin "+this.uncSpin);
 			System.out.println("Fwd "+this.fwd+", spin "+this.spin);
 		}
 	}
@@ -98,7 +100,9 @@ public class DriveToVT extends Command {
 	@Override
 	protected boolean isFinished() {
 		// If the range gets small enough, declare the command finished
-		return this.rangeInches <= this.RANGEMAXINCHES;
+		this.shouldFinish = this.rangeInches <= this.RANGEMAXINCHES;
+		System.out.println("Checking finish DriveToVT: "+this.rangeInches+" vs. "+this.RANGEMAXINCHES+" and shouldFinish"+shouldFinish);
+		return shouldFinish;
 	}
 
 	// Called once after isFinished returns true
