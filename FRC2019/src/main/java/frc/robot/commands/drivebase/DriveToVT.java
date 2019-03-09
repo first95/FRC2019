@@ -20,7 +20,7 @@ public class DriveToVT extends Command {
 	private double bearingDegrees;
 	private double rangeInches;
 	private LinkedList<VisionCoprocessor.VisionTargetInfo> targets;
-	private final double RANGEMAXINCHES = 22;
+	private final double RANGEMAXINCHES = 4;
 
 	private double fwd;
 	private final double FMIN = 0;
@@ -43,7 +43,8 @@ public class DriveToVT extends Command {
 
 	// Called every time the command starts
 	@Override
-	public void initialize() {
+	public void start() {
+		super.start();
 		System.out.println("Starting DriveToVT");
 		
 		// Tell vision co-processor to put camera in vision processing mode
