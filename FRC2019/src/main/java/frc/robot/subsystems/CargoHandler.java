@@ -59,6 +59,18 @@ public class CargoHandler extends Subsystem {
 		wristDriver.setSelectedSensorPosition(0, Constants.PID_IDX, Constants.CAN_TIMEOUT_MS);
 		wristDriver.set(ControlMode.Position, 0);
 	}
+	public void testMotor(double testNumber, boolean testBoolean)
+	{
+		if(testBoolean == true)
+		{
+			intakeDriver = new AdjustedTalon(Constants.CARGO_HANDLER_INTAKE);
+		}
+		else
+		{
+			intakeDriver = new FakeTalon();
+		}
+		intakeDriver.set(ControlMode.PercentOutput, testNumber);
+	}
 
 	@Override
 	protected void initDefaultCommand() {
@@ -78,6 +90,11 @@ public class CargoHandler extends Subsystem {
 	 */	
 	public boolean getIntakeCurrentSpike() {
 		return intakeDriver.getOutputCurrent() > Constants.CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS;
+	}
+
+	public boolean testIntakeMotorBoolean()
+	{
+		return true;
 	}
 
 	/**
