@@ -61,6 +61,14 @@ public class RumbleCommand extends TimedCommand {
         }
         super.execute();
     }
+
+    @Override
+    protected boolean isFinished() {
+        boolean done = super.isFinished();
+        System.out.println("RumbleCommand.isFinished(): " + done);
+        return done;
+    }
+
     @Override
     protected void initialize() {
         System.out.println("RumbleCommand.initialize()");
