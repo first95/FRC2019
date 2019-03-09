@@ -284,11 +284,18 @@ public class OI {
 		return weaponsController.getRawButton(ELEV_YOU_ARE_HOME);
 	}
 
-	// Drive base controls
+    /**
+     * Get the forward travel rate commanded by the driver
+     * @return -1 for full speed backward, +1 for full speed forward
+     */
 	public double getForwardAxis() {
 		return driverController.getRawAxis(DRIVE_FORWARD_AXIS);
 	}
 
+    /**
+     * Get the turn rate commanded by the driver
+     * @return -1 for full turn leftward (CCW when looking down at the robot), +1 for full turn rightward (CW when looking down at the robot), 0 for no turn
+     */
 	public double getTurnAxis() {
 		return driverController.getRawAxis(DRIVE_TURN_AXIS);
 	}

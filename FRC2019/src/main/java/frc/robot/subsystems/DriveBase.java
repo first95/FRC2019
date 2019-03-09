@@ -237,7 +237,7 @@ public class DriveBase extends Subsystem {
 	/**
 	 * Drive with the given forward and turn values
 	 * @param forward between -1 and +1
-	 * @param spin between -1 and +1
+	 * @param spin between -1 and +1, where -1 is full leftward (CCW when viewed from above)
 	 */
 	public void arcade(double forward, double spin) {
 		tank(forward - spin, forward + spin);
