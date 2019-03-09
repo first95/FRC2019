@@ -379,5 +379,34 @@ public class DriveBase extends Subsystem {
 	public void pullPidConstantsFromSmartDash() {
 		//leftPod.pullPidConstantsFromSmartDash();
 		//rightPod.pullPidConstantsFromSmartDash();
-	}
+    }
+    
+    /**
+     * @return the count of line sensors
+     */
+    public int getLineSensorCount() {
+        return lineSensor.length;
+    }
+
+    /**
+     * Query a line sensor.
+     * @param i sensor index.  0 is the leftmost, getLineSensorCount()-1 is the rightmost.
+     * @return true if sensor i sees the line.
+     */
+    public boolean doesSensorSeeLine(int i) {
+        return lineSensor[i].get();
+    }
+
+    /**
+     * Check if the line is detected at all
+     * @return true if any sensor sees the line
+     */
+    public boolean doesAnySensorSeeTheLine() {
+        for (int i = 0; i < getLineSensorCount(); ++i) {
+            if(doesSensorSeeLine(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
