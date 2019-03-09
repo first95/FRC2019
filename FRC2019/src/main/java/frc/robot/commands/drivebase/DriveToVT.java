@@ -71,6 +71,7 @@ public class DriveToVT extends Command {
 				this.rangeInches = t.rangeInches;
 			}
 		}
+		System.out.println("Selected bearing (deg) "+this.bearingDegrees+", selected range (in) "+this.rangeInches);
 
 		// Update the forward and spin arguments for arcade
 		this.uncFwd = this.K1*this.rangeInches - this.K2*Math.abs(this.bearingDegrees);
@@ -80,6 +81,7 @@ public class DriveToVT extends Command {
 		this.spin = Math.min(Math.max(this.uncSpin,SMIN),SMAX);
 
 		Robot.drivebase.arcade(this.fwd,this.spin);
+		System.out.println("Fwd "+this.fwd+", spin "+this.spin);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
