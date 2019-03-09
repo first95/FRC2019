@@ -35,6 +35,7 @@ public class OI {
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
 	public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
+	public static final int BUTTON_DRIVE_TO_VT = XBox360Controller.Button.B.Number();
 
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
@@ -126,11 +127,14 @@ public class OI {
 		
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);
 		hglAutoCollect.whileHeld(new AutoAcquire(true));
+		JoystickButton driveToVTB = new JoystickButton(driverController, BUTTON_DRIVE_TO_VT);
+		driveToVTB.whenPressed(new DriveToVT());
 		// hglAutoCollect.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
 		// hglAutoCollect.whileHeld(new SetIntakeThrottle(1.0));
 		// hglAutoCollect.whenPressed(new SetWristAngle(90, true));
 		//hglAutoCollect.whenPressed(new WaitForHatchDetected());
-        hglAutoCollect.close(); // Don't need this one anymore?		
+		hglAutoCollect.close(); // Don't need this one anymore?		
+		driveToVTB.close(); // Don't know if need this
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
