@@ -46,9 +46,9 @@ public class Elevator extends Subsystem {
 		HATCH_COVER_LOAD(19 - HATCH_SCORER_HEIGHT_IN),// The point at which we need to position the elevator to retrieve a hatch from the loading station
 		HATCH_COVER_LOW(19 - HATCH_SCORER_HEIGHT_IN + HATCH_LOW_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the low position
 		HATCH_COVER_MID(47 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the middle position
-		HATCH_COVER_HIGH(75 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the high position
+		HATCH_COVER_HIGH(70 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the high position
 		CARGO_MID(47 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN + CARGO_OFFSET_IN),// The point at which we need to position the elevator to score a cargo on the middle position
-		CARGO_HIGH(75 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN + CARGO_OFFSET_IN),// The point at which we need to position the elevator to score a cargo on the high position		
+		CARGO_HIGH(70 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN + CARGO_OFFSET_IN),// The point at which we need to position the elevator to score a cargo on the high position		
 		;
         public final double heightInches;
         private ElevatorHoldPoint(double heightInches) {
