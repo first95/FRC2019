@@ -3,7 +3,6 @@ package frc.robot.commands.hgroundloader;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.OI.Controller;
-import frc.robot.OI.RumbleType;
 import frc.robot.commands.Nothing;
 import frc.robot.commands.Pause;
 import frc.robot.commands.RumbleCommand;

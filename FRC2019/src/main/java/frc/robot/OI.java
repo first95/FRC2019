@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RumbleCommand;
@@ -68,24 +69,6 @@ public class OI {
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
 	private static final double CARGO_INTAKE_DEADBAND = 0.1;
 
-	// XBox controllers have both high-frequency and low-frequency vibrator motors.
-	// The Joystick class calls these "left" and "right", and they do seem to be on those sides.
-	// This is the mapping between the two.
-	public enum RumbleType {
-		LOW_PITCH(Joystick.RumbleType.kLeftRumble),
-		HIGH_PITCH(Joystick.RumbleType.kRightRumble),
-		;
-		
-        private final Joystick.RumbleType rumbleType;
-
-        private RumbleType(Joystick.RumbleType value) {
-            this.rumbleType = value;
-        }
-
-        public Joystick.RumbleType JoystickType() {
-            return rumbleType;
-        }
-	}
 
 	/** Describes which of the controlleres you're referring to */
 	public enum Controller {
@@ -94,10 +77,10 @@ public class OI {
 	}
 
 	// System timestamps after which we want each rumbler to be turned off
-	private double driverLowRumbleStopTime = 0;
-	private double driverHighRumbleStopTime = 0;
-	private double weaponsLowRumbleStopTime = 0;
-	private double weaponsHighRumbleStopTime = 0;
+	private double driverLeftRumbleStopTime = 0;
+	private double driverRightRumbleStopTime = 0;
+	private double weaponsLeftRumbleStopTime = 0;
+	private double weaponsRightRumbleStopTime = 0;
 
 	public OI() {
 
@@ -124,7 +107,7 @@ public class OI {
         hglAutoCollect.close(); // Don't need this one anymore?		
 
         JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
-        testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
+        testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble ,1.0 , 1.0, false));
         testRumble.close();
 
 		// Sendable Chooser for single commands
@@ -139,17 +122,17 @@ public class OI {
 	public void visit() {
 
 		// Cancel joystick rumble if necessary
-		if(Timer.getFPGATimestamp() > driverLowRumbleStopTime) {
-			driverController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
+		if(Timer.getFPGATimestamp() > driverLeftRumbleStopTime) {
+			driverController.setRumble(RumbleType.kLeftRumble, 0);
 		}
-		if(Timer.getFPGATimestamp() > driverHighRumbleStopTime) {
-			driverController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
+		if(Timer.getFPGATimestamp() > driverRightRumbleStopTime) {
+			driverController.setRumble(RumbleType.kRightRumble, 0);
 		}
-		if(Timer.getFPGATimestamp() > weaponsLowRumbleStopTime) {
-			weaponsController.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
+		if(Timer.getFPGATimestamp() > weaponsLeftRumbleStopTime) {
+			weaponsController.setRumble(RumbleType.kLeftRumble, 0);
 		}
-		if(Timer.getFPGATimestamp() > weaponsHighRumbleStopTime) {
-			weaponsController.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
+		if(Timer.getFPGATimestamp() > weaponsRightRumbleStopTime) {
+			weaponsController.setRumble(RumbleType.kRightRumble, 0);
 		}
 	}
 
@@ -328,38 +311,38 @@ public class OI {
 	 * Rumble a controller.
 	 * Note that you may have overlapping low- and high-pitched rumbles
 	 * @param controller which controller to rumble
-	 * @param pitch low-pitched or high-pitched rumbler
+	 * @param side right of left side
 	 * @param severity how strongly to rumble, between 0.0 and 1.0
 	 * @param duration how long, in seconds, the rumble should last
 	 */
-	public void Rumble(Controller controller, RumbleType pitch, double severity, double duration) {
+	public void Rumble(Controller controller, Joystick.RumbleType side, double severity, double duration) {
 		Joystick stick = null;
 		switch(controller) {
 			case DRIVER: 
 				stick = driverController; 
-				switch(pitch) {
-					case HIGH_PITCH:
-						driverHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
+				switch(side) {
+					case kRightRumble:
+						driverRightRumbleStopTime = Timer.getFPGATimestamp() + duration;
 						break;
-					case LOW_PITCH:
-						driverLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
+					case kLeftRumble:
+						driverLeftRumbleStopTime = Timer.getFPGATimestamp() + duration;
 						break;
 				}
 				break;
 			case WEAPONS: 
 				stick = weaponsController;
-				switch(pitch) {
-					case HIGH_PITCH:
-						weaponsHighRumbleStopTime = Timer.getFPGATimestamp() + duration;
+				switch(side) {
+					case kRightRumble:
+						weaponsRightRumbleStopTime = Timer.getFPGATimestamp() + duration;
 						break;
-					case LOW_PITCH:
-						weaponsLowRumbleStopTime = Timer.getFPGATimestamp() + duration;
+					case kLeftRumble:
+						weaponsLeftRumbleStopTime = Timer.getFPGATimestamp() + duration;
 						break;
 				}
 				break;
 		}
 
-		stick.setRumble(pitch.JoystickType(), severity);
+		stick.setRumble(side, severity);
 	}
 	/**
 	 * Cease all rumbling
@@ -376,17 +359,17 @@ public class OI {
 		switch(controller) {
 			case DRIVER: 
 				stick = driverController; 
-				driverHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
-				driverLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				driverRightRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				driverLeftRumbleStopTime = Timer.getFPGATimestamp() - 1;
 				break;
 			case WEAPONS: 
 				stick = weaponsController;
-				weaponsHighRumbleStopTime = Timer.getFPGATimestamp() - 1;
-				weaponsLowRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				weaponsRightRumbleStopTime = Timer.getFPGATimestamp() - 1;
+				weaponsLeftRumbleStopTime = Timer.getFPGATimestamp() - 1;
 				break;
 		}
 
-		stick.setRumble(RumbleType.LOW_PITCH.JoystickType(), 0);
-		stick.setRumble(RumbleType.HIGH_PITCH.JoystickType(), 0);
+		stick.setRumble(Joystick.RumbleType.kRightRumble, 0);
+		stick.setRumble(Joystick.RumbleType.kRightRumble, 0);
     }
 }
