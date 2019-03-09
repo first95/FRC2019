@@ -123,6 +123,10 @@ public class OI {
 		//hglAutoCollect.whenPressed(new WaitForHatchDetected());
         hglAutoCollect.close(); // Don't need this one anymore?		
 
+        JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
+        testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
+        testRumble.close();
+
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
 		// Rotations
