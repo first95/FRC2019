@@ -36,8 +36,8 @@ public class VisionCoprocessor extends Subsystem {
         NetworkTableInstance allTables = NetworkTableInstance.getDefault();
         NetworkTable visionTable = allTables.getTable("vision_metrics");
         bearingsListEntry = visionTable.getEntry("target bearings (deg)");
-        rangesListEntry = visionTable.getEntry("target bearings (deg)");
-        NetworkTableEntry numVisionTargetsVisibleEntry = visionTable.getEntry("target bearings (deg)");
+        rangesListEntry = visionTable.getEntry("target ranges (in)");
+        NetworkTableEntry numVisionTargetsVisibleEntry = visionTable.getEntry("target count");
         numVisionTargetsVisibleEntry.addListener(event -> {this.onNumVtUpdated(event);} , EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         isCameraHumanVisible = allTables.getTable("camera_control").getEntry("camera_for_humans");
