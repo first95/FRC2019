@@ -4,7 +4,6 @@
  */
 package frc.robot.commands.drivebase;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -14,7 +13,9 @@ import frc.robot.Robot;
  * If no line is detected, steering remains under manual control.
  */
 public class AutosteerAlongLine extends Command {
-	
+    // How fast the robot should turn when the sensor at the extreme right or left sees a line
+    public static final double MAX_TURN_RATE = 0.5;
+    
 	public AutosteerAlongLine() {
 		requires(Robot.drivebase);
 	}
@@ -23,27 +24,48 @@ public class AutosteerAlongLine extends Command {
 	@Override
 	protected void execute() {
         Robot.drivebase.setMaxSpeed(1);
-		double fwd = Robot.oi.getForwardAxis();
-        double spin;
+        // Exponential response
+        double fwd = Math.pow(Robot.oi.getForwardAxis(), 3);
+        double turn;
         if(Robot.drivebase.doesAnySensorSeeTheLine()) {
-            spin = getLineFollowSpinRate();
+            turn = getLineFollowTurnRate();
         } else {
-            spin = Robot.oi.getTurnAxis();
+            // Exponential response
+            turn = Math.pow(Robot.oi.getTurnAxis(), 3);
         }
 
-		/* "Exponential" drive, where the movements are more sensitive during
-		 * slow movement, permitting easier fine control
-		 */
-		spin = Math.pow(spin, 3);
-		fwd = Math.pow(fwd, 3);
-		Robot.drivebase.arcade(fwd, spin);
+        // Put it into action
+		Robot.drivebase.arcade(fwd, turn);
     }
     
     /**
      * Check the sensors and compute the appropriate turn rate
      * @return
      */
-	private double getLineFollowSpinRate() {
+	private double getLineFollowTurnRate() {
+        // Index of the sensor in the center.  This is also the count of sensors to the right or left of center.
+        int centerSensorIndex = (int)Math.ceil(Robot.drivebase.getLineSensorCount() / 2.0);
+        if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex)) {
+            // We see it in the middle one, go straight
+            return 0;
+        } else {
+            // Loop through sensor pairs, starting with the innermost two.
+            // There can be any number of sensors active at any given time, so we prioritize the center by checking it first.
+            // This results in smaller turns in the case of an error.
+            for(int outwardOffsetFromCenter = 1; outwardOffsetFromCenter <= centerSensorIndex; outwardOffsetFromCenter++) {
+                double turnRate = ((double)outwardOffsetFromCenter / centerSensorIndex) * MAX_TURN_RATE;
+                // Left of center?
+                if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex - outwardOffsetFromCenter)) {
+                    return -turnRate;
+                }
+                // Right of center?
+                if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex + outwardOffsetFromCenter)) {
+                    return turnRate;
+                }
+            }
+        }
+
+        // Don't see it anywhere
         return 0;
     }
 
