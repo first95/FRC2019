@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RumbleCommand;
+import frc.robot.commands.drivebase.AutosteerAlongLine;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.commands.vision.ToggleCameraMode;
@@ -120,6 +121,11 @@ public class OI {
 		// hglAutoCollect.whenPressed(new SetWristAngle(90, true));
 		//hglAutoCollect.whenPressed(new WaitForHatchDetected());
         hglAutoCollect.close(); // Don't need this one anymore?		
+
+        // For testing 
+        JoystickButton lineFollowButton = new JoystickButton(driverController, BUTTON_FORCE_HIGH_GEAR);
+        lineFollowButton.whileHeld(new AutosteerAlongLine());
+        lineFollowButton.close();
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
@@ -314,7 +320,7 @@ public class OI {
 	 * @return
 	 */
 	public boolean getHighGear() {
-		return driverController.getRawButton(BUTTON_FORCE_HIGH_GEAR);
+		return false; //return driverController.getRawButton(BUTTON_FORCE_HIGH_GEAR);
 	}
 
 	/**
