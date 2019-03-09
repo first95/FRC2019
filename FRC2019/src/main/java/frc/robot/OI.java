@@ -42,14 +42,6 @@ public class OI {
 	//public static final int CLIMBER_UP_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
     //public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
-	// Axes on weapons controller
-	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	//public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
-	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
-	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
-
 	// Buttons on weapons controller
 	public static final int ELEV_PRESET_HATCH_LOAD = XBox360Controller.Button.A.Number();
 	public static final int ELEV_PRESET_HATCH_LOW = XBox360Controller.Button.B.Number();
@@ -63,17 +55,13 @@ public class OI {
 	public static final int CH_WRIST_UP = XBox360Controller.PovDir.LEFT.Degrees();
 	public static final int CH_WRIST_COLLECT = XBox360Controller.PovDir.RIGHT.Degrees();
 	
-	// Quickly running out of buttons and axes on weapons controller...
-	// Use one direction of POV (e.g. UP) for HGL auto-collect and the other direction of POV
-	// (e.g. DOWN) for CL auto-collect; then ignore other primary directions (LEFT and RIGHT) and treat
-	// the intermediate directions as (e.g. UP-RIGHT, DOWN-LEFT) as the primary direction we're using
-	// i.e. UP-LEFT, UP, and UP-RIGHT would all map to one UP behavior
-	
 	// Axes on weapons controller
-	public static final int CARGO_LOADER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
+	public static final int HGL_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int HGL_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
+	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
+	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
 	public static final int ELEVATOR_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
-	public static final int LOADERS_OUTSPIT_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
-	public static final int CARGO_LOADER_INTAKE_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
 	private static final double CARGO_INTAKE_DEADBAND = 0.1;
