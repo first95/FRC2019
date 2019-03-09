@@ -12,6 +12,8 @@ import frc.robot.commands.hgroundloader.AutoAcquire;
 import frc.robot.commands.hgroundloader.SetIntakeThrottle;
 import frc.robot.commands.hgroundloader.SetWristAngle;
 import frc.robot.commands.hgroundloader.WaitForHatchDetected;
+import frc.robot.oi.JoystickAxisButton;
+import frc.robot.oi.JoystickPovButton;
 import frc.robot.oi.XBox360Controller;
 import frc.robot.subsystems.Elevator;
 
