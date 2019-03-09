@@ -16,6 +16,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.vision.SetCameraMode;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * A subsystem to read from the vision coprocessor
@@ -93,4 +94,13 @@ public class VisionCoprocessor extends Subsystem {
     public void setCameraIsHumanVisible(boolean isHumanVisible) {
         isCameraHumanVisible.setBoolean(isHumanVisible);
     }
+
+	/**
+	 * The log method puts interesting information to the SmartDashboard.
+	 */
+	public void log() {
+        SmartDashboard.putBoolean("CameraHumanVision", isCameraHumanVision());
+        SmartDashboard.putNumberArray("VT Bearings List",this.bearingsList);
+        SmartDashboard.putNumberArray("VT Ranges List",this.rangesList);
+	}    
 }
