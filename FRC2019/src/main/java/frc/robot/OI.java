@@ -76,6 +76,7 @@ public class OI {
 	public static final int CARGO_LOADER_INTAKE_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
+	private static final double CARGO_INTAKE_DEADBAND = 0.1;
 
 	// XBox controllers have both high-frequency and low-frequency vibrator motors.
 	// The Joystick class calls these "left" and "right", and they do seem to be on those sides.
@@ -284,9 +285,17 @@ public class OI {
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOW)) {
 			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOW;
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_MID)) {
-			return Elevator.ElevatorHoldPoint.HATCH_COVER_MID;
+			if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
+				return Elevator.ElevatorHoldPoint.CARGO_MID;
+			} else {
+				return Elevator.ElevatorHoldPoint.HATCH_COVER_MID;
+			}
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HIGH)) {
-			return Elevator.ElevatorHoldPoint.HATCH_COVER_HIGH;
+			if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
+				return Elevator.ElevatorHoldPoint.CARGO_HIGH;
+			} else {
+				return Elevator.ElevatorHoldPoint.HATCH_COVER_HIGH;
+			}
 		} else {
 			return Elevator.ElevatorHoldPoint.NONE;
 		}
