@@ -33,6 +33,7 @@ public class Constants
 		public static final int HS_PUSH_A = 6;
 		public static final int CLIMBER_SOL_REAR = 1;
 		public static final int CLIMBER_SOL_FRONT = 5;
+		public static final int BRAKES_SOL = 5;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;

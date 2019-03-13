@@ -38,6 +38,7 @@ public class OI {
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
 	public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
+	public static final int BRAKES_DEPLOY = XBox360Controller.Button.X.Number();
 
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
@@ -237,6 +238,15 @@ public class OI {
 	public boolean isCHWristCollectButtonPressed() {
 		return weaponsController.getPOV() == CH_WRIST_COLLECT;
 	}	
+
+	// Brakes
+	/**
+	 * Check if the Brakes button is currently held
+	 * @return true if the Brakes button is currently held
+	 */
+	public boolean isBrakesButtonHeld() {
+		return weaponsController.getRawButton(BRAKES_DEPLOY);
+	}
 
 	// Elevator controls
 	public double getElevatorSpeed() {

@@ -13,6 +13,7 @@ import frc.robot.subsystems.ClimberHabLevelTwo;
 import frc.robot.subsystems.HatchGroundLoader;
 import frc.robot.subsystems.HatchScorer;
 import frc.robot.subsystems.VisionCoprocessor;
+import frc.robot.subsystems.Brakes;
 import frc.robot.subsystems.DriveBase.GearShiftMode;
 
 /**
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 	public static Compressor compressor;
 	public static OI oi;
 	public static VisionCoprocessor vision;
+	public static Brakes brakes;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -54,6 +56,7 @@ public class Robot extends TimedRobot {
 		climber2 = new ClimberHabLevelTwo(false);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
+		brakes = new Brakes(true);
 		oi = new OI();
 
 		// Show what command your subsystem is running on the SmartDashboard
