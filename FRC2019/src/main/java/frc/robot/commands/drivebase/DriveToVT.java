@@ -42,6 +42,7 @@ public class DriveToVT extends Command {
 	public DriveToVT() {
 		requires(Robot.drivebase);
 		requires(Robot.vision);
+		this.setInterruptible(false);
 	}
 
 	// Called every time the command starts
@@ -103,6 +104,13 @@ public class DriveToVT extends Command {
 		this.shouldFinish = this.rangeInches <= this.RANGEMAXINCHES;
 		System.out.println("Checking finish DriveToVT: "+this.rangeInches+" vs. "+this.RANGEMAXINCHES+" and shouldFinish"+shouldFinish);
 		return shouldFinish;
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	@Override
+	protected void interrupted() {
+		System.out.println("DriveToVT was interrupted.");
 	}
 
 	// Called once after isFinished returns true
