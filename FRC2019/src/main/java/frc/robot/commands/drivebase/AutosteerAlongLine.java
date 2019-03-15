@@ -28,9 +28,11 @@ public class AutosteerAlongLine extends Command {
         double fwd = Math.pow(Robot.oi.getForwardAxis(), 3);
         double turn;
         if(Robot.drivebase.doesAnySensorSeeTheLine()) {
+            System.out.println("Some sensor sees a line!");
             turn = getLineFollowTurnRate();
         } else {
             // Exponential response
+            System.out.println("No sensor sees a line.");
             turn = Math.pow(Robot.oi.getTurnAxis(), 3);
         }
 
@@ -47,6 +49,7 @@ public class AutosteerAlongLine extends Command {
         int centerSensorIndex = (int)Math.ceil(Robot.drivebase.getLineSensorCount() / 2.0);
         if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex)) {
             // We see it in the middle one, go straight
+            System.out.println("On center.");
             return 0;
         } else {
             // Loop through sensor pairs, starting with the innermost two.
@@ -56,10 +59,12 @@ public class AutosteerAlongLine extends Command {
                 double turnRate = ((double)outwardOffsetFromCenter / centerSensorIndex) * MAX_TURN_RATE;
                 // Left of center?
                 if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex - outwardOffsetFromCenter)) {
+                    System.out.println("Left of center, outward offset is "+outwardOffsetFromCenter);
                     return -turnRate;
                 }
                 // Right of center?
                 if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex + outwardOffsetFromCenter)) {
+                    System.out.println("Right of center, outward offset is "+outwardOffsetFromCenter);
                     return turnRate;
                 }
             }
