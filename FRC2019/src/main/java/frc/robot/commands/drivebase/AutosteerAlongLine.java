@@ -46,7 +46,7 @@ public class AutosteerAlongLine extends Command {
      */
 	private double getLineFollowTurnRate() {
         // Index of the sensor in the center.  This is also the count of sensors to the right or left of center.
-        int centerSensorIndex = (int)Math.ceil(Robot.drivebase.getLineSensorCount() / 2.0);
+        int centerSensorIndex = (int)Math.floor(Robot.drivebase.getLineSensorCount() / 2.0);
         if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex)) {
             // We see it in the middle one, go straight
             System.out.println("On center.");
