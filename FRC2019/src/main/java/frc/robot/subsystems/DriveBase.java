@@ -99,7 +99,7 @@ public class DriveBase extends Subsystem {
         SmartDashboard.putBoolean("In High Gear", getGear());
         int i = 0;
         for (DigitalInput ls : lineSensor) {
-            SmartDashboard.putBoolean("Line Sensor " + i, ls.get());
+            SmartDashboard.putBoolean("Line Sensor " + i, !ls.get());
             i++;
         }
 	}
@@ -394,7 +394,7 @@ public class DriveBase extends Subsystem {
      * @return true if sensor i sees the line.
      */
     public boolean doesSensorSeeLine(int i) {
-        return lineSensor[i].get();
+        return !lineSensor[i].get();
     }
 
     /**
