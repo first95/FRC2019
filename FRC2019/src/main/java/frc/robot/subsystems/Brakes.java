@@ -12,6 +12,7 @@ package frc.robot.subsystems;
  * mode in talons for drive motors.
  */
 import frc.robot.commands.brakes.BrakesCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
@@ -36,6 +37,7 @@ public class Brakes extends Subsystem {
   }
 
   public void log(){
+    SmartDashboard.putBoolean("Brake status", solB.get());
   }
 
   public void setBrakes(boolean deploy) {
