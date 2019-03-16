@@ -245,7 +245,7 @@ public class OI {
 	 * @return true if the Brakes button is currently held
 	 */
 	public boolean isBrakesButtonHeld() {
-		return weaponsController.getRawButton(BRAKES_DEPLOY);
+		return driverController.getRawButton(BRAKES_DEPLOY);
 	}
 
 	// Elevator controls
