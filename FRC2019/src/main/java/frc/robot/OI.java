@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RumbleCommand;
+import frc.robot.commands.drivebase.AutosteerAlongLine;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.commands.vision.ToggleCameraMode;
@@ -86,27 +87,19 @@ public class OI {
 	public OI() {
 
 		// // Create some buttons
-		// JoystickButton joy_dA = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
-		// JoystickButton joy_dB = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
-		// JoystickButton joy_wA = new JoystickButton(weaponsController, XBox360Controller.Button.A.Number());
-		// JoystickButton joy_wB = new JoystickButton(weaponsController, XBox360Controller.Button.B.Number());
-		// // Connect the buttons to commands
-		// joy_dA.whenPressed(new SetWristAngle(0));
-		// joy_dB.whenPressed(new SetWristAngle(-90));
-		// joy_wA.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH, 0.5, 1.0, true));
-		// joy_wB.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.LOW_PITCH, 0.5, 1.0, true));
 		JoystickButton cameraViewSwitcher = new JoystickButton(driverController, SWITCH_CAM_VIEW_BUTTON);
         cameraViewSwitcher.whenPressed(new ToggleCameraMode());
 		cameraViewSwitcher.close(); // Don't need this one anymore?
 		
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);
 		hglAutoCollect.whileHeld(new AutoAcquire(true));
-		// hglAutoCollect.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.HIGH_PITCH  ,1.0 , 1.0, false));
-		// hglAutoCollect.whileHeld(new SetIntakeThrottle(1.0));
-		// hglAutoCollect.whenPressed(new SetWristAngle(90, true));
-		//hglAutoCollect.whenPressed(new WaitForHatchDetected());
         hglAutoCollect.close(); // Don't need this one anymore?		
 
+        JoystickButton lineFollowButton = new JoystickButton(driverController, BUTTON_FORCE_HIGH_GEAR);
+        lineFollowButton.whileHeld(new AutosteerAlongLine());
+		lineFollowButton.close();
+
+		// For testing 
         JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
         testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble ,1.0 , 1.0, false));
         testRumble.close();
@@ -292,11 +285,18 @@ public class OI {
 		return weaponsController.getRawButton(ELEV_YOU_ARE_HOME);
 	}
 
-	// Drive base controls
+    /**
+     * Get the forward travel rate commanded by the driver
+     * @return -1 for full speed backward, +1 for full speed forward
+     */
 	public double getForwardAxis() {
 		return driverController.getRawAxis(DRIVE_FORWARD_AXIS);
 	}
 
+    /**
+     * Get the turn rate commanded by the driver
+     * @return -1 for full turn leftward (CCW when looking down at the robot), +1 for full turn rightward (CW when looking down at the robot), 0 for no turn
+     */
 	public double getTurnAxis() {
 		return driverController.getRawAxis(DRIVE_TURN_AXIS);
 	}
@@ -306,7 +306,7 @@ public class OI {
 	 * @return
 	 */
 	public boolean getHighGear() {
-		return driverController.getRawButton(BUTTON_FORCE_HIGH_GEAR);
+		return false; //return driverController.getRawButton(BUTTON_FORCE_HIGH_GEAR);
 	}
 
 	/**

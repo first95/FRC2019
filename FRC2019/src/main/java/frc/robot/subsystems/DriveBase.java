@@ -1,6 +1,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -33,6 +34,7 @@ public class DriveBase extends Subsystem {
 	private double rightSpeed;
 	
 	// private Pigeon imu;
+	private DigitalInput[] lineSensor;
 
 	
 	// Mode for the gearshift, as set by the auto moves
@@ -60,7 +62,14 @@ public class DriveBase extends Subsystem {
             shifter = null;
         }
 		
-		// imu = new PigeonWrapper(Constants.PIGEON_NUM);
+        // imu = new PigeonWrapper(Constants.PIGEON_NUM);
+
+        // Initialize sensors
+        lineSensor = new DigitalInput[Constants.LINE_SENSOR_DIO_NUM.length];
+        int i = 0;
+        for (int dioNum : Constants.LINE_SENSOR_DIO_NUM) {
+            lineSensor[i++] = new DigitalInput(dioNum);
+        }
 	}
 
 	/**
@@ -87,7 +96,12 @@ public class DriveBase extends Subsystem {
 		// SmartDashboard.putNumber("IMU Pitch", imu.getYawPitchRoll()[1]);
 		// SmartDashboard.putNumber("IMU Roll",  imu.getYawPitchRoll()[2]);
 		// SmartDashboard.putNumber("IMU Fused heading", imu.getFusedHeading());
-		SmartDashboard.putBoolean("In High Gear", getGear());
+        SmartDashboard.putBoolean("In High Gear", getGear());
+        int i = 0;
+        for (DigitalInput ls : lineSensor) {
+            SmartDashboard.putBoolean("Line Sensor " + i, !ls.get());
+            i++;
+        }
 	}
 
 	/**
@@ -223,7 +237,7 @@ public class DriveBase extends Subsystem {
 	/**
 	 * Drive with the given forward and turn values
 	 * @param forward between -1 and +1
-	 * @param spin between -1 and +1
+	 * @param spin between -1 and +1, where -1 is full leftward (CCW when viewed from above)
 	 */
 	public void arcade(double forward, double spin) {
 		tank(forward - spin, forward + spin);
@@ -365,5 +379,34 @@ public class DriveBase extends Subsystem {
 	public void pullPidConstantsFromSmartDash() {
 		//leftPod.pullPidConstantsFromSmartDash();
 		//rightPod.pullPidConstantsFromSmartDash();
-	}
+    }
+    
+    /**
+     * @return the count of line sensors
+     */
+    public int getLineSensorCount() {
+        return lineSensor.length;
+    }
+
+    /**
+     * Query a line sensor.
+     * @param i sensor index.  0 is the leftmost, getLineSensorCount()-1 is the rightmost.
+     * @return true if sensor i sees the line.
+     */
+    public boolean doesSensorSeeLine(int i) {
+        return !lineSensor[i].get();
+    }
+
+    /**
+     * Check if the line is detected at all
+     * @return true if any sensor sees the line
+     */
+    public boolean doesAnySensorSeeTheLine() {
+        for (int i = 0; i < getLineSensorCount(); ++i) {
+            if(doesSensorSeeLine(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
