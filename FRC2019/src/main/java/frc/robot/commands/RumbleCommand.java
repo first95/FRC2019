@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -16,7 +17,7 @@ import frc.robot.Robot;
  */
 public class RumbleCommand extends TimedCommand {
     private OI.Controller controller;
-    private OI.RumbleType pitch;
+    private Joystick.RumbleType side;
     private double severity;
     private double duration;
 
@@ -24,15 +25,15 @@ public class RumbleCommand extends TimedCommand {
     /**
      * Rumble one of the controllers
      * @param controller which controller to rumble
-     * @param pitch pitch at which to rumble
+     * @param side side to rumble
      * @param severity severity at which to rumble - 0.0 to 1.0
      * @param duration how long to rumble, in seconds
      * @param finishImmediately true to start the controller rumbling and immediately move on to the next command.  false to wait until the rumble duration is over before moving onto the next command.
      */
-    public RumbleCommand(OI.Controller controller, OI.RumbleType pitch, double severity, double duration, boolean finishImmediately) {
+    public RumbleCommand(OI.Controller controller, Joystick.RumbleType side, double severity, double duration, boolean finishImmediately) {
         super(finishImmediately? 0.0001 : duration);
         this.controller = controller;
-        this.pitch = pitch;
+        this.side = side;
         this.severity = severity;
         this.duration = duration;
         hasDoneRumble = false;
@@ -42,7 +43,7 @@ public class RumbleCommand extends TimedCommand {
      * This is the actual action, must be executed exactly once
      */
     private void doRumble() {
-        Robot.oi.Rumble(controller, pitch, severity, duration); 
+        Robot.oi.Rumble(controller, side, severity, duration); 
     }
 
     // Called just before this Command runs the first time
@@ -61,6 +62,14 @@ public class RumbleCommand extends TimedCommand {
         }
         super.execute();
     }
+
+    @Override
+    protected boolean isFinished() {
+        boolean done = super.isFinished();
+        System.out.println("RumbleCommand.isFinished(): " + done);
+        return done;
+    }
+
     @Override
     protected void initialize() {
         System.out.println("RumbleCommand.initialize()");
