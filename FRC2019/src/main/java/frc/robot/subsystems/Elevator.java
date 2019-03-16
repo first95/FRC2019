@@ -33,8 +33,8 @@ public class Elevator extends Subsystem {
     //private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
     private static final double HATCH_SCORER_HEIGHT_IN = 12.3; // This is the height off the ground that the hatch scorer is at when the elevator is at 0 inches
     private static final double HATCH_LOW_OFFSET_IN = 2.0; 
-	private static final double HATCH_MID_HIGH_OFFSET_IN = -6.0; 
-	private static final double CARGO_OFFSET_IN = -4.5;
+	private static final double HATCH_MID_HIGH_OFFSET_IN = -2.0; 
+	private static final double CARGO_OFFSET_IN = -8.5;
 
 	private IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
