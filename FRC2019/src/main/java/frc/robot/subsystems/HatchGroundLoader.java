@@ -40,6 +40,8 @@ public class HatchGroundLoader extends Subsystem {
 		if(realHardware) {
 			intakeDriver = new AdjustedTalon(Constants.HGL_INTAKE);
 			wristDriver  = new AdjustedTalon(Constants.HGL_WRIST);
+			wristDriver.enableCurrentLimit(true);
+			wristDriver.configContinuousCurrentLimit((int)Constants.HGL_WRIST_CUR_LIMIT_AMPS,Constants.CAN_TIMEOUT_MS);			
 		} else {
 			intakeDriver = new FakeTalon();
 			wristDriver  = new FakeTalon();
@@ -74,6 +76,7 @@ public class HatchGroundLoader extends Subsystem {
 		SmartDashboard.putNumber("HGL wrist position (deg)",getWristAngleDeg());
 		SmartDashboard.putNumber("HGL wrist angle (ticks)",getWristAngleDeg()*TICKS_PER_DEG);
 		SmartDashboard.putString("HGL wrist mode",wristDriver.getControlMode().toString());
+		SmartDashboard.putNumber("HGL wrist current (A)",wristDriver.getOutputCurrent());
 	}	
 
 	/**

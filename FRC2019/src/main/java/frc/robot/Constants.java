@@ -76,4 +76,5 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
 		public static final double CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS = 10;
 		public static final double HGL_INTAKE_CUR_SPIKE_AMPS = 20;	
+		public static final double HGL_WRIST_CUR_LIMIT_AMPS = 8;
 	}
