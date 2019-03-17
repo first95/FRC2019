@@ -31,7 +31,7 @@ public class Elevator extends Subsystem {
 	private static final double TICKS_PER_INCH = ENCODER_TICKS_FULL_RANGE / INCHES_FULL_RANGE;
 	private static final double TICKS_PER_FOOT = TICKS_PER_INCH * 12;
     //private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
-    private static final double HATCH_SCORER_HEIGHT_IN = 12.3; // This is the height off the ground that the hatch scorer is at when the elevator is at 0 inches
+	private static final double HATCH_SCORER_HEIGHT_IN = 12.3; // This is the height off the ground that the hatch scorer is at when the elevator is at 0 inches
     private static final double HATCH_LOW_OFFSET_IN = 2.0; 
 	private static final double HATCH_MID_HIGH_OFFSET_IN = -2.0; 
 	private static final double CARGO_OFFSET_IN = -8.5;
@@ -44,7 +44,10 @@ public class Elevator extends Subsystem {
 		HERE(0),			// Stay exactly where you are
 		HATCH_HANDOFF(3.9),  // The point at which we need to position the elevator to retrieve a hatch from the ground loader
 		HATCH_COVER_LOAD(19 - HATCH_SCORER_HEIGHT_IN),// The point at which we need to position the elevator to retrieve a hatch from the loading station
+		// HATCH_COVER_LOAD = 19-12.3 = 6.7
 		HATCH_COVER_LOW(19 - HATCH_SCORER_HEIGHT_IN + HATCH_LOW_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the low position
+		// HATCH_COVER_LOW = 19-12.3+2=8.7
+		HATCH_COVER_FINISH_LOAD(19-6), // The point at which we need to position the elevator for the newly-loaded hatch to clear the HGL
 		HATCH_COVER_MID(47 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the middle position
 		HATCH_COVER_HIGH(70 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN),// The point at which we need to position the elevator to score a hatch cover on the high position
 		CARGO_MID(47 - HATCH_SCORER_HEIGHT_IN + HATCH_MID_HIGH_OFFSET_IN + CARGO_OFFSET_IN),// The point at which we need to position the elevator to score a cargo on the middle position

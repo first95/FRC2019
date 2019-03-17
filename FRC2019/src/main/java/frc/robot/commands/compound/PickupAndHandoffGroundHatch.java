@@ -23,6 +23,6 @@ public class PickupAndHandoffGroundHatch extends CommandGroup {
         addSequential(new RumbleCommand(Controller.WEAPONS, RumbleType.kLeftRumble, 1.0, RUMBLE_TIME_S, true));
         addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble, 1.0, RUMBLE_TIME_S, true));
         // Move the elevator to scoring position
-        addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_COVER_LOW));
+        // addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_COVER_LOW));
     }
 }
