@@ -108,7 +108,7 @@ public class OI {
 		// These are only for testing Purposes
 		// Rotations
 		SmartDashboard.putData("Drive to vision target", new DriveToVT());
-		SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
+		// SmartDashboard.putData("Pivot 90 degrees CW", new Pivot(90));
 		
 	}
 
