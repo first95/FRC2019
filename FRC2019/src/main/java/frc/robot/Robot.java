@@ -102,7 +102,8 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		Scheduler.getInstance().run(); // Runs all active commands
 		elevator.checkAndApplyHomingSwitch();
-		drivebase.pullPidConstantsFromSmartDash();
+        drivebase.pullPidConstantsFromSmartDash();
+        hGroundLoader.checkAndApplyHomingSwitch();
 		oi.visit();
 		drivebase.visit();
 
