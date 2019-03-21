@@ -33,10 +33,14 @@ public class Constants
 		public static final int HS_PUSH_A = 6;
 		public static final int CLIMBER_SOL_REAR = 1;
 		public static final int CLIMBER_SOL_FRONT = 5;
+		public static final int BRAKES_SOL = 5;
 		
 		// Indices for sensors
 		public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
 		public static final int HGL_HOME_SWITCH_DIO_NUM = 1;
+        // Sensors looking at the floor for the white tape lines.  In order, left to right.
+		public static final int[] LINE_SENSOR_DIO_NUM = {5,7,8,6,4}; // {2, 3, 4, 5, 6, 7, 8};
+		
 
 		// Indices for Talons
 		// Drive base
@@ -73,4 +77,5 @@ public class Constants
 		public static final int DRIVEPOD_MAX_CURRENT_PEAK_DURATION_MS = 100;	
 		public static final double CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS = 10;
 		public static final double HGL_INTAKE_CUR_SPIKE_AMPS = 20;	
+		public static final double HGL_WRIST_CUR_LIMIT_AMPS = 8;
 	}
