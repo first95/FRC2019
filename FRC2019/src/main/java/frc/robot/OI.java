@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.AnnouncingCommand;
+import frc.robot.commands.AnnouncingGroup;
 import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.drivebase.AutosteerAlongLine;
 import frc.robot.commands.drivebase.DriveToVT;
@@ -101,8 +103,11 @@ public class OI {
 
 		// For testing 
         JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
-        testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble ,1.0 , 1.0, false));
+        testRumble.whileHeld(new AnnouncingCommand());
         testRumble.close();
+        JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
+        testRumble2.whileHeld(new AnnouncingGroup());
+        testRumble2.close();
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
