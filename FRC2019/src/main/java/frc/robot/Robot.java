@@ -47,16 +47,16 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 
 		// Initialize all subsystems
-		drivebase = new DriveBase(true);
-		elevator = new Elevator(true);
-		hScorer = new HatchScorer(true);
-		hGroundLoader = new HatchGroundLoader(true);
-		cargoHandler = new CargoHandler(true);
+		drivebase = new DriveBase(false);
+		elevator = new Elevator(false);
+		hScorer = new HatchScorer(false);
+		hGroundLoader = new HatchGroundLoader(false);
+		cargoHandler = new CargoHandler(false);
 		climber = new Climber(false);
 		climber2 = new ClimberHabLevelTwo(false);
 		compressor = new Compressor();
 		vision = new VisionCoprocessor();
-		brakes = new Brakes(true);
+		brakes = new Brakes(false);
 		oi = new OI();
 
 		// Show what command your subsystem is running on the SmartDashboard
