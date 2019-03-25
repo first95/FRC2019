@@ -132,7 +132,7 @@ public class Elevator extends Subsystem {
 	 * confirms that it's hit bottom.
 	 * 
 	 */
-	public void setCurrentPosToZero() {
+	private void setCurrentPosToZero() {
 		leaderDriver.setSelectedSensorPosition(0, Constants.PID_IDX, Constants.CAN_TIMEOUT_MS);
 	}
 	
