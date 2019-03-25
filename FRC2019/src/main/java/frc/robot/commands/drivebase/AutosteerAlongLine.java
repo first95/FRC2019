@@ -46,42 +46,45 @@ public class AutosteerAlongLine extends Command {
     
     /**
      * Check the sensors and compute the appropriate turn rate [0] and fwd rate [1]
-     * @return
+     * @return {turn rate (-1.0 for full left (CCW), +1.0 for full right (CW), forward rate (-1.0 for reverse, +1.0 for full fwd))}
      */
 	private double[] getLineFollowSpeeds() {
-        // Index of the sensor in the center.  This is also the count of sensors to the right or left of center.
-        int centerSensorIndex = (int)Math.floor(Robot.drivebase.getLineSensorCount() / 2.0);
-        double[] speeds = {0,MAX_FWD_RATE}; // default to going straight at full speed if center or
-                                            // somehow got here but no longer have sensor see line
-        if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex)) {
-            // We see it in the middle one, go straight
-            System.out.println("On center.");
-            return speeds;
-        } else {
-            // Loop through sensor pairs, starting with the innermost two.
-            // There can be any number of sensors active at any given time, so we prioritize the center by checking it first.
-            // This results in smaller turns in the case of an error.
-            for(int outwardOffsetFromCenter = 1; outwardOffsetFromCenter <= centerSensorIndex; outwardOffsetFromCenter++) {
-                double turnRate = ((double)outwardOffsetFromCenter / centerSensorIndex) * MAX_TURN_RATE;
-                double fwdRate = ((double)(centerSensorIndex-outwardOffsetFromCenter) / centerSensorIndex) * MAX_FWD_RATE;
-                // Left of center?
-                if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex - outwardOffsetFromCenter)) {
-                    System.out.println("Left of center, outward offset is "+outwardOffsetFromCenter);
-                    speeds[0] = -turnRate;
-                    speeds[1] = fwdRate;
-                    return speeds;
-                }
-                // Right of center?
-                if(Robot.drivebase.doesSensorSeeLine(centerSensorIndex + outwardOffsetFromCenter)) {
-                    System.out.println("Right of center, outward offset is "+outwardOffsetFromCenter);
-                    speeds[0] = turnRate;
-                    speeds[1] = fwdRate;
-                    return speeds;
-                }
+        double turnRateAccum = 0;
+        double fwdRateAccum = 0;
+        int numSensors = Robot.drivebase.getLineSensorCount();
+        int numSensorsTripped = 0;
+
+        // Accumulation part of the average
+        for(int sensor = 0; sensor < numSensors; sensor++) {
+            if(Robot.drivebase.doesSensorSeeLine(sensor)) {
+                turnRateAccum += getTurnRateForSingleSensor(sensor);
+                fwdRateAccum += getFwdRateForSingleSensor(sensor);
+                numSensorsTripped++;
             }
         }
-        // If haven't already returned speeds
-        return speeds;
+
+        // Actually perform the average
+        return new double[] {turnRateAccum/numSensorsTripped,fwdRateAccum/numSensorsTripped};
+    }
+
+    /**
+     * @param sensor The index of the sensor.  Must be >= 0 and < Robot.drivebase.getLineSensorCount()
+     * @return The rate at which the robot should turn if only this sensor is tripped.  -1 for full speed left (CCW from above), +1 for full right (CW from above)
+     */
+    private double getTurnRateForSingleSensor(int sensor) {
+        // Index of the sensor in the center.  This is also the count of sensors to the right or left of center.
+        int centerSensorIndex = Robot.drivebase.getCenterSensorIndex();
+        return (((double)(sensor - centerSensorIndex)) / centerSensorIndex) * MAX_TURN_RATE;
+    }
+
+    /**
+     * @param sensor The index of the sensor.  Must be >= 0 and < Robot.drivebase.getLineSensorCount()
+     * @return The rate at which the robot should drive forward if only this sensor is tripped.  -1 for full speed left (CCW from above), +1 for full right (CW from above)
+     */
+    private double getFwdRateForSingleSensor(int sensor) {
+        // Index of the sensor in the center.  This is also the count of sensors to the right or left of center.
+        int centerSensorIndex = Robot.drivebase.getCenterSensorIndex();
+        return ((double)(sensor - centerSensorIndex) / centerSensorIndex) * MAX_TURN_RATE;
     }
 
     // Make this return true when this Command no longer needs to run execute()

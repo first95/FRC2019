@@ -389,6 +389,14 @@ public class DriveBase extends Subsystem {
     }
 
     /**
+     * 
+     * @return The index of the center sensor
+     */
+    public int getCenterSensorIndex() {
+        return  (int)Math.floor(getLineSensorCount() / 2.0);
+    }
+
+    /**
      * Query a line sensor.
      * @param i sensor index.  0 is the leftmost, getLineSensorCount()-1 is the rightmost.
      * @return true if sensor i sees the line.
