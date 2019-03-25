@@ -35,7 +35,7 @@ public class DriveBase extends Subsystem {
 	
 	// private Pigeon imu;
 	private DigitalInput[] lineSensor;
-
+    private DigitalInput[] forwardFacingSensor;
 	
 	// Mode for the gearshift, as set by the auto moves
 	public enum GearShiftMode {
@@ -69,6 +69,11 @@ public class DriveBase extends Subsystem {
         int i = 0;
         for (int dioNum : Constants.LINE_SENSOR_DIO_NUM) {
             lineSensor[i++] = new DigitalInput(dioNum);
+        }
+        forwardFacingSensor = new DigitalInput[Constants.FORWARD_FACING_SENSOR_DIO_NUM.length];
+        i = 0;
+        for (int dioNum : Constants.FORWARD_FACING_SENSOR_DIO_NUM) {
+            forwardFacingSensor[i++] = new DigitalInput(dioNum);
         }
 	}
 
@@ -416,5 +421,17 @@ public class DriveBase extends Subsystem {
             }
         }
         return false;
+    }
+
+    /**
+     * @return true if all forward-facing sensors indicate the presence of a wall
+     */
+    public boolean doAllForwardSensorsSeeWall() {
+        for (DigitalInput dio : forwardFacingSensor) {
+            if(!dio.get()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

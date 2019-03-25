@@ -39,7 +39,7 @@ public class Constants
         public static final int ELEVATOR_HOME_SWITCH_DIO_NUM = 0;
         // Sensors looking at the floor for the white tape lines.  In order, left to right.
 		public static final int[] LINE_SENSOR_DIO_NUM = {5,7,8,6,4}; // {2, 3, 4, 5, 6, 7, 8};
-		
+		public static final int[] FORWARD_FACING_SENSOR_DIO_NUM = {1,2};
 
 		// Indices for Talons
 		// Drive base
