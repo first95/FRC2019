@@ -84,7 +84,7 @@ public class AutosteerAlongLine extends Command {
     private double getFwdRateForSingleSensor(int sensor) {
         // Index of the sensor in the center.  This is also the count of sensors to the right or left of center.
         int centerSensorIndex = Robot.drivebase.getCenterSensorIndex();
-        return ((double)(sensor - centerSensorIndex) / centerSensorIndex) * MAX_TURN_RATE;
+        return ((double)(centerSensorIndex - Math.abs(sensor - centerSensorIndex)) / centerSensorIndex) * MAX_TURN_RATE;
     }
 
     // Make this return true when this Command no longer needs to run execute()
