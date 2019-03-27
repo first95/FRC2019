@@ -433,14 +433,14 @@ public class DriveBase extends Subsystem {
 		{
 			if(dio == 0)
 			{
-				if(!forwardFacingSensor[dio].get())
+				if(forwardFacingSensor[dio].get())
 				{
 					return false;
 				}
 			}
 			else
 			{
-				if(forwardFacingSensor[dio].get())
+				if(!forwardFacingSensor[dio].get())
 				{
 					return false;
 				}
