@@ -1,27 +1,27 @@
 <xml version="1.0">
 <dashboard>
 	<widget field="Has Already Shifted:" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="1026" y="32"/>
-		<width>171</width>
+		<location x="18" y="266"/>
+		<width>169</width>
 		<height>46</height>
 	</widget>
 	<widget field="Allow Deshift:" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="881" y="36"/>
+		<location x="19" y="219"/>
 		<width>142</width>
 		<height>41</height>
 	</widget>
 	<widget field="Allow Shift:" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="761" y="30"/>
+		<location x="11" y="171"/>
 		<width>120</width>
 		<height>53</height>
 	</widget>
 	<widget field="In High Gear" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="627" y="30"/>
+		<location x="8" y="107"/>
 		<width>130</width>
 		<height>55</height>
 	</widget>
 	<widget field="Elevator is home?" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
-		<location x="431" y="26"/>
+		<location x="5" y="33"/>
 		<width>191</width>
 		<height>63</height>
 	</widget>
@@ -52,52 +52,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="rightDriveEncoder Value:"/>
-	<hidden field="Climb P"/>
-	<hidden field="Elevator encoder value:"/>
-	<hidden field="Climber"/>
-	<hidden field="leftDriveEncoder Value:"/>
-	<hidden field="Elevator Home Switch"/>
-	<hidden field="HGL Wrist Input"/>
-	<hidden field="Left target velocity (inps)"/>
-	<hidden field="leftDriveCurrent:"/>
-	<hidden field="eIValue"/>
-	<hidden field="RightDriveCurrent:"/>
-	<hidden field="Cargo Handler Intake Input"/>
-	<hidden field="BUSvoltage"/>
-	<hidden field="Left target pos (in)"/>
-	<hidden field="Cargo handler wrist position (deg)"/>
-	<hidden field="HGL intake current (A)"/>
-	<hidden field="Cargo intake current (A)"/>
-	<hidden field="DriveBase"/>
-	<hidden field="Cargo handler wrist angle (ticks)"/>
-	<hidden field="Right target velocity (inps)"/>
-	<hidden field="Climber mode"/>
-	<hidden field="Right velocity (inps)"/>
-	<hidden field="HGL intake current spike"/>
-	<hidden field="CH wrist mode"/>
-	<hidden field="Left velocity (inps)"/>
-	<hidden field="Elevator axis value"/>
-	<hidden field="Left position (in)"/>
-	<hidden field="Elevator height in feet:"/>
-	<hidden field="Elevator"/>
-	<hidden field="eIZone"/>
-	<hidden field="Collector"/>
-	<hidden field="OutputVoltage"/>
-	<hidden field="Cargo handler wrist mode"/>
-	<hidden field="Elevator speed drive"/>
-	<hidden field="HatchGroundLoader"/>
-	<hidden field="Elevator speed throttle"/>
-	<hidden field="Elevator mode"/>
-	<hidden field="HGL Intake Input"/>
-	<hidden field="Cargo intake current spike"/>
-	<hidden field="Right position (in)"/>
-	<hidden field="Climb I"/>
-	<hidden field="HGL wrist position (deg)"/>
-	<hidden field="Pivot 90 degrees CW"/>
-	<hidden field="Elevator Speed"/>
-	<hidden field="HGL wrist angle (ticks)"/>
-	<hidden field="Right target pos (in)"/>
-	<hidden field="Climb D"/>
-	<hidden field="HGL wrist mode"/>
 </xml>
