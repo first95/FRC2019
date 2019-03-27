@@ -427,11 +427,23 @@ public class DriveBase extends Subsystem {
      * @return true if all forward-facing sensors indicate the presence of a wall
      */
     public boolean doAllForwardSensorsSeeWall() {
-        for (DigitalInput dio : forwardFacingSensor) {
-            if(!dio.get()) {
-                return false;
-            }
-        }
+		for (int dio = 0; dio < forwardFacingSensor.length; dio++)
+		{
+			if(dio == 0)
+			{
+				if(!forwardFacingSensor[dio].get())
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if(forwardFacingSensor[dio].get())
+				{
+					return false;
+				}
+			}
+		}
         return true;
     }
 }
