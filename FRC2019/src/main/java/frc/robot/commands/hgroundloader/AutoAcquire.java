@@ -71,23 +71,23 @@ public class AutoAcquire extends CommandGroup {
     @Override
     protected boolean isFinished() {
         boolean fin = super.isFinished();
-        System.out.println("AutoAcquire.isFinished() - " + fin);
+        //System.out.println("AutoAcquire.isFinished() - " + fin);
         return fin;
     }
     @Override
     protected void initialize() {
-        System.out.println("AutoAcquire.initialize()");
+        //System.out.println("AutoAcquire.initialize()");
         super.initialize();
     }
 
     @Override
     protected void end() {
-        System.out.println("AutoAcquire.end()");
+        //System.out.println("AutoAcquire.end()");
         super.end();
     }
     @Override
     public synchronized void cancel() {
-        System.out.println("AutoAcquire.cancel()");
+        //System.out.println("AutoAcquire.cancel()");
         super.cancel();
         Scheduler.getInstance().add(new SetWristAngle(HatchGroundLoader.UP_DEG, false));
         Scheduler.getInstance().add(new SetIntakeThrottle(0));

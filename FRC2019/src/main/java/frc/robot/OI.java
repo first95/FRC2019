@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RumbleCommand;
-import frc.robot.commands.drivebase.AutosteerAlongLine;
+import frc.robot.commands.compound.AutosteerThenRumble;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.commands.vision.ToggleCameraMode;
@@ -96,7 +96,7 @@ public class OI {
         hglAutoCollect.close(); // Don't need this one anymore?		
 
         JoystickButton lineFollowButton = new JoystickButton(driverController, BUTTON_FORCE_HIGH_GEAR);
-        lineFollowButton.whileHeld(new AutosteerAlongLine());
+        lineFollowButton.whileHeld(new AutosteerThenRumble());
 		lineFollowButton.close();
 
 		// For testing 
