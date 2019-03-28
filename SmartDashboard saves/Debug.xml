@@ -179,9 +179,135 @@
 		<location x="0" y="21"/>
 	</widget>
 	<widget field="Climber mode" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="0" y="0"/>
+		<location x="158" y="47"/>
+	</widget>
+	<widget field="Sensor 0 Tripped" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="151" y="67"/>
+	</widget>
+	<widget field="Line Sensor 3" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="144" y="363"/>
+	</widget>
+	<widget field="Line Sensor 4" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="166" y="322"/>
+	</widget>
+	<widget field="Line Sensor 2" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="146" y="381"/>
+	</widget>
+	<widget field="Line Sensor 1" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="168" y="402"/>
+	</widget>
+	<widget field="Line Sensor 0" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="173" y="420"/>
+	</widget>
+	<widget field="HGL wrist current (A)" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="135" y="474"/>
+	</widget>
+	<widget field="Sensor 1 Tripped" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="165" y="84"/>
 	</widget>
 </dashboard>
 <live-window>
+	<widget field="DriveBase" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="20" y="6"/>
+	</widget>
+	<widget field="HatchScorer" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="26" y="10"/>
+	</widget>
+	<widget field="ClimberHabLevelTwo" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="26" y="15"/>
+	</widget>
+	<widget field="Brakes" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="3" y="19"/>
+	</widget>
+	<widget field="CargoHandler" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="28" y="30"/>
+	</widget>
+	<widget field="HatchGroundLoader" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="23" y="27"/>
+	</widget>
+	<widget field="VisionCoprocessor" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="10" y="27"/>
+	</widget>
+	<widget field="Elevator" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="25" y="14"/>
+	</widget>
+	<widget field="Climber" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<location x="14" y="28"/>
+	</widget>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="PowerDistributionPanel[0]" type="PowerDistributionPanel" class="edu.wpi.first.smartdashboard.livewindow.elements.PowerDistributionPanel">
+			<location x="6" y="15"/>
+			<height>185</height>
+			<width>322</width>
+		</widget>
+		<widget field="DigitalInput[8]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="200"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<widget field="DigitalInput[0]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="219"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<widget field="Compressor[0]" type="Compressor" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="102" y="238"/>
+			<height>21</height>
+			<width>131</width>
+		</widget>
+		<widget field="DigitalInput[5]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="259"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<widget field="DigitalInput[7]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="278"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<widget field="DigitalInput[6]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="297"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<widget field="Solenoid[0,5]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="107" y="316"/>
+			<height>21</height>
+			<width>121</width>
+		</widget>
+		<widget field="Solenoid[0,7]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="107" y="337"/>
+			<height>21</height>
+			<width>121</width>
+		</widget>
+		<widget field="Solenoid[0,0]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="107" y="358"/>
+			<height>21</height>
+			<width>121</width>
+		</widget>
+		<widget field="DigitalInput[3]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="379"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<widget field="DigitalInput[4]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="398"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<widget field="Solenoid[0,6]" type="Solenoid" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalOutputController">
+			<location x="107" y="417"/>
+			<height>21</height>
+			<width>121</width>
+		</widget>
+		<widget field="DigitalInput[2]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="438"/>
+			<height>19</height>
+			<width>322</width>
+		</widget>
+		<location x="28" y="21"/>
+		<width>334</width>
+		<height>463</height>
+	</widget>
 </live-window>
 </xml>
