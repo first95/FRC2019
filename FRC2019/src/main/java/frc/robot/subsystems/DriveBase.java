@@ -102,13 +102,13 @@ public class DriveBase extends Subsystem {
 		// SmartDashboard.putNumber("IMU Roll",  imu.getYawPitchRoll()[2]);
 		// SmartDashboard.putNumber("IMU Fused heading", imu.getFusedHeading());
 		SmartDashboard.putBoolean("In High Gear", getGear());
-		SmartDashboard.putBoolean("Sensor 0 Tripped", forwardFacingSensor[0].get());
-		SmartDashboard.putBoolean("Sensor 1 Tripped", forwardFacingSensor[1].get());
-        int i = 0;
-        for (DigitalInput ls : lineSensor) {
-            SmartDashboard.putBoolean("Line Sensor " + i, !ls.get());
-            i++;
-        }
+		// SmartDashboard.putBoolean("Sensor 0 Tripped", forwardFacingSensor[0].get());
+		// SmartDashboard.putBoolean("Sensor 1 Tripped", forwardFacingSensor[1].get());
+        // int i = 0;
+        // for (DigitalInput ls : lineSensor) {
+        //     SmartDashboard.putBoolean("Line Sensor " + i, !ls.get());
+        //     i++;
+        // }
 	}
 
 	/**

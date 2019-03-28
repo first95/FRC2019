@@ -90,8 +90,12 @@ public class AutosteerAlongLine extends Command {
     // Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-        System.out.println("We " + (Robot.drivebase.doAllForwardSensorsSeeWall()? "see":"do not see") + " see the wall.");
-        return false; // This command runs until interrupted
+        //System.out.println("We " + (Robot.drivebase.doAllForwardSensorsSeeWall()? "see":"do not see") + " see the wall.");
+        if (Robot.drivebase.doAllForwardSensorsSeeWall()){
+            return true;
+        } else {
+            return false; // This command runs until interrupted
+        }
 	}
 
 }
