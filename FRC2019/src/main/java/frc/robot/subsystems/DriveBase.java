@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.drivebase.ManuallyControlDrivebase;
 import frc.robot.components.DrivePod;
+import frc.robot.subsystems.Elevator;
 
 /**
  * The DriveBase subsystem incorporates the sensors and actuators attached to
@@ -27,6 +28,7 @@ public class DriveBase extends Subsystem {
 	// This is tied to speed, if you change the speed of the turn also change this value
 	
 	private final double SWEEPER_TURN_SPEED_INCHES_PER_SECOND = 24;
+
 	private DrivePod leftPod, rightPod;
 	private Solenoid shifter;
 
@@ -49,13 +51,14 @@ public class DriveBase extends Subsystem {
 	private boolean allowShift = true;
 	private boolean allowDeshift = true;
 	private boolean hasAlreadyShifted = false;
+	public static boolean speedLimitEnable;
 	
 	public DriveBase(boolean realHardware) {
 		super();
 
 		// Note that one pod must be inverted, since the gearbox assemblies are rotationally symmetrical
 		leftPod = new DrivePod("Left", Constants.LEFT_LEAD, Constants.LEFT_F1, Constants.LEFT_F2, false, realHardware);
-        rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, true, realHardware);
+		rightPod = new DrivePod("Right", Constants.RIGHT_LEAD, Constants.RIGHT_F1, Constants.RIGHT_F2, true, realHardware);
         if(realHardware) {
             shifter = new Solenoid(Constants.SHIFTER_SOLENOID_NUM);
         } else {
@@ -297,7 +300,7 @@ public class DriveBase extends Subsystem {
         //System.out.println("Shifting to " + (isHighGear? "high":"low") + " gear");
         if(shifter != null) {
             shifter.set(isHighGear);
-        }
+		}
 	}
 	
 	public boolean getGear() {
@@ -316,7 +319,7 @@ public class DriveBase extends Subsystem {
 
 		// Autoshift framework based off speed
 		if (allowShift) {
-			if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN)) {
+			if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN) || speedLimitEnable == true) {
 				setGear(false);
 
 				if (hasAlreadyShifted) {
@@ -324,7 +327,7 @@ public class DriveBase extends Subsystem {
 					hasAlreadyShifted = false;
 				}
 
-			} else if ((leftSpeed > Constants.SPEED_TO_SHIFT_UP) || (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
+			} else if (speedLimitEnable == false && (leftSpeed > Constants.SPEED_TO_SHIFT_UP) || (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
 				if (allowDeshift) {
 					shiftTimer.reset();
 					shiftTimer.start();
