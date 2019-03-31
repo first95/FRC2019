@@ -72,7 +72,7 @@ public class OI {
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
 	private static final double CARGO_INTAKE_DEADBAND = 0.1;
 
-	public boolean HEIGHT_SPEED_LIMIT = DriveBase.speedLimitEnable;
+	//public boolean HEIGHT_SPEED_LIMIT = DriveBase.speedLimitEnable;
 
 	/** Describes which of the controlleres you're referring to */
 	public enum Controller {
@@ -263,27 +263,22 @@ public class OI {
 	public Elevator.ElevatorHoldPoint getCommandedHoldPoint() {
 		// Prioritize lower setpoints if the user holds more than one button
 		if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOAD)) {
-			HEIGHT_SPEED_LIMIT = false;
 			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOAD;
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOW)) {
-			HEIGHT_SPEED_LIMIT = false;
 			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOW;
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_MID)) {
-			HEIGHT_SPEED_LIMIT = true;
 			if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
 				return Elevator.ElevatorHoldPoint.CARGO_MID;
 			} else {
 				return Elevator.ElevatorHoldPoint.HATCH_COVER_MID;
 			}
 		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HIGH)) {
-			HEIGHT_SPEED_LIMIT = true;
 			if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
 				return Elevator.ElevatorHoldPoint.CARGO_HIGH;
 			} else {
 				return Elevator.ElevatorHoldPoint.HATCH_COVER_HIGH;
 			}
 		} else {
-			HEIGHT_SPEED_LIMIT = false;
 			return Elevator.ElevatorHoldPoint.NONE;
 		}
 	}

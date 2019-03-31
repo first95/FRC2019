@@ -28,6 +28,8 @@ public class DriveBase extends Subsystem {
 	// This is tied to speed, if you change the speed of the turn also change this value
 	
 	private final double SWEEPER_TURN_SPEED_INCHES_PER_SECOND = 24;
+	public double ELEVATOR_HEIGHT;
+	public double ELEVATOR_HEIGHT_SPEED_LIMIT = 70 - 12.3 - 2;
 
 	private DrivePod leftPod, rightPod;
 	private Solenoid shifter;
@@ -317,30 +319,45 @@ public class DriveBase extends Subsystem {
 		leftSpeed = Math.abs(Robot.drivebase.getLeftSpeed());
 		rightSpeed = Math.abs(Robot.drivebase.getRightSpeed());
 
+		ELEVATOR_HEIGHT = Elevator.elevatorHeight;
+
 		// Autoshift framework based off speed
 		if (allowShift) {
-			if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN) || speedLimitEnable == true) {
+			if (ELEVATOR_HEIGHT <= ELEVATOR_HEIGHT_SPEED_LIMIT) {
+				speedLimitEnable = false;
+				if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN) || speedLimitEnable == true) {
+					setGear(false);
+
+					if (hasAlreadyShifted) {
+						allowDeshift = true;
+						hasAlreadyShifted = false;
+					}
+
+				} else if (speedLimitEnable == false && (leftSpeed > Constants.SPEED_TO_SHIFT_UP) || (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
+					if (allowDeshift) {
+						shiftTimer.reset();
+						shiftTimer.start();
+						allowShift = false;
+						setGear(true);
+					}
+				}
+				else if (shiftTimer.get() > 1.0) {
+					allowShift = true;
+					shiftTimer.stop();
+					shiftTimer.reset();
+					allowDeshift = false;
+					hasAlreadyShifted = true;
+				}
+			}
+			else {
 				setGear(false);
+				speedLimitEnable = true;
 
 				if (hasAlreadyShifted) {
 					allowDeshift = true;
 					hasAlreadyShifted = false;
 				}
-
-			} else if (speedLimitEnable == false && (leftSpeed > Constants.SPEED_TO_SHIFT_UP) || (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
-				if (allowDeshift) {
-					shiftTimer.reset();
-					shiftTimer.start();
-					allowShift = false;
-					setGear(true);
-				}
 			}
-		} else if (shiftTimer.get() > 1.0) {
-			allowShift = true;
-			shiftTimer.stop();
-			shiftTimer.reset();
-			allowDeshift = false;
-			hasAlreadyShifted = true;
 		}
 
 		// System.out.println("rightSpeed: " + rightSpeed + ", allowShift: " + allowShift);

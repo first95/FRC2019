@@ -35,8 +35,9 @@ public class Elevator extends Subsystem {
     private static final double HATCH_LOW_OFFSET_IN = 2.0; 
 	private static final double HATCH_MID_HIGH_OFFSET_IN = -2.0; 
 	private static final double CARGO_OFFSET_IN = -8.5;
+	public static double elevatorHeight = getElevatorHeightFeet();
 
-	private IMotorControllerEnhanced followerDriver, leaderDriver;
+	private static IMotorControllerEnhanced followerDriver, leaderDriver;
 	private DigitalInput homeSwitch;
 
 	public enum ElevatorHoldPoint {
@@ -206,7 +207,7 @@ public class Elevator extends Subsystem {
 	 * 
 	 * @return 0 for against the floor, about 5.91 for its highest extent.
 	 */
-	public double getElevatorHeightFeet() {
+	public static double getElevatorHeightFeet() {
 		return leaderDriver.getSelectedSensorPosition(Constants.PID_IDX) / TICKS_PER_FOOT;
 	}
 
