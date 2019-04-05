@@ -28,8 +28,6 @@ public class DriveBase extends Subsystem {
 	// This is tied to speed, if you change the speed of the turn also change this value
 	
 	private final double SWEEPER_TURN_SPEED_INCHES_PER_SECOND = 24;
-	public double ELEVATOR_HEIGHT;
-	public double ELEVATOR_HEIGHT_SPEED_LIMIT = 70 - 12.3 - 2;
 
 	private DrivePod leftPod, rightPod;
 	private Solenoid shifter;
@@ -50,10 +48,9 @@ public class DriveBase extends Subsystem {
 	private GearShiftMode gearShiftMode = GearShiftMode.AUTOSHIFT;
 
 	private Timer shiftTimer = new Timer();
-	private boolean allowShift;
+	private boolean allowShift = true;
 	private boolean allowDeshift = true;
 	private boolean hasAlreadyShifted = false;
-	public static boolean speedLimitEnable;
 	
 	public DriveBase(boolean realHardware) {
 		super();
@@ -319,13 +316,13 @@ public class DriveBase extends Subsystem {
 		leftSpeed = Math.abs(Robot.drivebase.getLeftSpeed());
 		rightSpeed = Math.abs(Robot.drivebase.getRightSpeed());
 
-		ELEVATOR_HEIGHT = Elevator.elevatorHeight;
-		if (ELEVATOR_HEIGHT <= ELEVATOR_HEIGHT_SPEED_LIMIT) {
-			allowShift = false;
+		double elevatorHeight = Robot.elevator.getElevatorHeightFeet();
+		final double ELEVATOR_HEIGHT_SPEED_LIMIT = 70 - 12.3 - 2;
+		boolean speedLimitEnable;
+		if (elevatorHeight <= ELEVATOR_HEIGHT_SPEED_LIMIT) {
 			speedLimitEnable = false;
 		}
-		else if (ELEVATOR_HEIGHT >= ELEVATOR_HEIGHT_SPEED_LIMIT) {
-			allowShift = true;
+		else {
 			speedLimitEnable = true;
 		}
 
