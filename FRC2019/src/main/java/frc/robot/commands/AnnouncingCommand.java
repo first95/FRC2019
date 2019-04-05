@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 /**
  * A command that does nothing except announce when its methods are called
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AnnouncingCommand extends Command {
     public AnnouncingCommand() {
         // Use requires() here to declare subsystem dependencies
-        // requires(Robot.m_subsystem);
+        requires(Robot.vision);
         System.out.println("AnnouncingCommand.AnnouncingCommand()");
     }
 
