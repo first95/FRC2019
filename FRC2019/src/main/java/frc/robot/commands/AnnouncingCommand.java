@@ -15,6 +15,7 @@ import frc.robot.Robot;
  */
 public class AnnouncingCommand extends Command {
     public AnnouncingCommand() {
+        super();
         // Use requires() here to declare subsystem dependencies
         requires(Robot.elevator);
         System.out.println("AnnouncingCommand.AnnouncingCommand()");
@@ -29,6 +30,7 @@ public class AnnouncingCommand extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        super.initialize();
         System.out.println("AnnouncingCommand.initialize()");
     }
 
