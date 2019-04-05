@@ -105,11 +105,11 @@ public class OI {
         // JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
         JoystickButton testRumble = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
         testRumble.whileHeld(new AnnouncingCommand());
-        testRumble.close();
+        // testRumble.close();
         // JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
         JoystickButton testRumble2 = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
         testRumble2.whileHeld(new AnnouncingGroup());
-        testRumble2.close();
+        // testRumble2.close();
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
