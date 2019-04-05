@@ -50,7 +50,7 @@ public class DriveBase extends Subsystem {
 	private GearShiftMode gearShiftMode = GearShiftMode.AUTOSHIFT;
 
 	private Timer shiftTimer = new Timer();
-	private boolean allowShift = true;
+	private boolean allowShift;
 	private boolean allowDeshift = true;
 	private boolean hasAlreadyShifted = false;
 	public static boolean speedLimitEnable;
@@ -320,52 +320,57 @@ public class DriveBase extends Subsystem {
 		rightSpeed = Math.abs(Robot.drivebase.getRightSpeed());
 
 		ELEVATOR_HEIGHT = Elevator.elevatorHeight;
+		if (ELEVATOR_HEIGHT <= ELEVATOR_HEIGHT_SPEED_LIMIT) {
+			allowShift = false;
+			speedLimitEnable = false;
+		}
+		else if (ELEVATOR_HEIGHT >= ELEVATOR_HEIGHT_SPEED_LIMIT) {
+			allowShift = true;
+			speedLimitEnable = true;
+		}
 
 		// Autoshift framework based off speed
 		if (allowShift) {
-			if (ELEVATOR_HEIGHT <= ELEVATOR_HEIGHT_SPEED_LIMIT) {
-				speedLimitEnable = false;
-				if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN) || speedLimitEnable == true) {
-					setGear(false);
-
-					if (hasAlreadyShifted) {
-						allowDeshift = true;
-						hasAlreadyShifted = false;
-					}
-
-				} else if (speedLimitEnable == false && (leftSpeed > Constants.SPEED_TO_SHIFT_UP) || (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
-					if (allowDeshift) {
-						shiftTimer.reset();
-						shiftTimer.start();
-						allowShift = false;
-						setGear(true);
-					}
-				}
-				else if (shiftTimer.get() > 1.0) {
-					allowShift = true;
-					shiftTimer.stop();
-					shiftTimer.reset();
-					allowDeshift = false;
-					hasAlreadyShifted = true;
-				}
-			}
-			else {
+			if ((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN) || speedLimitEnable == true) {
 				setGear(false);
-				speedLimitEnable = true;
 
 				if (hasAlreadyShifted) {
 					allowDeshift = true;
 					hasAlreadyShifted = false;
 				}
+
+			} else if (speedLimitEnable == false && (leftSpeed > Constants.SPEED_TO_SHIFT_UP) || speedLimitEnable == false && (rightSpeed > Constants.SPEED_TO_SHIFT_UP)) {
+				if (allowDeshift) {
+					shiftTimer.reset();
+					shiftTimer.start();
+					allowShift = false;
+					setGear(true);
+				}
+			}
+			else if (shiftTimer.get() > 1.0 && speedLimitEnable == false) {
+				allowShift = true;
+				shiftTimer.stop();
+				shiftTimer.reset();
+				allowDeshift = false;
+				hasAlreadyShifted = true;
 			}
 		}
+		else {
+			setGear(false);
+			speedLimitEnable = true;
+
+			if (hasAlreadyShifted) {
+				allowDeshift = true;
+				hasAlreadyShifted = false;
+			}
+		}
+	}
 
 		// System.out.println("rightSpeed: " + rightSpeed + ", allowShift: " + allowShift);
 		// System.out.println("leftSpeed: " + leftSpeed + ", allowShift: " + allowShift);
 		// SmartDashboard.putBoolean("Allow Shift:", allowShift);
 		// SmartDashboard.putBoolean("Allow Deshift:", allowDeshift);
 		// SmartDashboard.putBoolean("Has Already Shifted:", hasAlreadyShifted);
-	}
 	
 
 	/**
