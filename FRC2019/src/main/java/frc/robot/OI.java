@@ -39,8 +39,8 @@ public class OI {
 	// Features not presently in use - getRawButton(0) always returns false
 	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
-	public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
-	public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
+	// public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
+	// public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
 	public static final int BRAKES_DEPLOY = XBox360Controller.Button.X.Number();
 
 	// Axes on drive controller
@@ -102,10 +102,12 @@ public class OI {
 		lineFollowButton.close();
 
 		// For testing 
-        JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
+        // JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
+        JoystickButton testRumble = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
         testRumble.whileHeld(new AnnouncingCommand());
         testRumble.close();
-        JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
+        // JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
+        JoystickButton testRumble2 = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
         testRumble2.whileHeld(new AnnouncingGroup());
         testRumble2.close();
 
@@ -198,11 +200,11 @@ public class OI {
 	}
 
 	public boolean isDeployFrontClimberToggled() {
-		return driverController.getRawButtonPressed(CLIMB2_TOGGLE_FRONT);//return false;
+		return false;
 	}
 
 	public boolean isDeployRearClimberToggled() {
-		return driverController.getRawButtonPressed(CLIMB2_TOGGLE_REAR);//return false;
+		return false;
 	}
 
 	/**
