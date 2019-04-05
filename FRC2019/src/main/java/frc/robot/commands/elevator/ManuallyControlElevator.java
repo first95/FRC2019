@@ -40,15 +40,24 @@ public class ManuallyControlElevator extends Command {
 				Robot.elevator.setElevatorSpeed(Robot.oi.getElevatorSpeed());
 				wasHoldingPresentPositionLastIteration = false;
 			} else {
-				// Third priority: hold the present position
-				if (!wasHoldingPresentPositionLastIteration) {
-					Robot.elevator.seekHoldPoint(ElevatorHoldPoint.HERE);
-					wasHoldingPresentPositionLastIteration = true;
+				if (Robot.oi.getElevatorHomeButtonPressed()) {
+					// Third priority: re-set home based on button press,
+					// but first set speed so not position holding
+					Robot.elevator.setElevatorSpeed(0);
+					Robot.elevator.checkAndApplyHomingSwitch();
+					wasHoldingPresentPositionLastIteration = false;
+					SmartDashboard.putString(ELEV_MODE, "Re-home based on button");
 				} else {
-					// We already commanded the elevator to hold its present
-					// position, so we don't need to command it to do so again.
+					// Fourth priority: hold the present position
+					if (!wasHoldingPresentPositionLastIteration) {
+						Robot.elevator.seekHoldPoint(ElevatorHoldPoint.HERE);
+						wasHoldingPresentPositionLastIteration = true;
+					} else {
+						// We already commanded the elevator to hold its present
+						// position, so we don't need to command it to do so again.
+					}
+					SmartDashboard.putString(ELEV_MODE, "Hold present position");
 				}
-				SmartDashboard.putString(ELEV_MODE, "Hold present position");
 			}
 		}
 	}

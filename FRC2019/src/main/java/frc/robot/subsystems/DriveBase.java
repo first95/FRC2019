@@ -35,7 +35,7 @@ public class DriveBase extends Subsystem {
 	
 	// private Pigeon imu;
 	private DigitalInput[] lineSensor;
-
+    private DigitalInput[] forwardFacingSensor;
 	
 	// Mode for the gearshift, as set by the auto moves
 	public enum GearShiftMode {
@@ -70,6 +70,11 @@ public class DriveBase extends Subsystem {
         for (int dioNum : Constants.LINE_SENSOR_DIO_NUM) {
             lineSensor[i++] = new DigitalInput(dioNum);
         }
+        forwardFacingSensor = new DigitalInput[Constants.FORWARD_FACING_SENSOR_DIO_NUM.length];
+        i = 0;
+        for (int dioNum : Constants.FORWARD_FACING_SENSOR_DIO_NUM) {
+            forwardFacingSensor[i++] = new DigitalInput(dioNum);
+        }
 	}
 
 	/**
@@ -96,12 +101,14 @@ public class DriveBase extends Subsystem {
 		// SmartDashboard.putNumber("IMU Pitch", imu.getYawPitchRoll()[1]);
 		// SmartDashboard.putNumber("IMU Roll",  imu.getYawPitchRoll()[2]);
 		// SmartDashboard.putNumber("IMU Fused heading", imu.getFusedHeading());
-        SmartDashboard.putBoolean("In High Gear", getGear());
-        int i = 0;
-        for (DigitalInput ls : lineSensor) {
-            SmartDashboard.putBoolean("Line Sensor " + i, !ls.get());
-            i++;
-        }
+		SmartDashboard.putBoolean("In High Gear", getGear());
+		// SmartDashboard.putBoolean("Sensor 0 Tripped", forwardFacingSensor[0].get());
+		// SmartDashboard.putBoolean("Sensor 1 Tripped", forwardFacingSensor[1].get());
+        // int i = 0;
+        // for (DigitalInput ls : lineSensor) {
+        //     SmartDashboard.putBoolean("Line Sensor " + i, !ls.get());
+        //     i++;
+        // }
 	}
 
 	/**
@@ -389,6 +396,14 @@ public class DriveBase extends Subsystem {
     }
 
     /**
+     * 
+     * @return The index of the center sensor
+     */
+    public int getCenterSensorIndex() {
+        return  (int)Math.floor(getLineSensorCount() / 2.0);
+    }
+
+    /**
      * Query a line sensor.
      * @param i sensor index.  0 is the leftmost, getLineSensorCount()-1 is the rightmost.
      * @return true if sensor i sees the line.
@@ -408,5 +423,29 @@ public class DriveBase extends Subsystem {
             }
         }
         return false;
+    }
+
+    /**
+     * @return true if all forward-facing sensors indicate the presence of a wall
+     */
+    public boolean doAllForwardSensorsSeeWall() {
+		for (int dio = 0; dio < forwardFacingSensor.length; dio++)
+		{
+			if(dio == 0)
+			{
+				if(forwardFacingSensor[dio].get())
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if(!forwardFacingSensor[dio].get())
+				{
+					return false;
+				}
+			}
+		}
+        return true;
     }
 }
