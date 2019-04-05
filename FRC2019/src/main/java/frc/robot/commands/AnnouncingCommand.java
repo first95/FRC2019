@@ -16,7 +16,7 @@ import frc.robot.Robot;
 public class AnnouncingCommand extends Command {
     public AnnouncingCommand() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.vision);
+        requires(Robot.elevator);
         System.out.println("AnnouncingCommand.AnnouncingCommand()");
     }
 
