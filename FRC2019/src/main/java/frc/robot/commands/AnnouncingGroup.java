@@ -3,9 +3,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AnnouncingGroup extends CommandGroup {
 
-	public AnnouncingGroup() {
+	public AnnouncingGroup() {  
         super();
 
         addSequential(new AnnouncingCommand());
+        addSequential(new Nothing());
 	}
 }
