@@ -8,7 +8,7 @@ public class AnnouncingGroup extends CommandGroup {
 	public AnnouncingGroup() {  
         super();
 
-        addSequential(new RumbleCommand(OI.Controller.DRIVER, Joystick.RumbleType.kLeftRumble, 1.0, 1.0, true));
+        addSequential(new RumbleCommand(OI.Controller.DRIVER, Joystick.RumbleType.kLeftRumble, 1.0, 1.0, false));
         addSequential(new RumbleCommand(OI.Controller.DRIVER, Joystick.RumbleType.kRightRumble, 1.0, 1.0, true));
         addSequential(new Nothing());
 	}
