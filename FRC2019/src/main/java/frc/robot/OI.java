@@ -99,10 +99,10 @@ public class OI {
         lineFollowButton.whileHeld(new AutosteerThenRumble());
 		lineFollowButton.close();
 
-		// For testing 
-        JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
-        testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble ,1.0 , 1.0, false));
-        testRumble.close();
+		// // For testing 
+        // JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
+        // testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble ,1.0 , 1.0, false));
+        // testRumble.close();
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
