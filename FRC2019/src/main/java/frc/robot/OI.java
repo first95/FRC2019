@@ -5,9 +5,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.AnnouncingCommand;
-import frc.robot.commands.AnnouncingCommand2;
-import frc.robot.commands.AnnouncingGroup;
 import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.compound.AutosteerThenRumble;
 import frc.robot.commands.drivebase.DriveToVT;
@@ -40,8 +37,8 @@ public class OI {
 	// Features not presently in use - getRawButton(0) always returns false
 	public static final int BUTTON_FORCE_LOW_GEAR = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int BUTTON_FORCE_HIGH_GEAR = XBox360Controller.Button.RIGHT_BUMPER.Number();
-	// public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
-	// public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
+	public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
+	public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
 	public static final int BRAKES_DEPLOY = XBox360Controller.Button.X.Number();
 
 	// Axes on drive controller
@@ -103,15 +100,9 @@ public class OI {
 		lineFollowButton.close();
 
 		// For testing 
-        // JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
-        // JoystickButton testRumble = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
-        JoystickButton testRumble = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
-        testRumble.whenPressed(new AnnouncingGroup());
-        // testRumble.close();
-        // JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
-        JoystickButton testRumble2 = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
-        testRumble2.whenPressed(new RumbleCommand(OI.Controller.DRIVER, Joystick.RumbleType.kRightRumble, 1.0, 0.5));
-        // testRumble2.close();
+        JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
+        testRumble.whenPressed(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble ,1.0 , 1.0, false));
+        testRumble.close();
 
 		// Sendable Chooser for single commands
 		// These are only for testing Purposes
@@ -202,11 +193,11 @@ public class OI {
 	}
 
 	public boolean isDeployFrontClimberToggled() {
-		return false;
+		return driverController.getRawButtonPressed(CLIMB2_TOGGLE_FRONT);//return false;
 	}
 
 	public boolean isDeployRearClimberToggled() {
-		return false;
+		return driverController.getRawButtonPressed(CLIMB2_TOGGLE_REAR);//return false;
 	}
 
 	/**
