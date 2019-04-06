@@ -21,22 +21,19 @@ public class RumbleCommand extends TimedCommand {
     private double severity;
     private double duration;
 
-    private boolean hasDoneRumble = false;
     /**
      * Rumble one of the controllers
      * @param controller which controller to rumble
      * @param side side to rumble
      * @param severity severity at which to rumble - 0.0 to 1.0
      * @param duration how long to rumble, in seconds
-     * @param finishImmediately true to start the controller rumbling and immediately move on to the next command.  false to wait until the rumble duration is over before moving onto the next command.
      */
-    public RumbleCommand(OI.Controller controller, Joystick.RumbleType side, double severity, double duration, boolean finishImmediately) {
-        super(finishImmediately? 0.0001 : duration);
+    public RumbleCommand(OI.Controller controller, Joystick.RumbleType side, double severity, double duration) {
+        super(duration);
         this.controller = controller;
         this.side = side;
         this.severity = severity;
         this.duration = duration;
-        hasDoneRumble = false;
     }
 
     /**
@@ -46,21 +43,9 @@ public class RumbleCommand extends TimedCommand {
         Robot.oi.Rumble(controller, side, severity, duration); 
     }
 
-    // Called just before this Command runs the first time
-    @Override
-    public void start() {
-        super.start();
-        System.out.println("RumbleCommand.start()");
-        hasDoneRumble = false;
-    }
     @Override
     protected void execute() {
         System.out.println("RumbleCommand.execute()");
-        if(!hasDoneRumble) {
-            doRumble();
-            hasDoneRumble = true;
-        }
-        super.execute();
     }
 
     @Override
@@ -73,8 +58,7 @@ public class RumbleCommand extends TimedCommand {
     @Override
     protected void initialize() {
         System.out.println("RumbleCommand.initialize()");
-        hasDoneRumble = false;
-        super.initialize();
+        doRumble();
     }
 
     @Override

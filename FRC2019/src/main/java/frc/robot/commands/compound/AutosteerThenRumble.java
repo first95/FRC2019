@@ -17,7 +17,6 @@ public class AutosteerThenRumble extends CommandGroup {
         // Autosteer along line
         addSequential(new AutosteerAlongLine());
         // Buzz it after autosteer completes
-        //addSequential(new RumbleCommand(Controller.WEAPONS, RumbleType.kLeftRumble, 1.0, RUMBLE_TIME_S, true));
-        addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble, 1.0, RUMBLE_TIME_S, true));
+        addSequential(new RumbleCommand(Controller.DRIVER, RumbleType.kLeftRumble, 1.0, RUMBLE_TIME_S));
     }
 }
