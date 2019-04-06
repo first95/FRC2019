@@ -77,4 +77,5 @@ public class Constants
 		public static final double CARGO_HANDLER_INTAKE_CUR_SPIKE_AMPS = 10;
 		public static final double HGL_INTAKE_CUR_SPIKE_AMPS = 12;	
 		public static final double HGL_WRIST_CUR_LIMIT_AMPS = 8;
+		public static final double CH_WRIST_CUR_LIMIT_AMPS = 8;
 	}

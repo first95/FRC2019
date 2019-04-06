@@ -37,6 +37,8 @@ public class CargoHandler extends Subsystem {
 		if(realHardware) {
 			intakeDriver = new AdjustedTalon(Constants.CARGO_HANDLER_INTAKE);
 			wristDriver  = new AdjustedTalon(Constants.CARGO_HANDLER_WRIST);
+			wristDriver.enableCurrentLimit(true);
+			wristDriver.configContinuousCurrentLimit((int)Constants.CH_WRIST_CUR_LIMIT_AMPS,Constants.CAN_TIMEOUT_MS);		
 		} else {
 			intakeDriver = new FakeTalon();
 			wristDriver  = new FakeTalon();
@@ -71,6 +73,7 @@ public class CargoHandler extends Subsystem {
 		SmartDashboard.putNumber("Cargo handler wrist position (deg)",getWristAngleDeg());
 		SmartDashboard.putNumber("Cargo handler wrist angle (ticks)",getWristAngleDeg()*TICKS_PER_DEG);
 		SmartDashboard.putString("Cargo handler wrist mode",wristDriver.getControlMode().toString());
+		SmartDashboard.putNumber("Cargo handler wrist current (A)",wristDriver.getOutputCurrent());
 	}	
 
 	/**
