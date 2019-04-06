@@ -110,7 +110,7 @@ public class OI {
         // testRumble.close();
         // JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
         JoystickButton testRumble2 = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
-        testRumble2.whenPressed(new RumbleCommand(OI.Controller.DRIVER, Joystick.RumbleType.kRightRumble, 1.0, 0.5, false));
+        testRumble2.whenPressed(new RumbleCommand(OI.Controller.DRIVER, Joystick.RumbleType.kRightRumble, 1.0, 0.5));
         // testRumble2.close();
 
 		// Sendable Chooser for single commands
