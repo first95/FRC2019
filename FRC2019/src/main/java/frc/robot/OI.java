@@ -106,7 +106,7 @@ public class OI {
         // JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
         // JoystickButton testRumble = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
         JoystickButton testRumble = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
-        testRumble.whenPressed(new RumbleCommand(OI.Controller.WEAPONS, Joystick.RumbleType.kLeftRumble, 1.0, 0.5, false));
+        testRumble.whenPressed(new AnnouncingGroup());
         // testRumble.close();
         // JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
         JoystickButton testRumble2 = new JoystickButton(driverController, XBox360Controller.Button.A.Number());

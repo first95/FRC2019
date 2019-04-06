@@ -17,7 +17,6 @@ public class AnnouncingCommand extends Command {
     public AnnouncingCommand() {
         super();
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.as);
         System.out.println("AnnouncingCommand.AnnouncingCommand()");
     }
 
