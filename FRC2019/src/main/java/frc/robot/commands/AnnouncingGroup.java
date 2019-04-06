@@ -6,7 +6,7 @@ public class AnnouncingGroup extends CommandGroup {
 	public AnnouncingGroup() {  
         super();
 
-        addSequential(new AnnouncingCommand());
+        addSequential(new AnnouncingCommand2());
         addSequential(new Nothing());
 	}
 }

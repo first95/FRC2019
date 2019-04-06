@@ -13,52 +13,51 @@ import frc.robot.Robot;
 /**
  * A command that does nothing except announce when its methods are called
  */
-public class AnnouncingCommand extends Command {
-    public AnnouncingCommand() {
+public class AnnouncingCommand2 extends Command {
+    public AnnouncingCommand2() {
         super();
         // Use requires() here to declare subsystem dependencies
         requires(Robot.as);
-        System.out.println("AnnouncingCommand.AnnouncingCommand()");
+        System.out.println("AnnouncingCommand2.AnnouncingCommand()");
     }
-
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
         super.initialize();
-        System.out.println("AnnouncingCommand.initialize()");
+        System.out.println("AnnouncingCommand2.initialize()");
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        System.out.println("AnnouncingCommand.execute()");
+        System.out.println("AnnouncingCommand2.execute()");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         boolean finished = false;
-        System.out.println("AnnouncingCommand.isFinished(): " + finished);
+        System.out.println("AnnouncingCommand2.isFinished(): " + finished);
         return finished;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        System.out.println("AnnouncingCommand.end()");
+        System.out.println("AnnouncingCommand2.end()");
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        System.out.println("AnnouncingCommand.interrupted()");
+        System.out.println("AnnouncingCommand2.interrupted()");
     }
 
     @Override
     public synchronized void cancel() {
         super.cancel();
-        System.out.println("AnnouncingCommand.cancel()");
+        System.out.println("AnnouncingCommand2.cancel()");
     }
 }

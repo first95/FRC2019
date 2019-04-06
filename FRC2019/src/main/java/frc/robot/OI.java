@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AnnouncingCommand;
+import frc.robot.commands.AnnouncingCommand2;
 import frc.robot.commands.AnnouncingGroup;
 import frc.robot.commands.RumbleCommand;
 import frc.robot.commands.compound.AutosteerThenRumble;
@@ -104,7 +105,7 @@ public class OI {
 		// For testing 
         // JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
         JoystickButton testRumble = new JoystickButton(driverController, XBox360Controller.Button.B.Number());
-        testRumble.whileHeld(new AnnouncingCommand());
+        testRumble.whileHeld(new AnnouncingCommand2());
         // testRumble.close();
         // JoystickAxisButton testRumble2 = new JoystickAxisButton(driverController, XBox360Controller.Axis.RIGHT_TRIGGER.Number());
         JoystickButton testRumble2 = new JoystickButton(driverController, XBox360Controller.Button.A.Number());
