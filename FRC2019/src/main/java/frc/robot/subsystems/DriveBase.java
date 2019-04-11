@@ -326,21 +326,26 @@ public class DriveBase extends Subsystem {
 
 		// Autoshift framework based off speed
 		if (allowShift) {
-			if (((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN)) || (elevatorIsTooHighToShift == true)) {
+			if (((leftSpeed < Constants.SPEED_TO_SHIFT_DOWN) && (rightSpeed < Constants.SPEED_TO_SHIFT_DOWN))) {
 				setGear(false);
+				System.out.println("case 1");
 
 				if (hasAlreadyShifted) {
 					allowDeshift = true;
 					hasAlreadyShifted = false;
 				}
 
-			} else if (((leftSpeed > Constants.SPEED_TO_SHIFT_UP) && (elevatorIsTooHighToShift == true)) || ((rightSpeed > Constants.SPEED_TO_SHIFT_UP) && (elevatorIsTooHighToShift == true))) {
-				if (allowDeshift) {
-					shiftTimer.reset();
-					shiftTimer.start();
-					allowShift = false;
-					setGear(true);
+			} else if (((leftSpeed > Constants.SPEED_TO_SHIFT_UP)) || ((rightSpeed > Constants.SPEED_TO_SHIFT_UP))) {
+				if (elevatorIsTooHighToShift == false) {
+					if (allowDeshift) {
+						shiftTimer.reset();
+						shiftTimer.start();
+						allowShift = false;
+						setGear(true);
+						System.out.println("case 2");
+					}
 				}
+				
 			}
 		} else if (shiftTimer.get() > 1.0) {
 			allowShift = true;
@@ -348,6 +353,7 @@ public class DriveBase extends Subsystem {
 			shiftTimer.reset();
 			allowDeshift = false;
 			hasAlreadyShifted = true;
+			System.out.println("case 3");
 		}
 
 		// System.out.println("rightSpeed: " + rightSpeed + ", allowShift: " + allowShift);
