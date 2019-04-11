@@ -316,7 +316,7 @@ public class DriveBase extends Subsystem {
 
 		double elevatorHeight = Robot.elevator.getElevatorHeightFeet();
 		final double ELEVATOR_HEIGHT_SPEED_LIMIT_FT = ((Elevator.ElevatorHoldPoint.HATCH_COVER_MID.heightInches) + 2)/12;
-		System.out.println(elevatorHeight + " is how high the elevator is, " + ELEVATOR_HEIGHT_SPEED_LIMIT_FT + " is the height limit.");
+		//System.out.println(elevatorHeight + " is how high the elevator is, " + ELEVATOR_HEIGHT_SPEED_LIMIT_FT + " is the height limit.");
 		boolean elevatorIsTooHighToShift;
 		if (elevatorHeight <= ELEVATOR_HEIGHT_SPEED_LIMIT_FT) {
 			elevatorIsTooHighToShift = false;
