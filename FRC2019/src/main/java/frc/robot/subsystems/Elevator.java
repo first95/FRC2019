@@ -26,8 +26,8 @@ public class Elevator extends Subsystem {
 	private final String pLabel = "Winch P";
 	private final String iLabel = "Winch I";
 	private final String dLabel = "Winch D";
-	public static final double INCHES_FULL_RANGE = 77-12.3 ;// Measured on 2019-2-16
-	public static final double ENCODER_TICKS_FULL_RANGE = 78055.0; // Measured 2019-2-16
+	public static final double INCHES_FULL_RANGE = 74-9.5 ;// Measured on 2019-4-12
+	public static final double ENCODER_TICKS_FULL_RANGE = 72299.0; // Measured 2019-4-12
 	private static final double TICKS_PER_INCH = ENCODER_TICKS_FULL_RANGE / INCHES_FULL_RANGE;
 	private static final double TICKS_PER_FOOT = TICKS_PER_INCH * 12;
     //private static final double SOFT_FWD_LIMIT = ENCODER_TICKS_FULL_RANGE * 0.96;
@@ -207,6 +207,7 @@ public class Elevator extends Subsystem {
 	 * @return 0 for against the floor, about 5.91 for its highest extent.
 	 */
 	public double getElevatorHeightFeet() {
+		//System.out.println("The elevator height encoder ticks are " + leaderDriver.getSelectedSensorPosition(Constants.PID_IDX));
 		return leaderDriver.getSelectedSensorPosition(Constants.PID_IDX) / TICKS_PER_FOOT;
 	}
 
