@@ -11,6 +11,7 @@ import frc.robot.commands.drivebase.AutosteerAlongLine;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
 import frc.robot.commands.vision.ToggleCameraMode;
+import frc.robot.commands.vision.toggleLimelightMode;
 import frc.robot.commands.hgroundloader.AutoAcquire;
 import frc.robot.commands.hgroundloader.SetIntakeThrottle;
 import frc.robot.commands.hgroundloader.SetWristAngle;
@@ -90,7 +91,7 @@ public class OI {
 
 		// // Create some buttons
 		JoystickButton cameraViewSwitcher = new JoystickButton(driverController, SWITCH_CAM_VIEW_BUTTON);
-        cameraViewSwitcher.whenPressed(new ToggleCameraMode());
+        cameraViewSwitcher.whenPressed(new toggleLimelightMode());
 		cameraViewSwitcher.close(); // Don't need this one anymore?
 		
 		JoystickButton hglAutoCollect = new JoystickButton(weaponsController, HGL_AUTO_COLLECT);

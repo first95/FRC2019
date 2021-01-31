@@ -69,6 +69,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData(hGroundLoader);
 		SmartDashboard.putData(climber);
 
+		// Set up input fields on the SmartDashboard for vision aiming Kp, Ki, and Kd values
+		SmartDashboard.putNumber("Vision Kp", 1);
+		SmartDashboard.putNumber("Vision Ki", 0);
+		SmartDashboard.putNumber("Vision Kd", 0);
+
 		// Disable brakes on talons to make it
 		// easier to push
 		drivebase.brake(false);

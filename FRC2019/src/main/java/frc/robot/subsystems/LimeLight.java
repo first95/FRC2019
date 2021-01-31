@@ -18,17 +18,19 @@ import frc.robot.Constants;
 import frc.robot.components.AdjustedTalon;
 
 /**
- * An example subsystem.  You can replace me with your own Subsystem.
+ * Currently just gets numbers from the limelight
  */
 public class LimeLight extends Subsystem {
   private final NetworkTable limelight_target_data;
   private double tv, ta, tx, ty, ts, distance;
   private IMotorControllerEnhanced driver;
+  public int camMode = 2;
 
 
   public LimeLight() {
     limelight_target_data = NetworkTableInstance.getDefault().getTable("limelight");
     driver = new AdjustedTalon(Constants.CLIMBER_DRIVER);
+    setCamDriver();
   }
 
   @Override
@@ -69,6 +71,15 @@ public class LimeLight extends Subsystem {
   }
   public void targetLightOff() {
     driver.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void setCamProcessing() {
+    limelight_target_data.getEntry("stream").setNumber(1);
+    camMode = 1;
+  }
+  public void setCamDriver() {
+    limelight_target_data.getEntry("stream").setNumber(2);
+    camMode = 2;
   }
 
   @Override

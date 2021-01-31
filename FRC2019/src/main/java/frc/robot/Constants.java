@@ -20,6 +20,8 @@ public class Constants
 		public static final double VISION_ON_TARGET_DEG = 1; //Vision aiming will call itself good enough when within ±this
 		public static final double CAM_HEIGHT_INCHES = 40.5; //Height of the limelight lens, in inches
 		public static final double TEST_TARGET_HEIGHT_INCHES = 50.5; //Height of the current test target (NOT actual powerport height)
+		public static final double VISION_AIM_MAX_SPEED_PERCENT = 0.75; //Maximum speed allowed when autoaligning (0 to 1)
+		public static final double VISION_AIM_MIN_SPEED_PERCENT = 0.1; //Minimum speed allowed when autoaligning (0 to 1)
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec
