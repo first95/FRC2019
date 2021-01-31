@@ -9,6 +9,7 @@ package frc.robot.commands.drivebase;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.Constants;
 
 
 public class AutoAim extends Command {
@@ -18,7 +19,6 @@ public class AutoAim extends Command {
   public AutoAim() {
     requires(Robot.drivebase);
     requires(Robot.limelight);
-    requires(Robot.cargoHandler);
   }
 
 
@@ -31,7 +31,7 @@ public class AutoAim extends Command {
     double error = Robot.limelight.getTX();
     double targetValid = Robot.limelight.getTV();
     if (targetValid == 1) {
-      if (error > 1 || error < -1) {
+      if (error > Constants.VISION_ON_TARGET_DEG || error < -Constants.VISION_ON_TARGET_DEG) {
         rawCorrection = Math.max(-0.5, Math.min(0.5, (error / 54)));
         if (rawCorrection > -0.1 && rawCorrection < 0.1) {
           right = 0.1 * (rawCorrection / Math.abs(rawCorrection));
@@ -40,12 +40,12 @@ public class AutoAim extends Command {
           right = rawCorrection;
         }
         left = -1 * right;
-        Robot.cargoHandler.setIntakeSpeed(0.0);
+        Robot.limelight.targetLightOff();
       }
       else {
         left = 0;
         right = 0;
-        Robot.cargoHandler.setIntakeSpeed(-0.3);
+        Robot.limelight.targetLightOn();
       }
     }
     Robot.drivebase.tank(left, right);
@@ -61,7 +61,7 @@ public class AutoAim extends Command {
   @Override
   protected void end() {
     Robot.drivebase.tank(0, 0);
-    Robot.cargoHandler.setIntakeSpeed(0);
+    Robot.limelight.targetLightOff();
   }
 
   // Called when another command which requires one or more of the same
@@ -69,6 +69,6 @@ public class AutoAim extends Command {
   @Override
   protected void interrupted() {
     Robot.drivebase.tank(0, 0);
-    Robot.cargoHandler.setIntakeSpeed(0);
+    Robot.limelight.targetLightOff();
   }
 }

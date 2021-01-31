@@ -17,6 +17,9 @@ public class Constants
 		public static final double DRIVEPOD_ON_TARGET_THRESHOLD_INCHES = 1; // Each drivepod will call itself close enough at this point		
 		public static final double CARGO_HANDLER_ON_TARGET_DEG = 2; // Cargo handler wrist will call itself close enough at this point
 		public static final double HGL_ON_TARGET_DEG = 5; // HGL wrist will call itself close enough at this point
+		public static final double VISION_ON_TARGET_DEG = 1; //Vision aiming will call itself good enough when within ±this
+		public static final double CAM_HEIGHT_INCHES = 40.5; //Height of the limelight lens, in inches
+		public static final double TEST_TARGET_HEIGHT_INCHES = 50.5; //Height of the current test target (NOT actual powerport height)
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec

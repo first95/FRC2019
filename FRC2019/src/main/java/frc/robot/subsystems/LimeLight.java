@@ -7,24 +7,28 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Constants;
+import frc.robot.components.AdjustedTalon;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class LimeLight extends Subsystem {
   private final NetworkTable limelight_target_data;
-  private double tv, ta, tx, ty, ts;
+  private double tv, ta, tx, ty, ts, distance;
+  private IMotorControllerEnhanced driver;
 
 
   public LimeLight() {
     limelight_target_data = NetworkTableInstance.getDefault().getTable("limelight");
+    driver = new AdjustedTalon(Constants.CLIMBER_DRIVER);
   }
 
   @Override
@@ -35,10 +39,13 @@ public class LimeLight extends Subsystem {
     ta = limelight_target_data.getEntry("ta").getDouble(0.0);
     ts = limelight_target_data.getEntry("ts").getDouble(0.0);
 
-    SmartDashboard.putNumber("LimelightX", tx);
+    distance = (Constants.TEST_TARGET_HEIGHT_INCHES - Constants.CAM_HEIGHT_INCHES) / Math.tan(Math.toRadians(ty));
+
+    SmartDashboard.putNumber("Bearing", tx);
     SmartDashboard.putNumber("LimelightY", ty);
     SmartDashboard.putNumber("LimelightArea", ta);
     SmartDashboard.putNumber("Target Valid?", tv);
+    SmartDashboard.putNumber("Range (in)", distance);
   }
 
   public double getTX() {
@@ -53,7 +60,16 @@ public class LimeLight extends Subsystem {
   public double getTV() {
     return tv;
   }
+  public double getDistanceToTarg() {
+    return distance;
+  }
 
+  public void targetLightOn() {
+    driver.set(ControlMode.PercentOutput, 1);
+  }
+  public void targetLightOff() {
+    driver.set(ControlMode.PercentOutput, 0);
+  }
 
   @Override
   public void initDefaultCommand() {
