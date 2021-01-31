@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.RumbleCommand;
+import frc.robot.commands.drivebase.AutoAim;
 import frc.robot.commands.drivebase.AutosteerAlongLine;
 import frc.robot.commands.drivebase.DriveToVT;
 import frc.robot.commands.drivebase.Pivot;
@@ -40,6 +41,7 @@ public class OI {
 	public static final int CLIMB2_TOGGLE_FRONT = XBox360Controller.Button.A.Number();
 	public static final int CLIMB2_TOGGLE_REAR = XBox360Controller.Button.Y.Number();
 	public static final int BRAKES_DEPLOY = XBox360Controller.Button.X.Number();
+	public static final int VISION_AIM = XBox360Controller.Button.B.Number();
 
 	// Axes on drive controller
 	public static final int DRIVE_FORWARD_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
@@ -98,6 +100,10 @@ public class OI {
         JoystickButton lineFollowButton = new JoystickButton(driverController, BUTTON_FORCE_HIGH_GEAR);
         lineFollowButton.whileHeld(new AutosteerAlongLine());
 		lineFollowButton.close();
+
+		JoystickButton visionAimButton = new JoystickButton(driverController, VISION_AIM);
+        visionAimButton.whileHeld(new AutoAim());
+		visionAimButton.close();
 
 		// For testing 
         JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
