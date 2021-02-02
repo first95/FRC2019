@@ -42,7 +42,7 @@ public class AutoAim extends Command {
     double kd = SmartDashboard.getNumber("Vision Kd", 0);
     if (targetValid == 1) {
       if (error > Constants.VISION_ON_TARGET_DEG || error < -Constants.VISION_ON_TARGET_DEG) {
-        errorPercent = (error / 54);
+        errorPercent = (error / Constants.VISION_CAM_FOV_X_DEG);
         proportional = kp * errorPercent;
         integral = ki * (errorPercent + integral);
         derivitive = kd * (errorPercent - lastError);

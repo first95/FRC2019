@@ -6,11 +6,11 @@ import frc.robot.OI.Controller;
 import frc.robot.commands.Nothing;
 import frc.robot.commands.Pause;
 import frc.robot.commands.RumbleCommand;
-import frc.robot.commands.elevator.SetElevatorHeight;
+//import frc.robot.commands.elevator.SetElevatorHeight;
 import frc.robot.commands.hscorer.GrabIt;
 import frc.robot.commands.hscorer.PushIt;
 import frc.robot.subsystems.HatchGroundLoader;
-import frc.robot.subsystems.Elevator.ElevatorHoldPoint;
+//import frc.robot.subsystems.Elevator.ElevatorHoldPoint;
 
 public class AutoAcquire extends CommandGroup {
     public static final double AUTO_ACQUIRE_INTAKE_THROTTLE = 1.0;
@@ -29,7 +29,7 @@ public class AutoAcquire extends CommandGroup {
         // Drop it        
         addSequential(new SetWristAngle(HatchGroundLoader.COLLECT_DEG, true));
         //         like it's hot
-        addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_HANDOFF));
+        //addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_HANDOFF));
         // Pull it
         addSequential(new PushIt(false));
         addSequential(new GrabIt(false));
@@ -50,7 +50,7 @@ public class AutoAcquire extends CommandGroup {
         addSequential(new PushIt(true, 0.0)); // Only run execute once, making this nearly concurrent with the next
         addSequential(new GrabIt(true));
         // Lift it
-        addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_COVER_LOW));
+        //addSequential(new SetElevatorHeight(ElevatorHoldPoint.HATCH_COVER_LOW));
         addSequential(new PushIt(false));
         // Stop it (seriously, if you don't put this at the end, and you bind this sequence as a whilePressed, it will repeat while the button is held)
         addSequential(new Nothing());

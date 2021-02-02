@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CargoHandler;
 import frc.robot.subsystems.DriveBase;
-import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ClimberHabLevelTwo;
 import frc.robot.subsystems.HatchGroundLoader;
@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 
 	// Components of the robot
 	public static DriveBase drivebase;
-	public static Elevator elevator;
+	//public static Elevator elevator;
 	public static HatchScorer hScorer;
 	public static HatchGroundLoader hGroundLoader;
 	public static CargoHandler cargoHandler;
@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
 
 		// Initialize all subsystems
 		drivebase = new DriveBase(true);
-		elevator = new Elevator(true);
+		//elevator = new Elevator(true);
 		hScorer = new HatchScorer(true);
 		hGroundLoader = new HatchGroundLoader(true);
 		cargoHandler = new CargoHandler(true);
@@ -65,19 +65,15 @@ public class Robot extends TimedRobot {
 
 		// Show what command your subsystem is running on the SmartDashboard
 		SmartDashboard.putData(drivebase);
-		SmartDashboard.putData(elevator);
+		//SmartDashboard.putData(elevator);
 		SmartDashboard.putData(hGroundLoader);
 		SmartDashboard.putData(climber);
 
-		// Set up input fields on the SmartDashboard for vision aiming Kp, Ki, and Kd values
-		SmartDashboard.putNumber("Vision Kp", 1);
-		SmartDashboard.putNumber("Vision Ki", 0);
-		SmartDashboard.putNumber("Vision Kd", 0);
 
 		// Disable brakes on talons to make it
 		// easier to push
 		drivebase.brake(false);
-		elevator.brake(false);
+		//elevator.brake(false);
 
 	}
 
@@ -101,7 +97,7 @@ public class Robot extends TimedRobot {
 	 */
 	public void disabledInit() {
 		drivebase.brake(false);
-		elevator.brake(false);
+		//elevator.brake(false);
 	}
 
 	public void disabledPeriodic() {
@@ -110,7 +106,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		Scheduler.getInstance().run(); // Runs all active commands
-		elevator.checkAndApplyHomingSwitch();
+		//elevator.checkAndApplyHomingSwitch();
 		drivebase.pullPidConstantsFromSmartDash();
 		oi.visit();
 		drivebase.visit();
@@ -128,7 +124,7 @@ public class Robot extends TimedRobot {
 		drivebase.setShiftMode(GearShiftMode.AUTOSHIFT);
 
 		drivebase.brake(true);
-		elevator.brake(true);
+		//elevator.brake(true);
 	}
 
 	/**
@@ -157,7 +153,7 @@ public class Robot extends TimedRobot {
 	private void debugLog() {
 		//drivebase.log();
 		//brakes.log();
-		elevator.log();
+		//elevator.log();
 		cargoHandler.log();
 		hGroundLoader.log();
 		// oi.log();

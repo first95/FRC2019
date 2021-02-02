@@ -19,7 +19,7 @@ import frc.robot.commands.hgroundloader.WaitForHatchDetected;
 import frc.robot.oi.JoystickAxisButton;
 import frc.robot.oi.JoystickPovButton;
 import frc.robot.oi.XBox360Controller;
-import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.Elevator;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -265,28 +265,28 @@ public class OI {
 		return -elevatorSpeed * 1.0;
 	}
 
-	public Elevator.ElevatorHoldPoint getCommandedHoldPoint() {
+	//public Elevator.ElevatorHoldPoint getCommandedHoldPoint() {
 		// Prioritize lower setpoints if the user holds more than one button
-		if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOAD)) {
-			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOAD;
-		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOW)) {
-			return Elevator.ElevatorHoldPoint.HATCH_COVER_LOW;
-		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_MID)) {
-			if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
-				return Elevator.ElevatorHoldPoint.CARGO_MID;
-			} else {
-				return Elevator.ElevatorHoldPoint.HATCH_COVER_MID;
-			}
-		} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HIGH)) {
-			if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
-				return Elevator.ElevatorHoldPoint.CARGO_HIGH;
-			} else {
-				return Elevator.ElevatorHoldPoint.HATCH_COVER_HIGH;
-			}
-		} else {
-			return Elevator.ElevatorHoldPoint.NONE;
-		}
-	}
+	//	if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOAD)) {
+	//		return Elevator.ElevatorHoldPoint.HATCH_COVER_LOAD;
+	//	} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_LOW)) {
+	//		return Elevator.ElevatorHoldPoint.HATCH_COVER_LOW;
+	//	} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_MID)) {
+	//		if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
+	//			return Elevator.ElevatorHoldPoint.CARGO_MID;
+	//		} else {
+	//			return Elevator.ElevatorHoldPoint.HATCH_COVER_MID;
+	//		}
+	//	} else if(weaponsController.getRawButton(ELEV_PRESET_HATCH_HIGH)) {
+	//		if(this.getCargoHandlerIntakeSpeed()>CARGO_INTAKE_DEADBAND) {
+	//			return Elevator.ElevatorHoldPoint.CARGO_HIGH;
+	//		} else {
+	//			return Elevator.ElevatorHoldPoint.HATCH_COVER_HIGH;
+	//		}
+	//	} else {
+	//		return Elevator.ElevatorHoldPoint.NONE;
+	//	}
+	//}
 
 	public boolean getElevatorHomeButtonPressed() {
 		return weaponsController.getRawButton(ELEV_YOU_ARE_HOME);
