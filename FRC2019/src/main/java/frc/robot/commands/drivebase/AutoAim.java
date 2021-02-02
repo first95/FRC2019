@@ -16,11 +16,8 @@ import frc.robot.Constants;
 
 public class AutoAim extends Command {
 
-  private double kp = SmartDashboard.getNumber("Vision Kp", 1);
-  private double ki = SmartDashboard.getNumber("Vision Ki", 0);
-  private double kd = SmartDashboard.getNumber("Vision Kd", 0);
-
   private double lastError = 0;
+  private double integral = 0;
 
   public AutoAim() {
     requires(Robot.drivebase);
@@ -38,17 +35,16 @@ public class AutoAim extends Command {
     double error = Robot.limelight.getTX();
     double targetValid = Robot.limelight.getTV();
     double proportional = 0;
-    double integral = 0;
     double derivitive = 0;
     double rawCorrection = 0;
-    kp = SmartDashboard.getNumber("Vision Kp", 1);
-    ki = SmartDashboard.getNumber("Vision Ki", 0);
-    kd = SmartDashboard.getNumber("Vision Kd", 0);
+    double kp = SmartDashboard.getNumber("Vision Kp", 1);
+    double ki = SmartDashboard.getNumber("Vision Ki", 0);
+    double kd = SmartDashboard.getNumber("Vision Kd", 0);
     if (targetValid == 1) {
       if (error > Constants.VISION_ON_TARGET_DEG || error < -Constants.VISION_ON_TARGET_DEG) {
         errorPercent = (error / 54);
         proportional = kp * errorPercent;
-        integral = ki * (errorPercent + lastError);
+        integral = ki * (errorPercent + integral);
         derivitive = kd * (errorPercent - lastError);
         rawCorrection = Math.max(-Constants.VISION_AIM_MAX_SPEED_PERCENT, Math.min(Constants.VISION_AIM_MAX_SPEED_PERCENT, (proportional + integral + derivitive)));
         if (rawCorrection > -Constants.VISION_AIM_MIN_SPEED_PERCENT && rawCorrection < Constants.VISION_AIM_MIN_SPEED_PERCENT) {
