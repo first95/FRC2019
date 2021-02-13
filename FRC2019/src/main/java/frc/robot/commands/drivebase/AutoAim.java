@@ -10,18 +10,21 @@ package frc.robot.commands.drivebase;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.subsystems.LimeLight;
 import frc.robot.Constants;
 
 
 public class AutoAim extends Command {
 
-  private double lastError = 0;
-  private double integral = 0;
+  private double headingLastError = 0;
+  private double headingIntegral = 0;
+  private double rangeLastError = 0;
+  private double rangeIntegral = 0;
+  private double desiredDistance = 81;
 
-  public AutoAim() {
+  public AutoAim(double desiredDistance) {
     requires(Robot.drivebase);
     requires(Robot.limelight);
+    this.desiredDistance = desiredDistance;
   }
 
 
@@ -29,40 +32,75 @@ public class AutoAim extends Command {
   @Override
   protected void execute() {
     Robot.limelight.setCamProcessing();
+
+    double headingLeft = 0;
+    double headingRight = 0;
+    double rangeLeft = 0;
+    double rangeRight = 0;
     double left = 0;
     double right = 0;
     double errorPercent = 0;
-    double error = Robot.limelight.getTX();
+
+    double headingError = Robot.limelight.getTX();
+    double rangeError = desiredDistance - Robot.limelight.getFloorDistanceToTarg();
     double targetValid = Robot.limelight.getTV();
-    double proportional = 0;
-    double derivitive = 0;
-    double rawCorrection = 0;
-    double kp = SmartDashboard.getNumber("Vision Kp", 1);
-    double ki = SmartDashboard.getNumber("Vision Ki", 0);
-    double kd = SmartDashboard.getNumber("Vision Kd", 0);
+
+    double headingProportional = 0;
+    double headingDerivitive = 0;
+    double headingRawCorrection = 0;
+    double headingkp = SmartDashboard.getNumber("Vision Kp", 1);
+    double headingki = SmartDashboard.getNumber("Vision Ki", 0);
+    double headingkd = SmartDashboard.getNumber("Vision Kd", 0);
+
+    double rangeProportional = 0;
+    double rangeDerivitive = 0;
+    double rangeRawCorrection = 0;
+    double rangekp = SmartDashboard.getNumber("Vision range Kp", 1);
+    double rangeki = SmartDashboard.getNumber("Vision range Ki", 0);
+    double rangekd = SmartDashboard.getNumber("Vision range Kd", 0);
+
     if (targetValid == 1) {
-      if (error > Constants.VISION_ON_TARGET_DEG || error < -Constants.VISION_ON_TARGET_DEG) {
-        errorPercent = (error / Constants.VISION_CAM_FOV_X_DEG);
-        proportional = kp * errorPercent;
-        integral = ki * (errorPercent + integral);
-        derivitive = kd * (errorPercent - lastError);
-        rawCorrection = Math.max(-Constants.VISION_AIM_MAX_SPEED_PERCENT, Math.min(Constants.VISION_AIM_MAX_SPEED_PERCENT, (proportional + integral + derivitive)));
-        if (rawCorrection > -Constants.VISION_AIM_MIN_SPEED_PERCENT && rawCorrection < Constants.VISION_AIM_MIN_SPEED_PERCENT) {
-          right = Constants.VISION_AIM_MIN_SPEED_PERCENT * (rawCorrection / Math.abs(rawCorrection));
+      if (headingError > Constants.VISION_ON_TARGET_DEG || headingError < -Constants.VISION_ON_TARGET_DEG) {
+        errorPercent = (headingError / Constants.VISION_CAM_FOV_X_DEG);
+        headingProportional = headingkp * errorPercent;
+        headingIntegral = headingki * (errorPercent + headingIntegral);
+        headingDerivitive = headingkd * (errorPercent - headingLastError);
+        headingRawCorrection = Math.max(-Constants.VISION_AIM_MAX_SPEED_PERCENT, Math.min(Constants.VISION_AIM_MAX_SPEED_PERCENT, (headingProportional + headingIntegral + headingDerivitive)));
+        if (headingRawCorrection > -Constants.VISION_AIM_MIN_SPEED_PERCENT && headingRawCorrection < Constants.VISION_AIM_MIN_SPEED_PERCENT) {
+          headingRight = Constants.VISION_AIM_MIN_SPEED_PERCENT * (headingRawCorrection / Math.abs(headingRawCorrection));
         }
         else {
-          right = rawCorrection;
+          headingRight = headingRawCorrection;
         }
-        left = -right;
-        Robot.limelight.targetLightOff();
+        headingLeft = -headingRight;
       }
       else {
-        left = 0;
-        right = 0;
-        Robot.limelight.targetLightOn();
+        headingLeft = 0;
+        headingRight = 0;
+      }
+      if (rangeError > Constants.VISION_ON_TARGET_DEG_RANGE || rangeError < -Constants.VISION_ON_TARGET_DEG_RANGE) {
+        rangeProportional = rangekp * rangeError;
+        rangeIntegral = rangeki * (rangeError + rangeIntegral);
+        rangeDerivitive = rangekd * (rangeError - rangeLastError);
+        rangeRawCorrection = Math.max(-Constants.VISION_AIM_RANGE_MAX_SPEED_PERCENT, Math.min(Constants.VISION_AIM_RANGE_MAX_SPEED_PERCENT, (rangeProportional + rangeIntegral + rangeDerivitive)));
+        if (rangeRawCorrection > -Constants.VISION_RANGE_MIN_SPEED_PERCENT && rangeRawCorrection < Constants.VISION_RANGE_MIN_SPEED_PERCENT) {
+          rangeRight = Constants.VISION_RANGE_MIN_SPEED_PERCENT * (rangeRawCorrection / Math.abs(rangeRawCorrection));
+        }
+        else {
+          rangeRight = rangeRawCorrection;
+        }
+        rangeLeft = rangeRight;
+        
+      }
+      else {
+        rangeLeft = 0;
+        rangeRight = 0;
       }
     }
-    lastError = errorPercent; 
+    left = headingLeft + rangeLeft;
+    right = headingRight + rangeRight;
+    headingLastError = errorPercent;
+    rangeLastError = rangeError; 
     Robot.drivebase.tank(left, right);
   }
 

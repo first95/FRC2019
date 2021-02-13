@@ -22,14 +22,14 @@ import frc.robot.components.AdjustedTalon;
  */
 public class LimeLight extends Subsystem {
   private final NetworkTable limelight_target_data;
-  private double tv, ta, tx, ty, ts, distance;
-  private IMotorControllerEnhanced driver;
+  private double tv, ta, tx, ty, x, y, z, normalizer, conversion, distance, floorDistance, tvert;
+  private IMotorControllerEnhanced targetLight;
   public int camMode = 2;
 
 
   public LimeLight() {
     limelight_target_data = NetworkTableInstance.getDefault().getTable("limelight");
-    driver = new AdjustedTalon(Constants.CLIMBER_DRIVER);
+    targetLight = new AdjustedTalon(Constants.CLIMBER_DRIVER);
     setCamDriver();
   }
 
@@ -39,15 +39,25 @@ public class LimeLight extends Subsystem {
     tx = limelight_target_data.getEntry("tx").getDouble(0.0);
     ty = limelight_target_data.getEntry("ty").getDouble(0.0);
     ta = limelight_target_data.getEntry("ta").getDouble(0.0);
-    ts = limelight_target_data.getEntry("ts").getDouble(0.0);
+    tvert = limelight_target_data.getEntry("tvert").getDouble(0.0);
 
-    distance = (Constants.TEST_TARGET_HEIGHT_INCHES - Constants.CAM_HEIGHT_INCHES) / Math.tan(Math.toRadians(ty));
+   /* normalizer = Math.sqrt(Math.pow(Math.tan(Math.toRadians(tx)), 2) + Math.pow(Math.tan(Math.toRadians(ty)), 2) + 1);
+    x = Math.tan(Math.toRadians(tx)) / normalizer;
+    y = Math.tan(Math.toRadians(ty)) / normalizer;
+    z = 1 / normalizer;
+    conversion = Constants.HEIGHT_DIFFERENCE / y;
+    
+    distance = Math.hypot(x, z) * conversion; */
+
+    distance = (Constants.TEST_TARGET_TALLNESS_INCHES / 2) / Math.tan(Math.toRadians(tvert * Constants.DEGREES_PER_PIXEL) / 2);
+    floorDistance = Math.sqrt(Math.pow(distance, 2) - Math.pow(Constants.HEIGHT_DIFFERENCE, 2));
 
     SmartDashboard.putNumber("Bearing", tx);
     SmartDashboard.putNumber("LimelightY", ty);
     SmartDashboard.putNumber("LimelightArea", ta);
     SmartDashboard.putNumber("Target Valid?", tv);
     SmartDashboard.putNumber("Range (in)", distance);
+    SmartDashboard.putNumber("Horiz. Range", floorDistance);
   }
 
   public double getTX() {
@@ -65,12 +75,15 @@ public class LimeLight extends Subsystem {
   public double getDistanceToTarg() {
     return distance;
   }
+  public double getFloorDistanceToTarg() {
+    return floorDistance;
+  }
 
   public void targetLightOn() {
-    driver.set(ControlMode.PercentOutput, 1);
+    targetLight.set(ControlMode.PercentOutput, 1);
   }
   public void targetLightOff() {
-    driver.set(ControlMode.PercentOutput, 0);
+    targetLight.set(ControlMode.PercentOutput, 0);
   }
 
   public void setCamProcessing() {

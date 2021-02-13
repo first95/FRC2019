@@ -17,12 +17,20 @@ public class Constants
 		public static final double DRIVEPOD_ON_TARGET_THRESHOLD_INCHES = 1; // Each drivepod will call itself close enough at this point		
 		public static final double CARGO_HANDLER_ON_TARGET_DEG = 2; // Cargo handler wrist will call itself close enough at this point
 		public static final double HGL_ON_TARGET_DEG = 5; // HGL wrist will call itself close enough at this point
-		public static final double VISION_ON_TARGET_DEG = 1; //Vision aiming will call itself good enough when within ±this
+		public static final double VISION_ON_TARGET_DEG = 1; //Vision heading aiming will call itself good enough when within ±this
 		public static final double CAM_HEIGHT_INCHES = 40.25; //Height of the limelight lens, in inches
-		public static final double TEST_TARGET_HEIGHT_INCHES = 49.75; //Height of the current test target (NOT actual powerport height)
-		public static final double VISION_AIM_MAX_SPEED_PERCENT = 0.75; //Maximum speed allowed when autoaligning (0 to 1)
+		public static final double TEST_TARGET_HEIGHT_INCHES = 70.9375; //Height of the current test target (NOT actual powerport Height)
+		public static final double TEST_TARGET_TALLNESS_INCHES = 8.9375; //Tallness of the current test target (NOT actual powerport tallness)
+		public static final double HEIGHT_DIFFERENCE = TEST_TARGET_HEIGHT_INCHES - CAM_HEIGHT_INCHES;
+		public static final double VISION_AIM_MAX_SPEED_PERCENT = 0.75; //Maximum speed allowed when autoaligning heading (0 to 1)
+		public static final double VISION_AIM_RANGE_MAX_SPEED_PERCENT = 0.8; //Maximum speed allowed when autoaligning range (0 to 1)
 		public static final double VISION_AIM_MIN_SPEED_PERCENT = 0.1; //Minimum speed allowed when autoaligning (0 to 1)
-		public static final double VISION_CAM_FOV_X_DEG = 54; //Total horizontal degree range of the vision camera (limelight)
+		public static final double VISION_RANGE_MIN_SPEED_PERCENT = 0.04; //Minimum speed allowed when autoaligning (0 to 1)
+		public static final double VISION_CAM_FOV_X_DEG = 59.6; //Total horizontal degree range of the vision camera (limelight)
+		public static final double VISION_CAM_FOV_Y_DEG = 49.7; //Total horizontal degree range of the vision camera (limelight)
+		public static final double VISION_CAM_Y_PIXELS = 240; //Total number of pixels horizontally
+		public static final double DEGREES_PER_PIXEL = VISION_CAM_FOV_Y_DEG / VISION_CAM_Y_PIXELS;
+		public static final double VISION_ON_TARGET_DEG_RANGE = 4; //Vision range aiming will call itself good enough when within ±this
 
 		// Speed Shifter Values
 		public static final double SPEED_TO_SHIFT_UP = 5.5; // ft per sec

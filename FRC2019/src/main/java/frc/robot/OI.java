@@ -51,10 +51,10 @@ public class OI {
     //public static final int CLIMBER_DOWN_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 
 	// Buttons on weapons controller
-	public static final int ELEV_PRESET_HATCH_LOAD = XBox360Controller.Button.A.Number();
-	public static final int ELEV_PRESET_HATCH_LOW = XBox360Controller.Button.B.Number();
-	public static final int ELEV_PRESET_HATCH_MID = XBox360Controller.Button.X.Number(); 
-	public static final int ELEV_PRESET_HATCH_HIGH = XBox360Controller.Button.Y.Number();
+	public static final int VISION_AIM_POS_A = XBox360Controller.Button.Y.Number();
+	public static final int VISION_AIM_POS_B = XBox360Controller.Button.B.Number();
+	public static final int VISION_AIM_POS_C = XBox360Controller.Button.A.Number(); 
+	public static final int VISION_AIM_POS_D = XBox360Controller.Button.X.Number();
 	public static final int HS_CLOSE_HOLD = XBox360Controller.Button.LEFT_BUMPER.Number();
 	public static final int HS_PUSH_HOLD = XBox360Controller.Button.RIGHT_BUMPER.Number();
 	public static final int ELEV_YOU_ARE_HOME = XBox360Controller.Button.BACK.Number();
@@ -69,7 +69,7 @@ public class OI {
 	public static final int CARGO_HANDLER_INTAKE_AXIS = XBox360Controller.Axis.LEFT_TRIGGER.Number();
 	public static final int CARGO_HANDLER_OUTSPIT_AXIS = XBox360Controller.Axis.RIGHT_TRIGGER.Number();
 	public static final int CARGO_HANDLER_WRIST_AXIS = XBox360Controller.Axis.LEFT_STICK_Y.Number();
-	public static final int ELEVATOR_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
+	public static final int HGL_WRIST_AXIS = XBox360Controller.Axis.RIGHT_STICK_Y.Number();
 
 	private static final double ELEVATOR_UPDOWN_DEADBAND = 0.18;
 	private static final double CARGO_INTAKE_DEADBAND = 0.1;
@@ -102,9 +102,21 @@ public class OI {
         lineFollowButton.whileHeld(new AutosteerAlongLine());
 		lineFollowButton.close();
 
-		JoystickButton visionAimButton = new JoystickButton(driverController, VISION_AIM);
-        visionAimButton.whileHeld(new AutoAim());
-		visionAimButton.close();
+		JoystickButton aimPosAButton = new JoystickButton(driverController, VISION_AIM_POS_A);
+        aimPosAButton.whileHeld(new AutoAim(81));
+		aimPosAButton.close();
+
+		JoystickButton aimPosBButton = new JoystickButton(driverController, VISION_AIM_POS_B);
+        aimPosBButton.whileHeld(new AutoAim(141));
+		aimPosBButton.close();
+
+		JoystickButton aimPosCButton = new JoystickButton(driverController, VISION_AIM_POS_C);
+        aimPosCButton.whileHeld(new AutoAim(186));
+		aimPosCButton.close();
+
+		JoystickButton aimPosDButton = new JoystickButton(driverController, VISION_AIM_POS_D);
+        aimPosDButton.whileHeld(new AutoAim(246));
+		aimPosDButton.close();
 
 		// For testing 
         JoystickAxisButton testRumble = new JoystickAxisButton(driverController, XBox360Controller.Axis.LEFT_TRIGGER.Number());
@@ -172,7 +184,7 @@ public class OI {
 	 * @return -1.0 for fully downward, 1.0 for fully upward, 0.0 for stationary
 	 */
 	public double getHGLWristSpeed() {
-		return 0; //weaponsController.getRawAxis(HGL_WRIST_AXIS);
+		return weaponsController.getRawAxis(HGL_WRIST_AXIS);
 	}
 
 	/**
@@ -245,13 +257,14 @@ public class OI {
 	 * @return true if the Brakes button is currently held
 	 */
 	public boolean isBrakesButtonHeld() {
-		return driverController.getRawButton(BRAKES_DEPLOY);
+		//return driverController.getRawButton(BRAKES_DEPLOY);
+		return false;
 	}
 
 	// Elevator controls
 	public double getElevatorSpeed() {
 
-		double elevatorCtrl = weaponsController.getRawAxis(ELEVATOR_AXIS);
+		double elevatorCtrl = weaponsController.getRawAxis(HGL_WRIST_AXIS);
 		double elevatorSpeed = 0;
 
 		if ((elevatorCtrl > ELEVATOR_UPDOWN_DEADBAND)
