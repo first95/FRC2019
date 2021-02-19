@@ -19,8 +19,8 @@ public class Constants
 		public static final double HGL_ON_TARGET_DEG = 5; // HGL wrist will call itself close enough at this point
 		public static final double VISION_ON_TARGET_DEG = 1; //Vision heading aiming will call itself good enough when within ±this
 		public static final double CAM_HEIGHT_INCHES = 40.25; //Height of the limelight lens, in inches
-		public static final double TEST_TARGET_HEIGHT_INCHES = 70.9375; //Height of the current test target (NOT actual powerport Height)
-		public static final double TEST_TARGET_TALLNESS_INCHES = 8.9375; //Tallness of the current test target (NOT actual powerport tallness)
+		public static final double TEST_TARGET_HEIGHT_INCHES = 98.25; //Height of the current test target (NOT actual powerport Height)
+		public static final double TEST_TARGET_TALLNESS_INCHES = 17; //Tallness of the current test target (NOT actual powerport tallness)
 		public static final double REAL_TARGET_TALLNESS_INCHES = 17;
 		public static final double TARGET_HEIGHT_RATIO = TEST_TARGET_TALLNESS_INCHES / REAL_TARGET_TALLNESS_INCHES;
 		public static final double HEIGHT_DIFFERENCE = TEST_TARGET_HEIGHT_INCHES - CAM_HEIGHT_INCHES;

@@ -11,10 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.OI.Controller;
-import frc.robot.commands.RumbleCommand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.Constants;
-import frc.robot.OI;
 
 
 public class AutoAim extends Command {
